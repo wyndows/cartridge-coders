@@ -81,4 +81,5 @@
 					<li>many content can have one admin price</li>
 				</ul>
 	</body>
+	
 </html>
