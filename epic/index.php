@@ -12,5 +12,8 @@
 		<?php require_once("erd.php"); ?>
 		<?php require_once("executive.php"); ?>
 		<?php require_once("george.php"); ?>
+		<?php require_once("robert.php"); ?>
+		<?php require_once("systemGoals.php"); ?>
+		<?php require_once("timeline.php"); ?>
 	</body>
 </html>
