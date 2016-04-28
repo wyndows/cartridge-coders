@@ -15,9 +15,7 @@
 			<li>He clicks on the login.</li>
 			<li>He is shown a menu for login/new user.</li>
 			<li>He chooses new user.</li>
-			<li>He is shown a form for First Name, Last Name, Address, City, State, Zip, Phone, Email, Username,
-				Password.
-			</li>
+			<li>He is shown a form to sign up with</li>
 			<li>He enters his data into the form.</li>
 			<li>After saving his data, the site asks him to login.</li>
 			<li>He enters his username and password.</li>
@@ -26,9 +24,7 @@
 	</li>
 	<li>The Home page shows him options to search for games, list games for sale, check account and a shopping cart.</li>
 	<li>He chooses to list games for sale.</li>
-	<li>The site shows him a form for listing items. The form has the following items: Game Name, Console Type,
-		Condition, Price.
-	</li>
+	<li>The site shows him a form for listing items.</li>
 	<li>He fills out the form for one of the cartridges he wants sell.</li>
 	<li>The site accepts the information and asks if he wants to sell more items.</li>
 	<li>He chooses to just list the one item for now.</li>
