@@ -1,4 +1,3 @@
-
 <p class="title">Conceptual Model</p>
 <br>
 <h1>Entities</h1>
@@ -7,12 +6,9 @@
 	<li>accountId</li>
 	<li>accountName</li>
 	<li>accountUserName</li>
-	<li>accountAvatar</li>
+	<li></li>
 	<li>acccountPpEmail</li>
-	<li>accountSalt</li>
-	<li>accountHash</li>
 	<li>accountAdmin</li>
-	<li>accountState</li>
 </ul>
 <h2>Category</h2>
 <ul>
@@ -34,14 +30,17 @@
 	<li>productPrice</li>
 	<li>productShipping</li>
 	<li>productAdminFee</li>
-	<li>productState</li>
+	<li></li>
 </ul>
 <h2>Messaging</h2>
 <ul>
 	<li>messId</li>
 	<li>productId</li>
+	<li>mailGunId</li>
 	<li>messSellerId</li>
 	<li>messBuyerId</li>
+	<li>messContent</li>
+	<li>messSubject</li>
 </ul>
 <h2>Feedback</h2>
 <ul>
@@ -51,6 +50,24 @@
 	<li>productId</li>
 	<li>feedRating</li>
 	<li>feedContent</li>
+</ul>
+<h2>image</h2>
+<ul>
+	<li>accountImageId</li>
+	<li>productImageId</li>
+</ul>
+<h2>purchase</h2>
+<ul>
+	<li>purchaseId</li>
+	<li>purchaseCreateDate</li>
+	<li>buyerId</li>
+	<li>payPalId</li>
+</ul>
+<h2>productPerchase</h2>
+<ul>
+	<li>productId</li>
+	<li>purchaseId</li>
+	<li>productSold</li>
 </ul>
 <h2>ModelRelationships</h2>
 <ul>
