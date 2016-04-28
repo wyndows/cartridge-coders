@@ -1,7 +1,7 @@
 .header {
 	background-color: black;
 	font-size: 50px;
-	font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+	font-family: Consolas, Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
 	text-align: center;
 	color: greenyellow;
 }
@@ -9,9 +9,10 @@
 .title {
 	background-color: black;
 	font-size: 50px;
-	font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+	font-family: Consolas, Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
 	text-align: center;
 	color: greenyellow;
+
 }
 
 body {
