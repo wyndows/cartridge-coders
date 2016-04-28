@@ -16,6 +16,9 @@
 		<?php require_once("admin.php"); ?>
 		<?php require_once("useCaseBuyer.php"); ?>
 		<?php require_once("useCaseSeller.php"); ?>
+		<?php require_once("useCaseAdmin.php"); ?>
+		<?php require_once("useCaseMessage.php"); ?>
+		<?php require_once("useCaseRating.php"); ?>
 		<?php require_once("conceptualModel.php"); ?>
 		<?php require_once("erd.php"); ?>
 		<?php require_once("timeline.php"); ?>
