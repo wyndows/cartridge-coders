@@ -16,13 +16,13 @@
 					<li>accountName</li>
 					<li>accountUserName</li>
 					<li>accountAvatar</li>
-					<li>acccontPpEmail</li>
+					<li>acccountPpEmail</li>
 					<li>accountSalt</li>
 					<li>accountHash</li>
 					<li>accountAdmin</li>
 					<li>accountState</li>
 				</ul>
-			<h2>category</h2>
+			<h2>Category</h2>
 				<ul>
 					<li>categoryId</li>
 					<li>categoryName</li>
@@ -44,7 +44,7 @@
 					<li>productAdminFee</li>
 					<li>productState</li>
 				</ul> 
-			<h2>messaging</h2>
+			<h2>Messaging</h2>
 				<ul>
 					<li>messId</li>
 					<li>productId</li>
