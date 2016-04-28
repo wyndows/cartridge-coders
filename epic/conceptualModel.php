@@ -47,10 +47,10 @@
 				</ul>
 			<h2>Feedback</h2>
 				<ul>
-					<li>feedbackId</li>
-					<li>feedbackProfileId</li>
-					<li>feedbackContentId</li>
-					<li>feedbackReview</li>
+					<li>feedId</li>
+					<li>feedProfileId</li>
+					<li>feedContentId</li>
+					<li>feedReview</li>
 				</ul>
 			<h2>ModelRelationships</h2>
 				<ul>
