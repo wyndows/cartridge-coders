@@ -22,7 +22,7 @@
 					<li>accountAdmin</li>
 					<li>accountState</li>
 				</ul>
-			<h2>category</h2>
+			<h2>Category</h2>
 				<ul>
 					<li>catId</li>
 					<li>catProduct</li>
@@ -38,7 +38,7 @@
 					<li>productFee</li>
 					<li>productState</li>
 				</ul>
-			<h2>messaging</h2>
+			<h2>Messaging</h2>
 				<ul>
 					<li>messId</li>
 					<li>messProductId</li>
@@ -48,9 +48,9 @@
 			<h2>Feedback</h2>
 				<ul>
 					<li>feedbackId</li>
-					<li>profileId</li>
-					<li>contentId</li>
-					<li>review</li>
+					<li>feedbackProfileId</li>
+					<li>feedbackContentId</li>
+					<li>feedbackReview</li>
 				</ul>
 			<h2>ModelRelationships</h2>
 				<ul>
