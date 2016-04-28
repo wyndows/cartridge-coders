@@ -15,14 +15,14 @@
 					<li>accountId</li>
 					<li>accountname</li>
 					<li>accountUserName</li>
-					<li>accountavatar</li>
+					<li>accountAvatar</li>
 					<li>acccontPpEmail</li>
 					<li>accountSalt</li>
 					<li>accountHash</li>
 					<li>accountAdmin</li>
 					<li>accountState</li>
 				</ul>
-			<h2>Category</h2>
+			<h2>category</h2>
 				<ul>
 					<li>catId</li>
 					<li>catProduct</li>
@@ -32,13 +32,13 @@
 					<li>productId</li>
 					<li>productDescription</li>
 					<li>productPicture</li>
-					<li>productTittle</li>
+					<li>productTitle</li>
 					<li>productPrice</li>
 					<li>productShipping</li>
-					<li>productFee</li>
+					<li>productAdminFee</li>
 					<li>productState</li>
 				</ul>
-			<h2>Messaging</h2>
+			<h2>messaging</h2>
 				<ul>
 					<li>messId</li>
 					<li>messProductId</li>
@@ -48,9 +48,11 @@
 			<h2>Feedback</h2>
 				<ul>
 					<li>feedId</li>
-					<li>feedProfileId</li>
-					<li>feedContentId</li>
-					<li>feedReview</li>
+					<li>feedSellerId</li>
+					<li>feedBuyerId</li>
+					<li>productId</li>
+					<li>feedRating</li>
+					<li>feedContent</li>
 				</ul>
 			<h2>ModelRelationships</h2>
 				<ul>
