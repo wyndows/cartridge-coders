@@ -37,7 +37,7 @@
 					<li>productShipping</li>
 					<li>productAdminFee</li>
 					<li>productState</li>
-				</ul>
+				</ul> 
 			<h2>messaging</h2>
 				<ul>
 					<li>messId</li>
