@@ -16,3 +16,4 @@
 	<li>As a buyer I want to be able to rate/message a seller.</li>
 	<li>As a seller I want to be able to rate/message a buyer.</li>
 </ul>
+<p>testing by EE</p>
