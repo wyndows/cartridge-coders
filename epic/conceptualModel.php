@@ -12,52 +12,46 @@
 		<h1>Entities</h1>
 			<h2>Account</h2>
 				<ul>
-					<li>profileId</li>
-					<li>name</li>
-					<li>userName</li>
-					<li>avatar</li>
-					<li>paypalEmail</li>
-					<li>password</li>
-					<li>userSalt</li>
-					<li>userHash</li >
+					<li>accountId</li>
+					<li>accountname</li>
+					<li>accountUserName</li>
+					<li>accountavatar</li>
+					<li>acccontPpEmail</li>
+					<li>accountSalt</li>
+					<li>accountHash</li>
+					<li>accountAdmin</li>
+					<li>accountState</li>
 				</ul>
-			<h2>Admin</h2>
+			<h2>category</h2>
 				<ul>
-					<li>adminName</li>
-					<li>adminProfileId(PK)</li>
-					<li>adminEmail</li>
-					<li>adminPhoneNumber</li>
-					<li>adminAccessLevel</li>
-					<li>AdminPassword</li>
-					<li></li>
+					<li>catId</li>
+					<li>catProduct</li>
 				</ul>
-		<h2>Product</h2>
-		<ul>
-			<li>productId</li>
-			<li>categoryOne</li>
-			<li>categoryTwo</li>
-			<li>categoryThr</li>
-			<li>title</li>
-			<li>price</li>
-				<li>shipping</li>
-				<li>adminFee</li>
-				<li>state</li>
-				<li>description</li>
-				<li>picture</li>
-		</ul>
-		<h2>Watch</h2>
-		<ul>
-			<li>watchId</li>
-			<li>profileId</li>
-			<li>contentId</li>
-		</ul>
+			<h2>Product</h2>
+				<ul>
+					<li>productId</li>
+					<li>productDescription</li>
+					<li>productPicture</li>
+					<li>productTittle</li>
+					<li>productPrice</li>
+					<li>productShipping</li>
+					<li>productFee</li>
+					<li>productState</li>
+				</ul>
+			<h2>messaging</h2>
+				<ul>
+					<li>messId</li>
+					<li>messProductId</li>
+					<li>messSelerId</li>
+					<li>messBuyId</li>
+				</ul>
 			<h2>Feedback</h2>
-			<ul>
-				<li>feedbackId</li>
-				<li>profileId</li>
-				<li>contentId</li>
-				<li>review</li>
-
+				<ul>
+					<li>feedbackId</li>
+					<li>profileId</li>
+					<li>contentId</li>
+					<li>review</li>
+				</ul>
 			<h2>ModelRelationships</h2>
 				<ul>
 					<li>one account can have one profileId</li>
