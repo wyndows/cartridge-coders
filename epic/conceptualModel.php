@@ -13,7 +13,7 @@
 			<h2>Account</h2>
 				<ul>
 					<li>accountId</li>
-					<li>accountname</li>
+					<li>accountName</li>
 					<li>accountUserName</li>
 					<li>accountAvatar</li>
 					<li>acccontPpEmail</li>
@@ -24,12 +24,18 @@
 				</ul>
 			<h2>category</h2>
 				<ul>
-					<li>catId</li>
-					<li>catProduct</li>
+					<li>categoryId</li>
+					<li>categoryName</li>
+				</ul>
+			<h2>ProductCategory</h2>
+				<ul>
+					<li>categoryId</li>
+					<li>productId</li>
 				</ul>
 			<h2>Product</h2>
 				<ul>
 					<li>productId</li>
+					<li>accountId</li>
 					<li>productDescription</li>
 					<li>productPicture</li>
 					<li>productTitle</li>
@@ -41,9 +47,9 @@
 			<h2>messaging</h2>
 				<ul>
 					<li>messId</li>
-					<li>messProductId</li>
-					<li>messSelerId</li>
-					<li>messBuyId</li>
+					<li>productId</li>
+					<li>messSellerId</li>
+					<li>messBuyerId</li>
 				</ul>
 			<h2>Feedback</h2>
 				<ul>
