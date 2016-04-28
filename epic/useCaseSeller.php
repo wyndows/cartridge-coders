@@ -1,4 +1,4 @@
-<h2 class="header">Cartridge Coders</h2>
+
 <p class="title">Use Case Seller</p>
 <br>
 <p>Robert Sullivan has some old game cartridges that he wants to get rid of. He is looking around the internet for a way

@@ -1,4 +1,4 @@
-<h2 class="header">Cartridge Coders</h2>
+
 <p class="title">Conceptual Model</p>
 <br>
 <h1>Entities</h1>

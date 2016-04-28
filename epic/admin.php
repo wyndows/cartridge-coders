@@ -1,4 +1,4 @@
-<h2 class="header">Cartridge Coders</h2>
+
 <p class="title">Admin Persona</p>
 <br>
 <p><strong>Name:</strong> James Dean

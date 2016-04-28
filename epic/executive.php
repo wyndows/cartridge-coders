@@ -1,4 +1,4 @@
-<h2 class="header">Cartridge Coders</h2>
+
 <p class="title">Executive Summary</p>
 <br>
 <p>This app will be a consignment website for the sale/exchange of game cartridges for old style gaming systems. It

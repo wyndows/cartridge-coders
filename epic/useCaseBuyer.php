@@ -1,4 +1,4 @@
-<h2 class="header">Cartridge Coders</h2>
+
 <p class="title">Use Case Buyer</p>
 <br>
 <p>George McDonald is looking to increase his game choices for his classic game console. He regularly uses the Cartridge

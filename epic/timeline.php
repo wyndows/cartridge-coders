@@ -1,4 +1,4 @@
-<h2 class="header">Cartridge Coders</h2>
+
 <p class="title">Timeline</p>
 <br>
 <h3>Week 1- April 25th - 29th</h3>

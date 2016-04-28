@@ -1,4 +1,4 @@
-<header class="header">Cartridge Coders</header>
+
 <p class="title">User Stories</p>
 <br>
 <ul>

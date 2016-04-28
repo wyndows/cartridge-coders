@@ -6,6 +6,14 @@
 	color: green;
 }
 
+.title {
+	background-color: black;
+	font-size: 50px;
+	font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+	text-align: center;
+	color: green;
+}
+
 body {
 	background: #FAFAFA;
 	font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
