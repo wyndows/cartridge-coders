@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<link rel="stylesheet" href="../css/style.css">
-		<title>Admin Persona</title>
+		<title>Cartridge Coders</title>
 	</head>
 
 	<body>
