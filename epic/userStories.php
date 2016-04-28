@@ -2,6 +2,7 @@
 <p class="title">User Stories</p>
 <br>
 <ul>
+	<li>this is a test</li>
 	<li>As an admin I want to be able to suspend an account.</li>
 	<li>As a seller I want to be able to sell games.</li>
 	<li>As a buyer I want to be able to buy games.</li>
