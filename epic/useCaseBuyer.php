@@ -11,7 +11,7 @@
 			<li>He enters his username and password.</li>
 			<li>After login the site takes him back to the Home page.</li>
 			<li>He goes to the search box and enters one of the games he is interested in buying to see if he can find
-				anyfor sale.
+				any for sale.
 			</li>
 			<li>He looks thru the listing and sees a game he is interested in.</li>
 		</ul>

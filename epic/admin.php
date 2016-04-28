@@ -15,5 +15,5 @@
 <p><strong>Frustrations and Needs:</strong> Having to go into the office to open a terminal and delete ads via command
 	line to mySQL that are not appropriate or unrelated.</p>
 
-<p><strong>Goals:</strong> Sir Admin could really use a web-based interface that is mobile friendly allowing him to
+<p><strong>Goals:</strong> James could really use a web-based interface that is mobile friendly allowing him to
 	address user concerns; anywhere and anytime.</p>
