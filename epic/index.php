@@ -15,5 +15,8 @@
 		<?php require_once("robert.php"); ?>
 		<?php require_once("systemGoals.php"); ?>
 		<?php require_once("timeline.php"); ?>
+		<?php require_once("useCaseBuyer.php"); ?>
+		<?php require_once("useCaseSeller.php"); ?>
+		<?php require_once("userStories.php"); ?>
 	</body>
 </html>
