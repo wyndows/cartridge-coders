@@ -18,7 +18,7 @@
 </ul>
 <h2>ProductCategory</h2>
 <ul>
-	<li>productCategoryId</li>
+	<li>productCategoryCategoryId</li>
 	<li>productCategoryProductId</li>
 </ul>
 <h2>Product</h2>
