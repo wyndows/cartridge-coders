@@ -69,13 +69,13 @@
 </ul>
 <h2>ModelRelationships</h2>
 <ul>
-	<li>one account can list many products</li>
-	<li>one account can give feedback on many products</li>
-	<li>one account can give feedback on many accounts</li>
-	<li>many accounts can purchase many products</li>
-	<li>one account can have 1 accountImageId</li>
-	<li>one account can message many account</li>
-	<li>many accounts can make many product Purchases</li>
-	<li>many products can have many product Categories</li>
-	<li>one product can have one productImageId</li>
+	<li><em>one</em> <strong>account</strong> can list <em>many</em> <strong>products</strong></li>
+	<li><em>one</em> <strong>account</strong> can give feedback on <em>many</em> <strong>products</strong></li>
+	<li><em>one</em> <strong>account</strong> can give feedback on <em>many</em> <strong>accounts</strong></li>
+	<li><em>many</em> <strong>accounts</strong> can purchase <em>many</em> <strong>products</strong></li>
+	<li><em>one</em> <strong>account</strong> can have <em>onc</em> <strong>accountImageId</strong></li>
+	<li><em>one</em> <strong>account</strong> can message <em>many</em> <strong>account</strong></li>
+	<li><em>many<em> <strong>account</strong> can make <em>many</em> <strong>productPurchases</strong></li>
+	<li><em>one</em> <strong>product</strong> can have <em>many</em> <strong>productCategories</strong></li>
+	<li><em>one</em> <strong>product</strong> can have <em>one</em> <strong>productImageId</strong></li>
 </ul>
