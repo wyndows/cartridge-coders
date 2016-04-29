@@ -71,7 +71,7 @@
 </ul>
 <h2>ModelRelationships</h2>
 <ul>
-	<li><em>one</em> <strong>account</strong>  can list <em>many</em> <strong>products</strong></li>
+	<li><em>one</em> <strong>account</strong> can list <em>many</em> <strong>products</strong></li>
 	<li><em>one</em> <strong>account</strong> can give feedback on <em>many</em> <strong>products</strong></li>
 	<li><em>one</em> <strong>account</strong> can give feedback on <em>many</em> <strong>accounts</strong></li>
 	<li><em>many</em> <strong>accounts</strong> can purchase <em>many</em> <strong>products</strong></li>
