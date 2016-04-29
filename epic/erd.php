@@ -1,4 +1,4 @@
 
 <p class="title">ERD</p>
 <br>
-<img src="../media/erd.svg" alt="ERD">
+<img class="erd" src="../media/erd.svg" alt="ERD">

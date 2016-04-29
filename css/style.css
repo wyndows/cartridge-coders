@@ -5,7 +5,9 @@
 	text-align: center;
 	color: greenyellow;
 }
-
+.erd {
+	width: 100%;
+}
 
 .title {
 	background-color: black;
