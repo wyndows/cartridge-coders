@@ -4,10 +4,11 @@
 <h2>Account</h2>
 <ul>
 	<li>accountId</li>
-	<li>accountName</li>
-	<li>accountUserName</li>
-	<li>accountPpEmail</li>
 	<li>accountAdmin</li>
+	<li>accountName</li>
+	<li>accountPpEmail</li>
+	<li>accountUserName</li>
+
 </ul>
 <h2>Category</h2>
 <ul>
@@ -23,33 +24,32 @@
 <ul>
 	<li>productId</li>
 	<li>productAccountId</li>
-	<li>productDescription</li>
 	<li>productImageId</li>
-	<li>productPicture</li>
-	<li>productTitle</li>
+	<li>productAdminFee</li>
+	<li>productDescription</li>
 	<li>productPrice</li>
 	<li>productShipping</li>
-	<li>productAdminFee</li>
 	<li>productSold</li>
+	<li>productTitle</li>
 </ul>
 <h2>Message</h2>
 <ul>
 	<li>messageId</li>
-	<li>messageProductId</li>
-	<li>messageMailGunId</li>
-	<li>messageSellerId</li>
 	<li>messageBuyerId</li>
+	<li>messageMailGunId</li>
+	<li>messageProductId</li>
+	<li>messageSellerId</li>
 	<li>messageContent</li>
 	<li>messageSubject</li>
 </ul>
 <h2>Feedback</h2>
 <ul>
 	<li>feedbackId</li>
-	<li>feedbackSellerId</li>
 	<li>feedbackBuyerId</li>
 	<li>feedbackProductId</li>
-	<li>feedbackRating</li>
+	<li>feedbackSellerId</li>
 	<li>feedbackContent</li>
+	<li>feedbackRating</li>
 </ul>
 <h2>Image</h2>
 <ul>
@@ -60,9 +60,9 @@
 <h2>Purchase</h2>
 <ul>
 	<li>purchaseId</li>
-	<li>purchaseCreateDate</li>
 	<li>purchaseBuyerId</li>
 	<li>purchasePayPalTransactionId</li>
+	<li>purchaseCreateDate</li>
 </ul>
 <h2>ProductPurchase</h2>
 <ul>
