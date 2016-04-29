@@ -18,6 +18,8 @@
 body {
 	background: #FAFAFA;
 	font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+	max-width: 1200px;
+	margin: 0 auto;
 }
 
 .title {

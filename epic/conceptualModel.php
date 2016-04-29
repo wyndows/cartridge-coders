@@ -6,8 +6,7 @@
 	<li>accountId</li>
 	<li>accountName</li>
 	<li>accountUserName</li>
-	<li></li>
-	<li>acccountPpEmail</li>
+	<li>accountPpEmail</li>
 	<li>accountAdmin</li>
 </ul>
 <h2>Category</h2>
@@ -51,19 +50,19 @@
 	<li>feedRating</li>
 	<li>feedContent</li>
 </ul>
-<h2>image</h2>
+<h2>Image</h2>
 <ul>
 	<li>accountImageId</li>
 	<li>productImageId</li>
 </ul>
-<h2>purchase</h2>
+<h2>Purchase</h2>
 <ul>
 	<li>purchaseId</li>
 	<li>purchaseCreateDate</li>
 	<li>buyerId</li>
 	<li>payPalId</li>
 </ul>
-<h2>productPerchase</h2>
+<h2>ProductPurchase</h2>
 <ul>
 	<li>productId</li>
 	<li>purchaseId</li>
