@@ -4,6 +4,7 @@
 <h2>Account</h2>
 <ul>
 	<li>accountId</li>
+	<li>accountImageId</li>
 	<li>accountAdmin</li>
 	<li>accountName</li>
 	<li>accountPpEmail</li>
