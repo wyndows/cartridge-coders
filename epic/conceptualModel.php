@@ -75,7 +75,7 @@
 	<li><em>many</em> <strong>accounts</strong> can purchase <em>many</em> <strong>products</strong></li>
 	<li><em>one</em> <strong>account</strong> can have <em>onc</em> <strong>accountImageId</strong></li>
 	<li><em>one</em> <strong>account</strong> can message <em>many</em> <strong>account</strong></li>
-	<li><em>many<em> <strong>account</strong> can make <em>many</em> <strong>productPurchases</strong></li>
+	<li><em>many</em> <strong>account</strong> can make <em>many</em> <strong>productPurchases</strong></li>
 	<li><em>one</em> <strong>product</strong> can have <em>many</em> <strong>productCategories</strong></li>
 	<li><em>one</em> <strong>product</strong> can have <em>one</em> <strong>productImageId</strong></li>
 </ul>
