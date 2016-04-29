@@ -16,56 +16,58 @@
 </ul>
 <h2>ProductCategory</h2>
 <ul>
-	<li>categoryId</li>
-	<li>productId</li>
+	<li>productCategoryId</li>
+	<li>productCategoryProductId</li>
 </ul>
 <h2>Product</h2>
 <ul>
 	<li>productId</li>
-	<li>accountId</li>
+	<li>productAccountId</li>
 	<li>productDescription</li>
+	<li>productImageId</li>
 	<li>productPicture</li>
 	<li>productTitle</li>
 	<li>productPrice</li>
 	<li>productShipping</li>
 	<li>productAdminFee</li>
+	<li>productSold</li>
 </ul>
-<h2>Messaging</h2>
+<h2>Message</h2>
 <ul>
-	<li>messId</li>
-	<li>productId</li>
-	<li>mailGunId</li>
-	<li>messSellerId</li>
-	<li>messBuyerId</li>
-	<li>messContent</li>
-	<li>messSubject</li>
+	<li>messageId</li>
+	<li>messageProductId</li>
+	<li>messageMailGunId</li>
+	<li>messageSellerId</li>
+	<li>messageBuyerId</li>
+	<li>messageContent</li>
+	<li>messageSubject</li>
 </ul>
 <h2>Feedback</h2>
 <ul>
-	<li>feedId</li>
-	<li>feedSellerId</li>
-	<li>feedBuyerId</li>
-	<li>productId</li>
-	<li>feedRating</li>
-	<li>feedContent</li>
+	<li>feedbackId</li>
+	<li>feedbackSellerId</li>
+	<li>feedbackBuyerId</li>
+	<li>feedbackProductId</li>
+	<li>feedbackRating</li>
+	<li>feedbackContent</li>
 </ul>
 <h2>Image</h2>
 <ul>
-	<li>accountImageId</li>
-	<li>productImageId</li>
+	<li>imageId</li>
+	<li>imageFileName</li>
+	<li>imageType</li>
 </ul>
 <h2>Purchase</h2>
 <ul>
 	<li>purchaseId</li>
 	<li>purchaseCreateDate</li>
 	<li>purchaseBuyerId</li>
-	<li>buyerPayPalId</li>
+	<li>purchasePayPalTransactionId</li>
 </ul>
 <h2>ProductPurchase</h2>
 <ul>
-	<li>productId</li>
-	<li>purchaseId</li>
-	<li>productSold</li>
+	<li>productPurchaseProductId</li>
+	<li>productPurchasePurchaseId</li>
 </ul>
 <h2>ModelRelationships</h2>
 <ul>
