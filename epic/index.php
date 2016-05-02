@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="../css/style.css">
+		<link rel="stylesheet" href="../public_html/css/style.css">
 		<title>Cartridge Coders</title>
 	</head>
 
