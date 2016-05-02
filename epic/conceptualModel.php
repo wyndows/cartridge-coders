@@ -36,10 +36,10 @@
 <ul>
 	<li>messageId</li>
 	<li>messageBuyerId</li>
-	<li>messageMailGunId</li>
 	<li>messageProductId</li>
 	<li>messageSellerId</li>
 	<li>messageContent</li>
+<li>messageMailGunId</li>
 	<li>messageSubject</li>
 </ul>
 <h2>Feedback</h2>
