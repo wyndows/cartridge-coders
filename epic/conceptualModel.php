@@ -1,5 +1,4 @@
 <p class="title">Conceptual Model</p>
-<br>
 <h1>Entities</h1>
 <h2>Account</h2>
 <ul>
