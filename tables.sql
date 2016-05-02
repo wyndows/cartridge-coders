@@ -1,12 +1,26 @@
-DROP TABLE IF EXISTS account;
-DROP TABLE IF EXISTS category;
-DROP TABLE IF EXISTS feedback;
-DROP TABLE IF EXISTS image;
-DROP TABLE IF EXISTS message;
-DROP TABLE IF EXISTS product;
-DROP TABLE IF EXISTS productCategory;
 DROP TABLE IF EXISTS productPurchase;
+DROP TABLE IF EXISTS productCategory;
+DROP TABLE IF EXISTS message;
+DROP TABLE IF EXISTS feedback;
+DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS purchase;
+DROP TABLE IF EXISTS account;
+DROP TABLE IF EXISTS image;
+DROP TABLE IF EXISTS category;
+
+CREATE TABLE category (
+	categoryId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	categoryName  			VARCHAR(50) NOT NULL,
+	PRIMARY KEY (categoryId)
+);
+
+CREATE TABLE image (
+	imageId     			INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	imageFileName  		VARCHAR(128) NOT NULL,
+	imageType				VARCHAR(10) NOT NULL,
+	UNIQUE (imageFileName),
+	PRIMARY KEY (imageId)
+);
 
 CREATE TABLE account (
 	accountId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -14,7 +28,7 @@ CREATE TABLE account (
 	accountAdmin 			BOOLEAN DEFAULT 0,
 	accountName 			VARCHAR(50) NOT NULL,
 	accountPpEmail    	VARCHAR(75) NOT NULL,
-	accountUserName   	VARCHAR(15) NOT NULL,
+	accountUserName   	VARCHAR(25) NOT NULL,
 	UNIQUE (accountUserName),
 	UNIQUE (accountPpEmail),
 	INDEX (accountImageId),
@@ -22,10 +36,31 @@ CREATE TABLE account (
 	PRIMARY KEY (accountId)
 );
 
-CREATE TABLE category (
-	categoryId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	categoryName  			VARCHAR(20) NOT NULL,
-	PRIMARY KEY (categoryId)
+CREATE TABLE purchase (
+	purchaseId     					INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	purchaseBuyerId  					INT UNSIGNED NOT NULL,
+	purchasePayPalTransactionId	INT UNSIGNED NOT NULL,
+	purchaseCreateDate 				DATETIME NOT NULL,
+	INDEX (purchaseBuyerId),
+	FOREIGN KEY (purchaseBuyerId) REFERENCES account(accountId),
+	PRIMARY KEY (purchaseId)
+);
+
+CREATE TABLE product (
+	productId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	productAccountId  	INT UNSIGNED NOT NULL,
+	productImageId 		INT UNSIGNED,
+	productAdminFee 		DECIMAL UNSIGNED NOT NULL,
+	productDescription   VARCHAR(255) NOT NULL,
+	productPrice			DECIMAL UNSIGNED NOT NULL,
+	productShipping   	DECIMAL UNSIGNED NOT NULL,
+	productSold				BOOLEAN DEFAULT 0,
+	productTitle			VARCHAR(50) NOT NULL,
+	INDEX (productAccountId),
+	INDEX (productImageId),
+	FOREIGN KEY (productAccountId) REFERENCES account(accountId),
+	FOREIGN KEY (productImageId) REFERENCES image(imageId),
+	PRIMARY KEY (productId)
 );
 
 CREATE TABLE feedback (
@@ -34,7 +69,7 @@ CREATE TABLE feedback (
 	feedbackProductId 	INT UNSIGNED NOT NULL,
 	feedbackSellerId   	INT UNSIGNED NOT NULL,
 	feedbackContent		VARCHAR(255) NOT NULL,
-	feedbackRating 		TINYINT(5) UNSIGNED NOT NULL,
+	feedbackRating 		TINYINT UNSIGNED NOT NULL,
 	INDEX (feedbackBuyerId),
 	INDEX (feedbackProductId),
 	INDEX (feedbackSellerId),
@@ -42,14 +77,6 @@ CREATE TABLE feedback (
 	FOREIGN KEY (feedbackProductId) REFERENCES product(productId),
 	FOREIGN KEY (feedbackSellerId) REFERENCES account(accountId),
 	PRIMARY KEY (feedbackId)
-);
-
-CREATE TABLE image (
-	imageId     			INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	imageFileName  		VARCHAR(64) NOT NULL,
-	imageType				VARCHAR(5) NOT NULL,
-	UNIQUE (imageFileName),
-	PRIMARY KEY (imageId)
 );
 
 CREATE TABLE message (
@@ -69,30 +96,14 @@ CREATE TABLE message (
 	PRIMARY KEY (messageId)
 );
 
-CREATE TABLE product (
-	productId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	productAccountId  	INT UNSIGNED NOT NULL,
-	productImageId 		INT UNSIGNED,
-	productAdminFee 		FLOAT UNSIGNED NOT NULL,
-	productDescription   VARCHAR(255) NOT NULL,
-	productPrice			FLOAT UNSIGNED NOT NULL,
-	productShipping   	FLOAT UNSIGNED NOT NULL,
-	productSold				BOOLEAN DEFAULT 0,
-	productTitle			VARCHAR(50) NOT NULL,
-	INDEX (productAccountId),
-	INDEX (productImageId),
-	FOREIGN KEY (productAccountId) REFERENCES account(accountId),
-	FOREIGN KEY (productImageId) REFERENCES image(imageId),
-	PRIMARY KEY (productId)
-);
-
 CREATE TABLE productCategory (
-	productCategoryCategoryId     INT UNSIGNED,
-	productCategoryProductId  		INT UNSIGNED,
+	productCategoryCategoryId     INT UNSIGNED NOT NULL,
+	productCategoryProductId  		INT UNSIGNED NOT NULL,
 	INDEX (productCategoryCategoryId),
 	INDEX (productCategoryProductId),
 	FOREIGN KEY (productCategoryCategoryId) REFERENCES category(categoryId),
-	FOREIGN KEY (productCategoryProductId) REFERENCES product(productId)
+	FOREIGN KEY (productCategoryProductId) REFERENCES product(productId),
+	PRIMARY KEY (productCategoryProductId, productCategoryCategoryId)
 );
 
 CREATE TABLE productPurchase (
@@ -101,16 +112,9 @@ CREATE TABLE productPurchase (
 	INDEX (productPurchaseProductId),
 	INDEX (productPurchasePurchaseId),
 	FOREIGN KEY (productPurchaseProductId) REFERENCES product(productId),
-	FOREIGN KEY (productPurchasePurchaseId) REFERENCES purchase(purchaseId)
+	FOREIGN KEY (productPurchasePurchaseId) REFERENCES purchase(purchaseId),
+	PRIMARY KEY (productPurchasePurchaseId, productPurchaseProductId)
 );
 
-CREATE TABLE purchase (
-	purchaseId     					INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	purchaseBuyerId  					INT UNSIGNED NOT NULL,
-	purchasePayPalTransactionId	INT UNSIGNED NOT NULL,
-	purchaseCreateDate 				DATETIME NOT NULL,
-	INDEX (purchaseBuyerId),
-	FOREIGN KEY (purchaseBuyerId) REFERENCES account(accountId),
-	PRIMARY KEY (purchaseId)
-);
+
 
