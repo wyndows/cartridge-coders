@@ -17,6 +17,7 @@ CREATE TABLE account (
 	accountUserName   	VARCHAR(15) NOT NULL,
 	UNIQUE(accountUserName),
 	UNIQUE(accountPpEmail),
+	INDEX (accountImageId),
 	FOREIGN KEY(accountImageId) REFERENCES image(imageId),
 	PRIMARY KEY (accountId)
 );
@@ -30,6 +31,8 @@ CREATE TABLE category (
 CREATE TABLE productCategory (
 	productCategoryCategoryId     INT UNSIGNED,
 	productCategoryProductId  		INT UNSIGNED,
+	INDEX (productCategoryCategoryId),
+	INDEX (productCategoryProductId),
 	FOREIGN KEY(productCategoryCategoryId) REFERENCES category(categoryId),
 	FOREIGN KEY(productCategoryProductId) REFERENCES product(productId)
 );
@@ -44,6 +47,8 @@ CREATE TABLE product (
 	productShipping   	FLOAT UNSIGNED NOT NULL,
 	productSold				INT TINYINT NOT NULL,
 	productTitle			VARCHAR(50) NOT NULL,
+	INDEX (productAccountId),
+	INDEX (productImageId),
 	FOREIGN KEY(productAccountId) REFERENCES account(accountId),
 	FOREIGN KEY(productImageId) REFERENCES image(imageId),
 	PRIMARY KEY (productId)
@@ -57,6 +62,9 @@ CREATE TABLE message (
 	messageContent			VARCHAR(255) NOT NULL,
 	messageMailGunId 		INT UNSIGNED NOT NULL,
 	messageSubject   		VARCHAR(50) NOT NULL,
+	INDEX (messageBuyerId),
+	INDEX (messageProductId),
+	INDEX (messageSellerId),
 	FOREIGN KEY(messageBuyerId) REFERENCES account(accountId),
 	FOREIGN KEY(messageProductId) REFERENCES product(productId),
 	FOREIGN KEY(messageSellerId) REFERENCES account(accountId),
@@ -70,6 +78,9 @@ CREATE TABLE feedback (
 	feedbackSellerId   	INT UNSIGNED NOT NULL,
 	feedbackContent		VARCHAR(255) NOT NULL,
 	feedbackRating 		INT TINYINT NOT NULL,
+	INDEX (feedbackBuyerId),
+	INDEX (feedbackProductId),
+	INDEX (feedbackSellerId),
 	FOREIGN KEY(feedbackBuyerId) REFERENCES account(accountId),
 	FOREIGN KEY(feedbackProductId) REFERENCES product(productId),
 	FOREIGN KEY(feedbackSellerId) REFERENCES account(accountId),
@@ -82,4 +93,14 @@ CREATE TABLE image (
 	imageType				VARCHAR(5) NOT NULL,
 	UNIQUE (imageFileName),
 	PRIMARY KEY (imageId)
+);
+
+CREATE TABLE purchase (
+	purchaseId     					INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	purchaseBuyerId  					INT UNSIGNED NOT NULL,
+	purchasePayPalTransactionId	INT UNSIGNED NOT NULL,
+	purchaseCreateDate 				DATETIME NOT NULL,
+	INDEX (purchaseBuyerId),
+	FOREIGN KEY(purchaseBuyerId) REFERENCES account(accountId),
+	PRIMARY KEY (purchaseId)
 );
