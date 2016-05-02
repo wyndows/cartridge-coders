@@ -20,3 +20,9 @@ CREATE TABLE account (
 	FOREIGN KEY(accountImageId) REFERENCES image(imageId),
 	PRIMARY KEY (accountId)
 );
+
+CREATE TABLE category (
+	categoryId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	categoryName  			VARCHAR(20) NOT NULL,
+	PRIMARY KEY (categoryId)
+);
