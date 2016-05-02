@@ -75,3 +75,11 @@ CREATE TABLE feedback (
 	FOREIGN KEY(feedbackSellerId) REFERENCES account(accountId),
 	PRIMARY KEY (feedbackId)
 );
+
+CREATE TABLE image (
+	imageId     			INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	imageFileName  		VARCHAR(64) NOT NULL,
+	imageType				VARCHAR(5) NOT NULL,
+	UNIQUE (imageFileName),
+	PRIMARY KEY (imageId)
+);
