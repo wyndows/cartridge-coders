@@ -8,3 +8,15 @@ DROP TABLE IF EXISTS image;
 DROP TABLE IF EXISTS purchase;
 DROP TABLE IF EXISTS productPurchase;
 
+CREATE TABLE account (
+	accountId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	accountImageId  		INT UNSIGNED,
+	accountAdmin 			BOOLEAN NOT NULL,
+	accountName 			VARCHAR(50) NOT NULL,
+	accountPpEmail    	VARCHAR(75) NOT NULL,
+	accountUserName   	VARCHAR(15) NOT NULL,
+	UNIQUE(accountUserName),
+	UNIQUE(accountPpEmail),
+	FOREIGN KEY(accountImageId) REFERENCES image(imageId),
+	PRIMARY KEY (accountId)
+);
