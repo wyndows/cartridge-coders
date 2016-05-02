@@ -49,3 +49,16 @@ CREATE TABLE product (
 	PRIMARY KEY (productId)
 );
 
+CREATE TABLE message (
+	messageId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	messageBuyerId  		INT UNSIGNED NOT NULL,
+	messageProductId 		INT UNSIGNED NOT NULL,
+	messageSellerId   	INT UNSIGNED NOT NULL,
+	messageContent			VARCHAR(255) NOT NULL,
+	messageMailGunId 		INT UNSIGNED NOT NULL,
+	messageSubject   		VARCHAR(50) NOT NULL,
+	FOREIGN KEY(messageBuyerId) REFERENCES account(accountId),
+	FOREIGN KEY(messageProductId) REFERENCES product(productId),
+	FOREIGN KEY(messageSellerId) REFERENCES account(accountId),
+	PRIMARY KEY (messageId)
+);
