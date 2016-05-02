@@ -11,14 +11,14 @@ DROP TABLE IF EXISTS productPurchase;
 CREATE TABLE account (
 	accountId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	accountImageId  		INT UNSIGNED,
-	accountAdmin 			INT TINYINT NOT NULL,
+	accountAdmin 			BOOLEAN DEFAULT 0,
 	accountName 			VARCHAR(50) NOT NULL,
 	accountPpEmail    	VARCHAR(75) NOT NULL,
 	accountUserName   	VARCHAR(15) NOT NULL,
-	UNIQUE(accountUserName),
-	UNIQUE(accountPpEmail),
+	UNIQUE (accountUserName),
+	UNIQUE (accountPpEmail),
 	INDEX (accountImageId),
-	FOREIGN KEY(accountImageId) REFERENCES image(imageId),
+	FOREIGN KEY (accountImageId) REFERENCES image(imageId),
 	PRIMARY KEY (accountId)
 );
 
@@ -33,8 +33,8 @@ CREATE TABLE productCategory (
 	productCategoryProductId  		INT UNSIGNED,
 	INDEX (productCategoryCategoryId),
 	INDEX (productCategoryProductId),
-	FOREIGN KEY(productCategoryCategoryId) REFERENCES category(categoryId),
-	FOREIGN KEY(productCategoryProductId) REFERENCES product(productId)
+	FOREIGN KEY (productCategoryCategoryId) REFERENCES category(categoryId),
+	FOREIGN KEY (productCategoryProductId) REFERENCES product(productId)
 );
 
 CREATE TABLE product (
@@ -45,12 +45,12 @@ CREATE TABLE product (
 	productDescription   VARCHAR(255) NOT NULL,
 	productPrice			FLOAT UNSIGNED NOT NULL,
 	productShipping   	FLOAT UNSIGNED NOT NULL,
-	productSold				INT TINYINT NOT NULL,
+	productSold				BOOLEAN DEFAULT 0,
 	productTitle			VARCHAR(50) NOT NULL,
 	INDEX (productAccountId),
 	INDEX (productImageId),
-	FOREIGN KEY(productAccountId) REFERENCES account(accountId),
-	FOREIGN KEY(productImageId) REFERENCES image(imageId),
+	FOREIGN KEY (productAccountId) REFERENCES account(accountId),
+	FOREIGN KEY (productImageId) REFERENCES image(imageId),
 	PRIMARY KEY (productId)
 );
 
@@ -65,9 +65,9 @@ CREATE TABLE message (
 	INDEX (messageBuyerId),
 	INDEX (messageProductId),
 	INDEX (messageSellerId),
-	FOREIGN KEY(messageBuyerId) REFERENCES account(accountId),
-	FOREIGN KEY(messageProductId) REFERENCES product(productId),
-	FOREIGN KEY(messageSellerId) REFERENCES account(accountId),
+	FOREIGN KEY (messageBuyerId) REFERENCES account(accountId),
+	FOREIGN KEY (messageProductId) REFERENCES product(productId),
+	FOREIGN KEY (messageSellerId) REFERENCES account(accountId),
 	PRIMARY KEY (messageId)
 );
 
@@ -77,13 +77,13 @@ CREATE TABLE feedback (
 	feedbackProductId 	INT UNSIGNED NOT NULL,
 	feedbackSellerId   	INT UNSIGNED NOT NULL,
 	feedbackContent		VARCHAR(255) NOT NULL,
-	feedbackRating 		INT TINYINT NOT NULL,
+	feedbackRating 		TINYINT(5) UNSIGNED NOT NULL,
 	INDEX (feedbackBuyerId),
 	INDEX (feedbackProductId),
 	INDEX (feedbackSellerId),
-	FOREIGN KEY(feedbackBuyerId) REFERENCES account(accountId),
-	FOREIGN KEY(feedbackProductId) REFERENCES product(productId),
-	FOREIGN KEY(feedbackSellerId) REFERENCES account(accountId),
+	FOREIGN KEY (feedbackBuyerId) REFERENCES account(accountId),
+	FOREIGN KEY (feedbackProductId) REFERENCES product(productId),
+	FOREIGN KEY (feedbackSellerId) REFERENCES account(accountId),
 	PRIMARY KEY (feedbackId)
 );
 
@@ -101,6 +101,15 @@ CREATE TABLE purchase (
 	purchasePayPalTransactionId	INT UNSIGNED NOT NULL,
 	purchaseCreateDate 				DATETIME NOT NULL,
 	INDEX (purchaseBuyerId),
-	FOREIGN KEY(purchaseBuyerId) REFERENCES account(accountId),
+	FOREIGN KEY (purchaseBuyerId) REFERENCES account(accountId),
 	PRIMARY KEY (purchaseId)
+);
+
+CREATE TABLE productPurchase (
+	productPurchaseProductId     	INT UNSIGNED NOT NULL,
+	productPurchasePurchaseId  	INT UNSIGNED NOT NULL,
+	INDEX (productPurchaseProductId),
+	INDEX (productPurchasePurchaseId),
+	FOREIGN KEY (productPurchaseProductId) REFERENCES product(productId),
+	FOREIGN KEY (productPurchasePurchaseId) REFERENCES purchase(purchaseId)
 );
