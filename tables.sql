@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS productPurchase;
 CREATE TABLE account (
 	accountId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	accountImageId  		INT UNSIGNED,
-	accountAdmin 			BOOLEAN NOT NULL,
+	accountAdmin 			INT TINYINT NOT NULL,
 	accountName 			VARCHAR(50) NOT NULL,
 	accountPpEmail    	VARCHAR(75) NOT NULL,
 	accountUserName   	VARCHAR(15) NOT NULL,
@@ -33,3 +33,19 @@ CREATE TABLE productCategory (
 	FOREIGN KEY(productCategoryCategoryId) REFERENCES category(categoryId),
 	FOREIGN KEY(productCategoryProductId) REFERENCES product(productId)
 );
+
+CREATE TABLE product (
+	productId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	productAccountId  	INT UNSIGNED NOT NULL,
+	productImageId 		INT UNSIGNED,
+	productAdminFee 		FLOAT UNSIGNED NOT NULL,
+	productDescription   VARCHAR(255) NOT NULL,
+	productPrice			FLOAT UNSIGNED NOT NULL,
+	productShipping   	FLOAT UNSIGNED NOT NULL,
+	productSold				INT TINYINT NOT NULL,
+	productTitle			VARCHAR(50) NOT NULL,
+	FOREIGN KEY(productAccountId) REFERENCES account(accountId),
+	FOREIGN KEY(productImageId) REFERENCES image(imageId),
+	PRIMARY KEY (productId)
+);
+
