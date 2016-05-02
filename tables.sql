@@ -26,3 +26,10 @@ CREATE TABLE category (
 	categoryName  			VARCHAR(20) NOT NULL,
 	PRIMARY KEY (categoryId)
 );
+
+CREATE TABLE productCategory (
+	productCategoryCategoryId     INT UNSIGNED,
+	productCategoryProductId  		INT UNSIGNED,
+	FOREIGN KEY(productCategoryCategoryId) REFERENCES category(categoryId),
+	FOREIGN KEY(productCategoryProductId) REFERENCES product(productId)
+);
