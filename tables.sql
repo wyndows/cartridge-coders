@@ -62,3 +62,16 @@ CREATE TABLE message (
 	FOREIGN KEY(messageSellerId) REFERENCES account(accountId),
 	PRIMARY KEY (messageId)
 );
+
+CREATE TABLE feedback (
+	feedbackId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	feedbackBuyerId  		INT UNSIGNED NOT NULL,
+	feedbackProductId 	INT UNSIGNED NOT NULL,
+	feedbackSellerId   	INT UNSIGNED NOT NULL,
+	feedbackContent		VARCHAR(255) NOT NULL,
+	feedbackRating 		INT TINYINT NOT NULL,
+	FOREIGN KEY(feedbackBuyerId) REFERENCES account(accountId),
+	FOREIGN KEY(feedbackProductId) REFERENCES product(productId),
+	FOREIGN KEY(feedbackSellerId) REFERENCES account(accountId),
+	PRIMARY KEY (feedbackId)
+);
