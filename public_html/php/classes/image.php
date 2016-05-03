@@ -32,9 +32,12 @@ class Image{
 	 * @param string $newImageFileName - string containing name of image file
 	 * @param string $newImageType - string containing name of image file type
 	 * @throws \InvalidArgumentException - if data types are not valid
-	 * @throws
+	 * @throws \RangeException - if values are out of range (strings too long, negative numbers, etc.)
+	 * @throws \TypeError - if data types violate type hints
+	 * @throws \Exception - catch all if another error occurs
 	 **/
 
+	
 
 
 	private $imageId;
