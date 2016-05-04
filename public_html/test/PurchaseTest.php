@@ -1,6 +1,8 @@
 <?php
 namespace Edu\Cnm\CartridgeCoders\Test
 
+use Edu\Cnm\Cartridgecoders\php\classes\{Purchase, Account};
+
 //parts of this code have been modified from the original, created by Dylan Mcdonald and taken from https://bootcamp-coders.cnm.edu
 
 // grab the project test parameters
@@ -25,15 +27,34 @@ class Purchase extends CartridgeCodersTest {
 	protected $VALID_PURCHASECREATEDATE = null;
 	/**
 	 * Account that created this Purchase; this is for foreign key relations
-	 * @var Account Account
+	 * @var Account account
 	 **/
-	protected $Account = null;
+	protected $account = null;
 
 	/**
 	 * create dependent objects before running each test
-	 **/2
+	 **/
 	public final fuction setUp() {
-	//run the default setUp() method first
-	parent::setUp();
+		//run the default setUp() method first
+		parent::setUp();
+
+		//create and insert a Account to own the test Purchase
+	$this->account = new Account(null, "25", "1", "jamesdean", "james@dean.com", "spar109");
+	$this->profile-insert($this->getPDO());
+		// calculate the date (just use the time the unit test ws created...)
+		$this->VALID_PURCHASECREATEDATE = new \DateTim();
+	}
+	/**
+ 	* test inserting a valid Purchase and verify that hte actual mySQL data matches
+ 	**/
+	public function testInsertValidPurchase(){
+		// cont the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("purchase");
+
+		// grab the data from mySQL and enforce the fields match out expectations
+		$pdoPurchase = Purchase::getPurchaseByPurchaseId($this->getPDO(), $tweet->getPurchaseId());
+		$this->assertEquals($numbRows + 1, $this->getConnection()->getRowCount("purchase"));
+		$this->assertEquals($pdoPurchase->getAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoPurchase->getPurchaseBuyerId(),$this->)
 }
 }

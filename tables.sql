@@ -38,11 +38,11 @@ CREATE TABLE account (
 
 CREATE TABLE purchase (
 	purchaseId     					INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	purchaseBuyerId  					INT UNSIGNED NOT NULL,
+	purchaseAccountId				INT UNSIGNED NOT NULL,
 	purchasePayPalTransactionId	INT UNSIGNED NOT NULL,
 	purchaseCreateDate 				DATETIME NOT NULL,
-	INDEX (purchaseBuyerId),
-	FOREIGN KEY (purchaseBuyerId) REFERENCES account(accountId),
+	INDEX (purchaseAccountId),
+	FOREIGN KEY (purchaseAccountId) REFERENCES account(accountId),
 	PRIMARY KEY (purchaseId)
 );
 
