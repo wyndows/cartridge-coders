@@ -44,13 +44,13 @@ class Image {
 		} catch(\InvalidArgumentException $invalidArgument) {
 			// rethrow the exception to the caller
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
-		} catch(\RangeException $range){
+		} catch(\RangeException $range) {
 			// rethrow the exception to the caller
 			throw (new \RangeException($range->getMessage(), 0, $range));
-		} catch(\TypeError $typeError){
+		} catch(\TypeError $typeError) {
 			// rethrow the exception to the caller
 			throw(new \TypeError($typeError->getMessage(), 0, $typeError));
-		} catch(\Exception $exception){
+		} catch(\Exception $exception) {
 			// rethrow the exception to the caller
 			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
@@ -60,7 +60,7 @@ class Image {
 	 * accessor method for image id
 	 * @return int|null value of image id
 	 */
-	public function getImageId(){
+	public function getImageId() {
 		return ($this->imageId);
 	}
 
@@ -70,14 +70,14 @@ class Image {
 	 * @throws \RangeException if $newImageId is not positive
 	 * @throws \TypeError if $newimageId is not an intiger
 	 **/
-	public function setImageId(int $newImageId = null){
+	public function setImageId(int $newImageId = null) {
 		//if image id is null (composing), allow new image without mySQL assignment
-		if($newImageId === null){
+		if($newImageId === null) {
 			$this->imageId = null;
 			return;
 		}
 		// verify image id is positive
-		if($newImageId <= 0){
+		if($newImageId <= 0) {
 			throw(new \RangeException("image id is not positive"));
 		}
 		// convert and store image id
@@ -86,25 +86,35 @@ class Image {
 
 	/**
 	 * accessor method for image file name
-	 * 
+	 *
 	 * @return string of image file name
 	 */
-	public function getImageFileName(){
-		return($this->imageFileName);
+	public function getImageFileName() {
+		return ($this->imageFileName);
 	}
-	
+
 	/**
 	 * mutator method for image file name
 	 * @param string $newimageFileName - new value of image file name
 	 * @throws \InvalidArgumentException if $newImageFileName is not a string or insecure
-	 * @throws \RangeException if $newImageFileName is > 000000 chars
+	 * @throws \RangeException if $newImageFileName is > 128 chars
 	 * @throws \TypeError if $newImageFileName is not a string
 	 */
-	
+	public function setImageFileName(string $newImageFileName) {
+		// verify image file name is secure
+		$newImageFileName = trim($newImageFileName);
+		$newImageFileName = filter_var($newImageFileName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newImageFileName) === true) {
+			throw(new \InvalidArgumentException("image file name is empty or insecure"));
+		}
+		// verify the image file name will fit in the database
+		if(strlen($newImageFileName) > 128) {
+			throw(new \RangeException("image file name too large"));
+		}
+		// store image file name
+		$this->imageFileName = $newImageFileName;
+	}
 
-
-
-	
 
 }
 
