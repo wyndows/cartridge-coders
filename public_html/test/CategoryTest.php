@@ -88,7 +88,7 @@ class CategoryTest extends CartridgeCodersTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("category");
 
-		// create a new Category and insert to into mySQL
+		// create a new Category and insert into mySQL
 		$category = new Category\(null, $this->VALID_CATEGORYNAME);
 		$category->insert($this->getPDO());
 
@@ -109,8 +109,29 @@ class CategoryTest extends CartridgeCodersTest {
 	 **/
 	public function testUpdateInvalidCategory() {
 		// create a Category with a non null category id and watch it fail
-		$category = new Category(null, $this->VALID_TWEETCONTENT);
+		$category = new Category(null, $this->VALID_CATEGORYNAME);
 		$category->update($this->getPDO());
+	}
+
+	/**
+	 * test creating a Category and then deleting it
+	 **/
+	public function testDeleteValidCategory() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("category");
+
+		// create a new Category and insert into mySQL
+		$category = new Category(null, $this->VALID_CATEGORYNAME);
+		$category->insert($this->getPDO());
+
+		// delete the Category from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("category"));
+		$category->delete($this->getPDO());
+
+		// grab the data from mySQL and enforce that the Category does not exist
+		$pdoCategory = Category::getCategoryByCategoryId($this->getPDO(), $category->getCategoryId());
+		$this->assertNull($pdoCategory);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("category"));
 	}
 
 
