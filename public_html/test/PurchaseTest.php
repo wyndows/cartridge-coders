@@ -19,8 +19,21 @@ require_once(dirname(__DIR__) . "/php/classes/autoload.php");
  **/
 class Purchase extends CartridgeCodersTest {
 	/**
-	 * content of the Purchase
-	 * @var string $VALID_PURCHASE
+	 * timestamp of Purchase
+	 * @var dateime $VALID_PURCHASECREATEDATE
 	 **/
-	protected $VALID_PURCHASE
+	protected $VALID_PURCHASECREATEDATE = null;
+	/**
+	 * Account that created this Purchase; this is for foreign key relations
+	 * @var Account Account
+	 **/
+	protected $Account = null;
+
+	/**
+	 * create dependent objects before running each test
+	 **/2
+	public final fuction setUp() {
+	//run the default setUp() method first
+	parent::setUp();
+}
 }
