@@ -162,7 +162,30 @@ class ImageTest extends CartridgeCodersTest {
 		$this->assertNull($category);
 	}
 
-	
+	/**
+	 * test grabbing a image file name by image file name name
+	 */
+
+	public function testGetValidImageFileNameByImageFileNameName() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("imageFileName");
+
+		// create a new image file name and insert it into mySQL
+		$imageFileName = new ImageFileName(null, $this->VALID_IMAGEFILENAME1);
+		$imageFileName->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results=ImageFileName::getImageFileNameByImageFileNameName($this->getPDO(), $imageFileName->getImageFileName());
+		$this->assertEquals($numRows+1, $this->getConnection()->getRowCount("imageFileName"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnltInstancesOf("Edu\\Cnm\\CartridgeCoders\\Category", $results);
+		
+
+
+
+
+
+		}
 
 
 
