@@ -140,7 +140,7 @@
 		public function testDeleteInvalidCategory() {
 			// create a Category and try to delete it without actually inserting it
 			$category = new Category(null, $this->VALID_CATEGORYNAME);
-			$tweet->delete($this->getPDO());
+			$category->delete($this->getPDO());
 		}
 
 		/**
@@ -150,6 +150,29 @@
 			// grab a category id that exceeds the maximum allowable category id
 			$category = Category::getCategoryByCategoryId($this->getPDO(), CartridgeCodersTest::Test::INVALID_KEY);
 			$this->assertNull($category);
+		}
+
+		/**
+		 * test grabbing a Category by category name
+		 **/
+		public function testGetValidCategoryByCategoryName() {
+			// count the number of rows and save it for later
+			$numRows = $this->getConnection()->getRowCount("category");
+
+			// create a new Category and insert it into mySQL
+			$category = new Category\(null, $this->VALID_CATEGORYNAME);
+			$category->insert($this->getPDO());
+
+			// grab the data from mySQL and enforce the fields match our expectations
+			$results = Category::getCategoryByCategoryName($this->getPDO(), $category->getCategoryName());
+			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("category"));
+			$this->assertCount(1, $results);
+			$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\Category", $results);
+
+			// grab the result from the array and validate it
+			$pdoCategory = $results[0];
+			$this->assertEquals($pdoCategory->getCategoryId(), $this->category->getCategoryId());
+			$this->assertEquals($pdoCategory->getCategoryName(), $this->VALID_CATEGORYNAME);
 		}
 
 
