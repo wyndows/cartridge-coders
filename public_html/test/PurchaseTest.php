@@ -8,7 +8,7 @@ use Edu\Cnm\Cartridgecoders\php\classes\{Purchase, Account};
 // grab the project test parameters
 require_once("CartridgeCodersTest.php");
 
-//grab the cal under scrutiny
+//grab the class under scrutiny
 require_once(dirname(__DIR__) . "/php/classes/autoload.php");
 
 /**
@@ -22,7 +22,7 @@ require_once(dirname(__DIR__) . "/php/classes/autoload.php");
 class Purchase extends CartridgeCodersTest {
 	/**
 	 * timestamp of Purchase
-	 * @var dateime $VALID_PURCHASECREATEDATE
+	 * @var DateTime $VALID_PURCHASECREATEDATE
 	 **/
 	protected $VALID_PURCHASECREATEDATE = null;
 	/**
@@ -55,6 +55,19 @@ class Purchase extends CartridgeCodersTest {
 		$pdoPurchase = Purchase::getPurchaseByPurchaseId($this->getPDO(), $tweet->getPurchaseId());
 		$this->assertEquals($numbRows + 1, $this->getConnection()->getRowCount("purchase"));
 		$this->assertEquals($pdoPurchase->getAccountId(), $this->account->getAccountId());
-		$this->assertEquals($pdoPurchase->getPurchaseBuyerId(),$this->)
+		$this->assertEquals($pdoPurchase->getPurchasePayPalTransactionId(),$this->purchasePayPalTransaction->getPurchasePayPalTransactionId());
+		$this->assertEquals($pdoPurchase->getPurchaseCreateDate(), $this->valid_PURCHASECREATEDATE);
+}
+/**
+ * test inserting a Purchase that already exists
+ *
+ * @expectedException PDOException
+ **/
+	public function testInsertInvalidPurchase() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount(Purchase);
+
+		//create a new Purchase and insert to into mySQL
+		$
 }
 }
