@@ -7,8 +7,6 @@
  * Testing will be on insertCategory (user creates categories when they place item for sale), updateCategory (user may change categories after listing), deleteCategory (user may delete the listing), getCategoryByCategoryId (categoryId is a foreign key on other classes) and getCategoryByCategoryName (user may search for a cartridge by category name)
  */
 
-// Parts of this code is modified from the original as authored by Dylan McDonald and is taken from bootcamp-coders.cnm.edu
-
 namespace Edu\Cnm\CartridgeCoders\Test;
 
 use Edu\Cnm\CartridgeCoders\Test\CartridgeCodersTest;
@@ -65,6 +63,28 @@ class CategoryTest extends CartridgeCodersTest {
 		$category = new Category(CartridgeCodersTest::Test::INVALID_KEY, $this->category->getCategoryId());
 		$category->insert($this->getPDO());
 	}
+
+	/**
+	 * test inserting a Category, editing it, and then updating it
+	 **/
+	public function testUpdateValidCategory() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("category");
+
+		// create a new Category and insert to into mySQL
+		$category = new Category\(null, $this->VALID_CATEGORYNAME);
+		$category->insert($this->getPDO());
+
+		// edit the Category and update it in mySQL
+		$category->setCategoryName($this->VALID_CATEGORYNAME2);
+		$category->update($this->getPDO());
+
+		// grab the data from mySQL and enforce that the fields match our expectations
+		$pdoCategory = Category::getCategoryByCategoryId($this->getPDO(), $category->getCategoryId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("category"));
+		$this->assertEquals($pdoCategory->getCategoryName(), $this->VALID_CATEGORYNAME2);
+	}
+
 
 
 }
