@@ -184,7 +184,29 @@
 			$this->assertCount(0, $category);
 		}
 
+		/**
+		 * test grabbing all Categories
+		 **/
+		public function testGetAllValidCategories() {
+			// count the number of rows and save it for later
+			$numRows = $this->getConnection()->getRowCount("category");
 
+			// create a new Category and insert to into mySQL
+			$category = new Category(null, $this->VALID_CATEGORYNAME);
+			$category->insert($this->getPDO());
+
+			// grab the data from mySQL and enforce the fields match our expectations
+			$results = Category::getAllCategories($this->getPDO());
+			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("category"));
+			$this->assertCount(1, $results);
+			$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\Category", $results);
+
+			// grab the result from the array and validate it
+			$pdoCategory = $results[0];
+			$this->assertEquals($pdoCategory->getCategoryId(), $this->category->getCategoryId());
+			$this->assertEquals($pdoCategory->getCategoryName(), $this->VALID_CATEGORYNAME);
+		}
 
 	}
+	
 ?>
