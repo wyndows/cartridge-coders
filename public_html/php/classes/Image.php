@@ -146,6 +146,32 @@ class Image {
 		$this->imageType = $newImageType;
 	}
 
+	/**
+	 * insert this image into mySQL
+	 *
+	 * @param \PDO $pdo - PDO connection object
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function insert(\PDO $pdo) {
+		// enforce image id is null - make sure inserting new image vs an existing one
+		if($this->imageId !== null) {
+			throw(new \PDOException("not a new image"));
+		}
+
+		//create query table
+		$query = "INSERT INTO cartridge(imageId, imageFileName, imageType)" VALUES(:imageId, :imageFileName, :imageType);
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders un the template
+		$parameters = ["imageId" => $this->imageId, "imageFileName" => $this->imageFileName, "imageType" => $this->imageType];
+		$statement->execute($parameters);
+
+		//update the null imageId with what mySQL just gave us
+		$this->imageId = intval($pdo->lastInsertId());
+	}
+	
+
 }
 
 
