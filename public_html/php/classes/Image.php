@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\Ddeleeuw\Cartridge;
+namespace Edu\Cnm\CartridgeCoders;
 
 /**
  * Class for Images
@@ -66,8 +66,41 @@ class Image {
 
 	/**
 	 * mutator method for image id
-	 * @param int|null
+	 * @param int|null $newImageId - new value of image id
+	 * @throws \RangeException if $newImageId is not positive
+	 * @throws \TypeError if $newimageId is not an intiger
+	 **/
+	public function setImageId(int $newImageId = null){
+		//if image id is null (composing), allow new image without mySQL assignment
+		if($newImageId === null){
+			$this->imageId = null;
+			return;
+		}
+		// verify image id is positive
+		if($newImageId <= 0){
+			throw(new \RangeException("image id is not positive"));
+		}
+		// convert and store image id
+		$this->advertId = $newImageId;
+	}
+
+	/**
+	 * accessor method for image file name
+	 * 
+	 * @return string of image file name
 	 */
+	public function getImageFileName(){
+		return($this->imageFileName);
+	}
+	
+	/**
+	 * mutator method for image file name
+	 * @param string $newimageFileName - new value of image file name
+	 * @throws \InvalidArgumentException if $newImageFileName is not a string or insecure
+	 * @throws \RangeException if $newImageFileName is > 000000 chars
+	 * @throws \TypeError if $newImageFileName is not a string
+	 */
+	
 
 
 
