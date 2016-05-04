@@ -171,7 +171,6 @@
 
 			// grab the result from the array and validate it
 			$pdoCategory = $results[0];
-			$this->assertEquals($pdoCategory->getCategoryId(), $this->category->getCategoryId());
 			$this->assertEquals($pdoCategory->getCategoryName(), $this->VALID_CATEGORYNAME);
 		}
 
@@ -203,7 +202,6 @@
 
 			// grab the result from the array and validate it
 			$pdoCategory = $results[0];
-			$this->assertEquals($pdoCategory->getCategoryId(), $this->category->getCategoryId());
 			$this->assertEquals($pdoCategory->getCategoryName(), $this->VALID_CATEGORYNAME);
 		}
 
