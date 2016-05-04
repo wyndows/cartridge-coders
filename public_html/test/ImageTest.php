@@ -179,15 +179,12 @@ class ImageTest extends CartridgeCodersTest {
 		$this->assertEquals($numRows+1, $this->getConnection()->getRowCount("imageFileName"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnltInstancesOf("Edu\\Cnm\\CartridgeCoders\\Category", $results);
-		
 
-
-
-
-
+		// grab the result from the array and validate it
+		$pdoImageFileName = $results[0];
+		$this->assertEquals($pdoImageFileName->getImageId(), $this->imageFileName->getImageId());
+		$this->assertEquals($pdoImageFileName->getImageFileNameName(), $this->VALID_IMAGEFILENAME1);
 		}
-
-
 
 
 }
