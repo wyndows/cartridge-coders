@@ -226,6 +226,8 @@ class Image {
 		}
 		return ($description);
 	}
+	
+	
 
 
 }
