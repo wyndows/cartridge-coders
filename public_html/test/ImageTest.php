@@ -116,6 +116,26 @@ class ImageTest extends CartridgeCodersTest {
 		$imageFileName->update($this->getPDO());
 	}
 
+	/**
+	 * test creatinga image file name and deleting it
+	 */
+	public function testDeleteValidImageFileName(){
+
+		// count the number of rows and save it for later
+		$numRows=$this->getConnection()->getRowCount("imageFileName");
+
+		// create new image file anme and inseet it into mySQL
+		$imageFileName = new ImageFileName(null, $this->VALID_IMAGEFILENAME1);
+		$imageFileName->insert($this->getPDO());
+
+		// delete the category from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("imageFileName"));
+		$imageFileName->delete($this->getPDO());
+
+		// grab the data from mySQL and enforce that the image file name does not exist
+		
+	}
+
 
 }
 
