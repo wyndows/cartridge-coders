@@ -1,6 +1,5 @@
 <?php
 
-// this code was originally authored by Dylan McDonald and is copied from bootcamp-coders.cnm.edu and modified for CartridgeCoders capstone project
 namespace Edu\Cnm\CartridgeCoders\Test;
 
 // grab the encrypted properties file
@@ -19,7 +18,7 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 *
 * *NOTE*: Tables must be added in the order they were created in step (2).
 *
-* @author Dylan McDonald <dmcdonald21@cnm.edu>
+* @author Marlan Ball <wyndows@earthlink.net> based on code by Dylan McDonald <dmcdonald21@cnm.edu>
 **/
 abstract class CartridgeCodersTest extends \PHPUnit_Extensions_Database_TestCase {
 	/**

@@ -1,10 +1,27 @@
 <?php
 /**
- * Trying to create testing first for TDD style
+ * Formulating plan for unit testing of Category class
+ *
  * Class will consist of categoryId and categoryName
  * Primary key will be categoryId
  * No foreign keys
- * Testing will be on insertCategory (user creates categories when they place item for sale), updateCategory (user may change categories after listing), deleteCategory (user may delete the listing), getCategoryByCategoryId (categoryId is a foreign key on other classes) and getCategoryByCategoryName (user may search for a cartridge by category name)
+ *
+ * Testing will be on insertCategory (user creates categories when they place item for sale), updateCategory (user may change categories after listing), deleteCategory (user may delete the listing), getCategoryByCategoryId (categoryId is a foreign key on other classes) and getCategoryByCategoryName (user may search for an item by category name)
+ *
+ * Testing will consist of the following:
+ * test inserting a valid Category and verify that the actual mySQL data matches
+ * test inserting a Category that already exists
+ * test inserting a Category, editing it, and then updating it
+ * test updating a Category that already exists
+ * test creating a Category and then deleting it
+ * test deleting a Category that does not exist
+ * test inserting a Category and regrabbing it from mySQL
+ * test grabbing a Category that does not exist
+ * test grabbing a Category by category name
+ * test grabbing a Category by a name that does not exist
+ * test grabbing all Categories
+ *
+ * @author Marlan Ball <wyndows@earthlink.net> based on code by Dylan McDonald <dmcdonald21@cnm.edu>
  */
 
 namespace Edu\Cnm\CartridgeCoders\Test;
@@ -19,9 +36,9 @@ require_once("CartridgeCodersTest.php");
 require_once(dirname(__DIR__) . "/php/classes/autoload.php");
 
 /**
+ * Unit testing for the Category class for Cartridge Coders
  *
  * @see Category
- * @author Marlan Ball <wyndows@earthlink.net>
  **/
 class CategoryTest extends CartridgeCodersTest {
 	/**
@@ -83,6 +100,17 @@ class CategoryTest extends CartridgeCodersTest {
 		$pdoCategory = Category::getCategoryByCategoryId($this->getPDO(), $category->getCategoryId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("category"));
 		$this->assertEquals($pdoCategory->getCategoryName(), $this->VALID_CATEGORYNAME2);
+	}
+
+	/**
+	 * test updating a Category that already exists
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testUpdateInvalidCategory() {
+		// create a Category with a non null category id and watch it fail
+		$category = new Category(null, $this->VALID_TWEETCONTENT);
+		$category->update($this->getPDO());
 	}
 
 
