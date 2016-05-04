@@ -175,6 +175,15 @@
 			$this->assertEquals($pdoCategory->getCategoryName(), $this->VALID_CATEGORYNAME);
 		}
 
+		/**
+		 * test grabbing a Category by name that does not exist
+		 **/
+		public function testGetInvalidCategoryByCategoryName() {
+			// grab a profile id that exceeds the maximum allowable profile id
+			$category = Category::getCategoryByCategoryName($this->getPDO(), "this category name never existed");
+			$this->assertCount(0, $category);
+		}
+
 
 
 	}
