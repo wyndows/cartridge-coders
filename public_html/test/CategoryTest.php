@@ -75,7 +75,7 @@
 		 **/
 		public function testInsertInvalidCategory() {
 			// create a Category with a non null category id and watch it fail
-			$category = new Category(CartridgeCodersTest::Test::INVALID_KEY, $this->category->getCategoryId());
+			$category = new Category(CartridgeCodersTest::INVALID_KEY, $this->VALID_CATEGORYNAME);
 			$category->insert($this->getPDO());
 		}
 
@@ -148,7 +148,7 @@
 		 **/
 		public function testGetInvalidCategoryByCategoryId() {
 			// grab a category id that exceeds the maximum allowable category id
-			$category = Category::getCategoryByCategoryId($this->getPDO(), CartridgeCodersTest::Test::INVALID_KEY);
+			$category = Category::getCategoryByCategoryId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
 			$this->assertNull($category);
 		}
 
@@ -160,7 +160,7 @@
 			$numRows = $this->getConnection()->getRowCount("category");
 
 			// create a new Category and insert it into mySQL
-			$category = new Category\(null, $this->VALID_CATEGORYNAME);
+			$category = new Category(null, $this->VALID_CATEGORYNAME);
 			$category->insert($this->getPDO());
 
 			// grab the data from mySQL and enforce the fields match our expectations
