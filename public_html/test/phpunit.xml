@@ -1,0 +1,12 @@
+<phpunit>
+	<testsuites>
+		<testsuite name="Cartridge Coders">
+			<file>CategoryTest.php</file>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">../php/classes</directory>
+		</whitelist>
+	</filter>
+</phpunit>
