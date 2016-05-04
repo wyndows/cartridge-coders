@@ -139,8 +139,32 @@ class ImageTest extends CartridgeCodersTest {
 	}
 
 	/**
-	 * 
+	 * test deleting an image file name that does not exist
+	 * @expectedException \PDOException
 	 */
+
+	public function testDeleteInvalidImageFileName(){
+
+		// create a image file name and try to delete it without actually inserting it
+
+		$imageFileName = new ImageFileName(null, $this->VALID_IMAGEFILENAME1);
+		$imageFileName->delete($this->getPDO());
+	}
+
+	/**
+	 * test grabbing a image file name that does not exist
+	 */
+
+	public function testGetInvalidImageFileNameByImageId(){
+
+		// grab a image id that exceeds the maximum allowable image id
+		$imageFileName = ImageFileName::getImageFileNameByImageId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
+		$this->assertNull($category);
+	}
+
+	
+
+
 
 
 }
