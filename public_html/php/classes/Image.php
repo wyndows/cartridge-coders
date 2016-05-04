@@ -81,7 +81,7 @@ class Image {
 			throw(new \RangeException("image id is not positive"));
 		}
 		// convert and store image id
-		$this->advertId = $newImageId;
+		$this->imageId = $newImageId;
 	}
 
 	/**
@@ -95,7 +95,7 @@ class Image {
 
 	/**
 	 * mutator method for image file name
-	 * @param string $newimageFileName - new value of image file name
+	 * @param string $newImageFileName - new value of image file name
 	 * @throws \InvalidArgumentException if $newImageFileName is not a string or insecure
 	 * @throws \RangeException if $newImageFileName is > 128 chars
 	 * @throws \TypeError if $newImageFileName is not a string
@@ -115,6 +115,36 @@ class Image {
 		$this->imageFileName = $newImageFileName;
 	}
 
+	/**
+	 * accessor method for image type
+	 * @return string of image type
+	 */
+	public function getImageType() {
+		return ($this->imageType);
+	}
+
+	/**
+	 * mutator method for image type
+	 *
+	 * @param string $newImageType - new value of image type
+	 * @throws \InvalidArgumentException if $newImageType is not a strgin or insecure
+	 * @throws \RangeException if $newImageType is > 10 chars
+	 * @throws \TypeError if $newImageType is not a string
+	 */
+	public function setImageType(string $newImageType) {
+		// verify image type is secure
+		$newImageType = trim($newImageType);
+		$newImageType = filter_var($newImageType, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newImageType) === true) {
+			throw (new \InvalidArgumentException("image type is empty or insecure"));
+		}
+		// verify the image type will fir into the database
+		if(strlen($newImageType) > 10) {
+			throw(new \RangeException("image type too long"));
+		}
+		// store image type
+		$this->imageType = $newImageType;
+	}
 
 }
 
