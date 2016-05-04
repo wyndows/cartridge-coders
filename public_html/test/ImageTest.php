@@ -133,8 +133,14 @@ class ImageTest extends CartridgeCodersTest {
 		$imageFileName->delete($this->getPDO());
 
 		// grab the data from mySQL and enforce that the image file name does not exist
-		
+		$pdoImageFileName = ImageFileName::getImageFileNameByImageId($this->getPDO(), $imageFileName->getImageId());
+		$this->assertNull($pdoImageFileName);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("imageFileName"));
 	}
+
+	/**
+	 * 
+	 */
 
 
 }
