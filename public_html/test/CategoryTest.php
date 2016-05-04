@@ -143,6 +143,15 @@
 			$tweet->delete($this->getPDO());
 		}
 
+		/**
+		 * test grabbing a Category that does not exist
+		 **/
+		public function testGetInvalidCategoryByCategoryId() {
+			// grab a category id that exceeds the maximum allowable category id
+			$category = Category::getCategoryByCategoryId($this->getPDO(), CartridgeCodersTest::Test::INVALID_KEY);
+			$this->assertNull($category);
+		}
+
 
 
 	}
