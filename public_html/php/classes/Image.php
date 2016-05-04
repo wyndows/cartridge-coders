@@ -6,7 +6,7 @@ namespace Edu\Cnm\CartridgeCoders;
  * @author Donald DeLeeuw <donald.deleeuw@gmail.com>
  */
 
-class Image {
+class Image implements \JsonSerializable{
 
 	/**
 	 * id for image, this is the primary key
@@ -226,9 +226,13 @@ class Image {
 		}
 		return ($description);
 	}
-	
-	
 
+	// jsonSerialize
+
+	public function jsonSerialize(){
+		$fields = get_object_vars($this);
+		return($fields);
+	}
 
 }
 
