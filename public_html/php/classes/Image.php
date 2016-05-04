@@ -16,13 +16,13 @@ class Image {
 
 	/**
 	 * file name of image
-	 * @var string(128) $imageFileName
+	 * @var string $imageFileName
 	 */
 	private $imageFileName;
 
 	/**
 	 * file type of image
-	 * @var string(10) $imageType
+	 * @var string $imageType
 	 */
 	private $imageType;
 
@@ -132,16 +132,11 @@ class Image {
 	 * @throws \TypeError if $newImageType is not a string
 	 */
 	public function setImageType(string $newImageType) {
-		// verify image type is secure
-		$newImageType = trim($newImageType);
-		$newImageType = filter_var($newImageType, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newImageType) === true) {
-			throw (new \InvalidArgumentException("image type is empty or insecure"));
+		$validTypes = ["image/gif", "image/jpg", "image/jpeg", "image/png"];
+		if(in_array($newImageType, $validTypes) === false) {
+			throw(new \InvalidArgumentException("image type is not a MIME type"));
 		}
-		// verify the image type will fir into the database
-		if(strlen($newImageType) > 10) {
-			throw(new \RangeException("image type too long"));
-		}
+
 		// store image type
 		$this->imageType = $newImageType;
 	}
@@ -160,11 +155,11 @@ class Image {
 		}
 
 		//create query table
-		$query = "INSERT INTO cartridge(imageId, imageFileName, imageType)" VALUES(:imageId, :imageFileName, :imageType);
+		$query = "INSERT INTO image(imageFileName, imageType) VALUES(:imageFileName, :imageType)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders un the template
-		$parameters = ["imageId" => $this->imageId, "imageFileName" => $this->imageFileName, "imageType" => $this->imageType];
+		$parameters = ["imageFileName" => $this->imageFileName, "imageType" => $this->imageType];
 		$statement->execute($parameters);
 
 		//update the null imageId with what mySQL just gave us
@@ -178,21 +173,60 @@ class Image {
 	 * @throws \PDOException when mySQL errors occure
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 */
-	public function update(\PDO $pdo){
+	public function update(\PDO $pdo) {
 
 		// enforce the imageId is not null (don't update whats not there)
-		if($this->imageId === null){
+		if($this->imageId === null) {
 			throw(new \PDOException("unable to update and image that does not exist"));
 		}
 
 		// create query template
-		$query = "UPDATE cartridge SET imageId = :imageId, imageFileName = :imageFileName, imageType = :imageType";
+		$query = "UPDATE image SET imageFileName = :imageFileName, imageType = :imageType WHERE imageId = :imageId";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders
 		$parameters = ["imageId" => $this->imageId, "imageFileName" => $this->imageFileName, "imageType" => $this->imageType];
 		$statement->execute($parameters);
 	}
+
+	/**
+	 * gets the image by image id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $imageId - image id to search for
+	 * @return Image|null - image found or null if not
+	 * @throws \PDOException when mySQL related error occurs
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+
+	public static function getImageByImageId(\PDO $pdo, int $imageId) {
+		// sanitize the imageId before searching
+		if($imageId <= 0) {
+			throw(new \PDOException("image id is not positive"));
+		}
+		// create query template
+		$query = "SELECT imageId, imageFileName, imageType FROM image WHERE imageId = :imageId";
+		$statement = $pdo->prepare($query);
+
+		// bind the image id to the place holder in the template
+		$parameters = array("imageId => $imageId");
+		$statement->execute($parameters);
+
+		// grab the image from mySQL
+		try {
+			$description = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$description = new $description($row["imageId"], $row["imageFileName"], $row["imageType"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($description);
+	}
+
 
 }
 
