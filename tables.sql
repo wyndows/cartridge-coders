@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS category;
 CREATE TABLE category (
 	categoryId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	categoryName  			VARCHAR(50) NOT NULL,
+	INDEX (categoryName),
 	PRIMARY KEY (categoryId)
 );
 
@@ -24,8 +25,8 @@ CREATE TABLE image (
 
 CREATE TABLE account (
 	accountId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	accountImageId  		INT UNSIGNED,
-	accountAdmin 			BOOLEAN DEFAULT 0,
+	accountImageId  		INT UNSIGNED NOT NULL,
+	accountAdmin 			TINYINT UNSIGNED DEFAULT 0 NOT NULL,
 	accountName 			VARCHAR(50) NOT NULL,
 	accountPpEmail    	VARCHAR(75) NOT NULL,
 	accountUserName   	VARCHAR(25) NOT NULL,
@@ -39,7 +40,7 @@ CREATE TABLE account (
 CREATE TABLE purchase (
 	purchaseId     					INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	purchaseAccountId				INT UNSIGNED NOT NULL,
-	purchasePayPalTransactionId	INT UNSIGNED NOT NULL,
+	purchasePayPalTransactionId	CHAR(28) NOT NULL,
 	purchaseCreateDate 				DATETIME NOT NULL,
 	INDEX (purchaseAccountId),
 	FOREIGN KEY (purchaseAccountId) REFERENCES account(accountId),
@@ -49,13 +50,13 @@ CREATE TABLE purchase (
 CREATE TABLE product (
 	productId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	productAccountId  	INT UNSIGNED NOT NULL,
-	productImageId 		INT UNSIGNED,
-	productAdminFee 		DECIMAL UNSIGNED NOT NULL,
+	productImageId 		INT UNSIGNED NOT NULL,
+	productAdminFee 		DECIMAL(5,2) UNSIGNED NOT NULL,
 	productDescription   VARCHAR(255) NOT NULL,
-	productPrice			DECIMAL UNSIGNED NOT NULL,
-	productShipping   	DECIMAL UNSIGNED NOT NULL,
-	productSold				BOOLEAN DEFAULT 0,
-	productTitle			VARCHAR(50) NOT NULL,
+	productPrice			DECIMAL(7,2) UNSIGNED NOT NULL,
+	productShipping   	DECIMAL(5,2) UNSIGNED NOT NULL,
+	productSold				TINYINT UNSIGNED DEFAULT 0 NOT NULL,
+	productTitle			VARCHAR(64) NOT NULL,
 	INDEX (productAccountId),
 	INDEX (productImageId),
 	FOREIGN KEY (productAccountId) REFERENCES account(accountId),
@@ -85,8 +86,8 @@ CREATE TABLE message (
 	messageProductId 		INT UNSIGNED NOT NULL,
 	messageSellerId   	INT UNSIGNED NOT NULL,
 	messageContent			VARCHAR(255) NOT NULL,
-	messageMailGunId 		INT UNSIGNED NOT NULL,
-	messageSubject   		VARCHAR(50) NOT NULL,
+	messageMailGunId 		CHAR(32) NOT NULL,
+	messageSubject   		VARCHAR(128) NOT NULL,
 	INDEX (messageBuyerId),
 	INDEX (messageProductId),
 	INDEX (messageSellerId),
