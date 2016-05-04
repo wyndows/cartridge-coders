@@ -170,7 +170,29 @@ class Image {
 		//update the null imageId with what mySQL just gave us
 		$this->imageId = intval($pdo->lastInsertId());
 	}
-	
+
+	/**
+	 * updates this image in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL errors occure
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function update(\PDO $pdo){
+
+		// enforce the imageId is not null (don't update whats not there)
+		if($this->imageId === null){
+			throw(new \PDOException("unable to update and image that does not exist"));
+		}
+
+		// create query template
+		$query = "UPDATE cartridge SET imageId = :imageId, imageFileName = :imageFileName, imageType = :imageType";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders
+		$parameters = ["imageId" => $this->imageId, "imageFileName" => $this->imageFileName, "imageType" => $this->imageType];
+		$statement->execute($parameters);
+	}
 
 }
 
