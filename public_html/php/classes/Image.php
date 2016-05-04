@@ -59,7 +59,14 @@ class Image {
 	/**
 	 * accessor method for image id
 	 * @return int|null value of image id
-	 * 
+	 */
+	public function getImageId(){
+		return ($this->imageId);
+	}
+
+	/**
+	 * mutator method for image id
+	 * @param int|null
 	 */
 
 
