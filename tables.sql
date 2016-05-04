@@ -60,7 +60,7 @@ CREATE TABLE product (
 	productTitle       VARCHAR(64)                 NOT NULL,
 	INDEX (productAccountId),
 	INDEX (productImageId),
-	FOREIGN KEY (productAccountId) REFERENCES account (accountId),
+	FOREIGN KEY (,productAccountId) REFERENCES account (accountId),
 	FOREIGN KEY (productImageId) REFERENCES image (imageId),
 	PRIMARY KEY (productId)
 );

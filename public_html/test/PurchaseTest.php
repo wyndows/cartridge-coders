@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\CartridgeCoders\Test
 
-use Edu\Cnm\Cartridgecoders\php\classes\{Purchase, Account};
+use Edu\Cnm\Cartridgecoders\{Purchase, Account};
 
 //parts of this code have been modified from the original, created by Dylan Mcdonald and taken from https://bootcamp-coders.cnm.edu
 
@@ -47,8 +47,9 @@ class Purchase extends CartridgeCodersTest {
 		parent::setUp();
 
 		//create and insert a Account to own the test Purchase
-	$this->account = new Account(null, "25", "1", "jamesdean", "james@dean.com", "spar109");
-	$this->profile-insert($this->getPDO());
+		$this->account = new Account(null, "25", "1", "jamesdean", "james@dean.com", "spar109");
+		$this->account->insert($this->getPDO());
+
 		// calculate the date (just use the time the unit test ws created...)
 		$this->VALID_PURCHASECREATEDATE = new \DateTim();
 	}
@@ -60,7 +61,7 @@ class Purchase extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("purchase");
 
 		// grab the data from mySQL and enforce the fields match out expectations
-		$pdoPurchase = Purchase::getPurchaseByPurchaseId($this->getPDO(), $tweet->getPurchaseId());
+		$pdoPurchase = Purchase::getPurchaseByPurchaseId($this->getPDO(), $purchase->getPurchaseId());
 		$this->assertEquals($numbRows + 1, $this->getConnection()->getRowCount("purchase"));
 		$this->assertEquals($pdoPurchase->getAccountId(), $this->account->getAccountId());
 		$this->assertEquals($pdoPurchase->getPurchasePayPalTransactionId(),$this->purchasePayPalTransaction->getPurchasePayPalTransactionId());
