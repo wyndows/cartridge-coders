@@ -21,6 +21,14 @@ require_once(dirname(__DIR__) . "/php/classes/autoload.php");
  **/
 class Purchase extends CartridgeCodersTest {
 	/**
+	 * content of purchase
+	 **/
+	protected $VALID_PAYPALTRANSACTIONID = "phpUnit test passing";
+	/**
+	 * content of updated Purchase
+	 **/
+	
+	/**
 	 * timestamp of Purchase
 	 * @var DateTime $VALID_PURCHASECREATEDATE
 	 **/
