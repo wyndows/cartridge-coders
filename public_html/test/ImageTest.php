@@ -51,7 +51,24 @@ class ImageTest extends CartridgeCodersTest {
 	 * @var string $VALID_IMAGEFILENAME2
 	 */
 	protected $VALID_IMAGEFILENAME2 = "pictureofnintendocartridge";
-	
+
+	/**
+	 * test inserting a valid Image File Name and verify that the actuak mySQL data matches
+	 */
+	public function testInsertValidImageFileName(){
+
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("imageFileName");
+
+		// create a new image file name and insert into mySQL
+		$imageFileName = new ImageFileName(null, $this->VALID_IMAGEFILENAME1);
+		$imageFileName->insert($this->getPDO());
+
+		// grab data from mySQL and enforce the fields match expectations
+		$pdoImageFileName = ImageFileName::getImageFileNameByImageId($this->getPDO(), $imageFileName->getImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("ImageFileName"));
+		$this->assertEquals($pdoImageFileName->getImageFileNameName(), $this->VALID_IMAGEFILENAME1);
+	}
 
 
 }
