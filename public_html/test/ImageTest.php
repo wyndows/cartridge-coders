@@ -105,6 +105,17 @@ class ImageTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoImageFileName->getImageFileNameName(), $this->VALID_IMAGEFILENAME2);
 	}
 
+	/**
+	 * test updating a image file name that already exist
+	 * @expectatedException
+	 */
+	public function testUpdateInvalidImageFileName(){
+
+		// create a image file name with a non null image file name id and watch it fail
+		$imageFileName = new ImageFileName(null, $this->VALID_IMAGEFILENAME1);
+		$imageFileName->update($this->getPDO());
+	}
+
 
 }
 
