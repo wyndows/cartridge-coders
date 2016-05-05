@@ -137,6 +137,48 @@
 			$productCategory->update($this->getPDO());
 		}
 
+		/**
+		 * test creating a ProductCategory using categoryId and then deleting it
+		 **/
+		public function testDeleteValidProductCategoryCategoryId() {
+			// count the number of rows and save it for later
+			$numRows = $this->getConnection()->getRowCount("productCategory");
+
+			// create a new ProductCategory and insert to into mySQL
+			$productCategory = new productCategory($this->category->getCategoryId(), $this->product->getProductId());
+			$productCategory->insert($this->getPDO());
+
+			// delete the ProductCategory from mySQL
+			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("productCategory"));
+			$productCategory->delete($this->getPDO());
+
+			// grab the data from mySQL and enforce the ProductCategory does not exist
+			$pdoProductCategory = ProductCategory::getProductCategoryByCategoryId($this->getPDO(), $ProductCategory->getProductCategoryCategoryId());
+			$this->assertNull($pdoProductCategory);
+			$this->assertEquals($numRows, $this->getConnection()->getRowCount("productCategory"));
+		}
+
+		/**
+		 * test creating a ProductCategory using a productId and then deleting it
+		 **/
+		public function testDeleteValidProductCategoryProductId() {
+			// count the number of rows and save it for later
+			$numRows = $this->getConnection()->getRowCount("productCategory");
+
+			// create a new ProductCategory and insert to into mySQL
+			$productCategory = new productCategory($this->category->getCategoryId(), $this->product->getProductId());
+			$productCategory->insert($this->getPDO());
+
+			// delete the ProductCategory from mySQL
+			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("productCategory"));
+			$productCategory->delete($this->getPDO());
+
+			// grab the data from mySQL and enforce the ProductCategory does not exist
+			$pdoProductCategory = ProductCategory::getProductCategoryByProductId($this->getPDO(), $ProductCategory->getProductCategoryProductId());
+			$this->assertNull($pdoProductCategory);
+			$this->assertEquals($numRows, $this->getConnection()->getRowCount("productCategory"));
+		}
+
 	}
 
 ?>
