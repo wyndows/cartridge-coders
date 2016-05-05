@@ -23,12 +23,18 @@
  *
  * Testing will consist of the following:
  * 	test inserting a valid ProductCategory composite key and verify that the actual mySQL data matches
- * 	test inserting a ProductCategory composite key that already exists
+ * 	test inserting a ProductCategory composite key with categoryId that already exists
+ * 	test inserting a ProductCategory composite key with productId that already exists
  * 	test inserting a ProductCategory composite key, editing it, and then updating it
- * 	test updating a ProductCategory composite key that already exists
- * 	test creating a ProductCategory composite key and then deleting it
- * 	test deleting a ProductCategory composite key that does not exist
- * 	test grabbing a ProductCategory composite key that does not exist
+ * 	test inserting a ProductCategory composite key, with productId editing it, and then updating it
+ * 	test updating a ProductCategory composite key with categoryId that already exists
+ * 	test updating a ProductCategory composite key with productId that already exists
+ * 	test creating a ProductCategory composite key with categoryId and then deleting it
+ * 	test creating a ProductCategory composite key with productId and then deleting it
+ * 	test deleting a ProductCategory composite key with categoryId that does not exist
+ * 	test deleting a ProductCategory composite key with productId that does not exist
+ * 	test grabbing a ProductCategory composite key with categoryId does not exist
+ * 	test grabbing a ProductCategory composite key with productId does not exist
  * 	test grabbing a ProductCategory composite key by categoryId
  * 	test grabbing a ProductCategory composite key by productId
  * 	test grabbing a ProductCategory by categoryId that does not exist
@@ -40,7 +46,7 @@
 
 	namespace Edu\Cnm\CartridgeCoders\Test;
 	
-	use Edu\Cnm\CartridgeCoders\ProductCategory;
+	use Edu\Cnm\CartridgeCoders\{ProductCategory, Product, Category};
 	
 	// grab the project test parameters
 	require_once("CartridgeCodersTest.php");
@@ -81,12 +87,12 @@
 		}
 		
 		/**
-		 * test inserting a valid ProductCategory composite key and verify that the actual mySQL data matches 
-		 */
+	 * test inserting a valid ProductCategory composite key and verify that the actual mySQL data matches
+	 */
 		public function testInsertValidProductCategory() {
 			// count the number of rows and save it for later
 			$numRows = $this->getConnection()->getRowCount("productCategory");
-			
+
 			// create a new category and insert into mySQL
 			$productCategory = new ProductCategory($this->category->getCategoryId(), $this->product->getProductId());
 			$productCategory->insert($this->getPDO());
@@ -98,6 +104,38 @@
 			$this->assertEquals($pdoProductCategory->getProductCategoryProductId(), $this->productCategory->getProductCategoryProductId());
 		}
 
+		/**
+		 * test inserting a ProductCategory with foreign key outside the limit
+		 *
+		 * @expectedException PDOException
+		 **/
+		public function testInsertInvalidProductCategory() {
+			// create a ProductCategory with a non null category id and watch it fail
+			$productCategory = new ProductCategory(CartridgeCodersTest::INVALID_KEY, $this->product->getProductId);
+			$category->insert($this->getPDO());
+		}
+
+		/**
+		 * test inserting a ProductCategory with a different foreign key outside the limit
+		 *
+		 * @expectedException PDOException
+		 **/
+		public function testInsertInvalidProductCategory() {
+			// create a ProductCategory with a non null category id and watch it fail
+			$productCategory = new ProductCategory($this->category->getCategoryId, CartridgeCodersTest::INVALID_KEY);
+			$category->insert($this->getPDO());
+		}
+
+		/**
+		 * test updating a ProductCategory that already exists
+		 *
+		 * @expectedException PDOException
+		 **/
+		public function testUpdateInvalidProductCategory() {
+			// create a ProductCategory with an existing foreign key and watch it fail
+			$productCategory = new ProdutCategory($this->category->getCategoryId(), $this->product->getProductId());
+			$productCategory->update($this->getPDO());
+		}
 
 	}
 
