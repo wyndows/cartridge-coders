@@ -45,9 +45,9 @@ class MessageTest extends CartridgeCodersTest {
 	protected $account = null;
 	/**
 	 * Account that is responding to said created message
-	 * @var Account account
+	 * @var Account2 account
 	 **/
-	protected $account = null;
+	protected $account2 = null;
 	/**
 	 * product that message is about
 	 * @var Product product
@@ -66,8 +66,8 @@ class MessageTest extends CartridgeCodersTest {
 		$this->account->insert($this->getPDO());
 
 		// create and insert an account to be the reciever of the test Message
-		$this->account = new Account(null, "16", "1", "0", "JessicaJones", "JessicaJones@gmail.com", "hotgirl");
-		$this->account->insert($this->getPDO());
+		$this->account2 = new Account(null, "16", "1", "0", "JessicaJones", "JessicaJones@gmail.com", "hotgirl");
+		$this->account2->insert($this->getPDO());
 
 		// create and insert a product into hte test Message
 		$this->product = new Product(null, "2", "116", "2.22", "coolItem", "22.22", "3.00", "0", "LegendOfZelda");
@@ -82,6 +82,12 @@ class MessageTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		//create a new Message and insert to into mySQL
-		$message = new Message(null, $this->account->getAccountId(),  $this->)VALID_MESSAGECONTENT, $this->VALID_MESSAGESUBJECT
+		$message = new Message(null, $this->account->getAccountId(), $this->product->getProductId, $this->account2->getAccountId2(),  $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match out expectations
+		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("Message"));
+		$this->assertEquals($pdoMessage->getAccountId(), $this->profile->)
 	}
 }
