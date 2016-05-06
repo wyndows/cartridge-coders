@@ -8,18 +8,22 @@
  * Foreign keys = n/a
  *
  * Testing will be on;
- * imageId - xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
- * imageFileName - xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
- * imageType - xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ * insertImageFileName (user creates imageFileName when they place item for sale)
+ * updateImageFileName (user may change imageFileName after listing)
+ * deleteImageFileName (user may delete the listing)
+ * getImageFileNameByImageId (imageId is a foreign key on other classes)
  *
  * Testing will consist of;
- * xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
- * xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
- * xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
- * xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
- * xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
- * xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
- * xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ * test inserting a valid ImageFileName and verify that the actual mySQL data matches
+ * test inserting a ImageFileName that already exists
+ * test inserting a ImageFileName, editing it, and then updating it
+ * test updating a ImageFileName that already exists
+ * test creating a ImageFileName and then deleting it
+ * test deleting a ImageFileName that does not exist
+ * test grabbing a ImageFileName that does not exist
+ * test grabbing a ImageFileName by ImageFileName name
+ * test grabbing a ImageFileName by ImageFileName name that does not exist
+ * test grabbing all ImageFileNames in the table
  *
  * @author Donald DeLeeuw <donald.deleeuw@gmail.com> based on code by Dylan McDonald <dmcdonald21@cnm.edu>
  */
@@ -193,7 +197,7 @@ class ImageTest extends CartridgeCodersTest {
 		// grab image file name that does not exist
 		$imageFileName = ImageFileName::getImageFileNameByImageFileNameName($this->getPDO(), "this image file name never existed");
 		$this->assertCount(0, $imageFileName);
-	};
+	}
 
 	/**
 	 * test grabbing all image file names
