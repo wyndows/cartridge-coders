@@ -18,8 +18,8 @@
  * 	productId
  *
  * Foreign Keys:
- * 	productAccountId (a mock object will need to be created)
- * 	productImageId (a mock object will need to be created)
+ * 	productAccountId
+ * 	productImageId
  *
  * Testing will be on:
  * 	insertProduct

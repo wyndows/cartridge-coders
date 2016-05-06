@@ -77,15 +77,28 @@
 			$this->product = new Product(null, 25, 35, .75, "cartridge", 10.00, 5.99, 0, "cheap");
 			$this->product->insert($this->getPDO());
 		}
-		
+
 		/**
-	 * test inserting a valid ProductCategory composite key and verify that the actual mySQL data matches
-	 */
+	 	* test inserting a valid ProductCategory composite key and verify that the actual mySQL data matches
+	 	*/
 		public function testInsertValidProductCategory() {
 			// count the number of rows and save it for later
 			$numRows = $this->getConnection()->getRowCount("productCategory");
 
-			// create a new category and insert into mySQL
+			/** create a mock object to handle the Product class that doesn't exist
+			$response = new \stdClass();
+			$response-> productId = 23521;
+
+			$product = $this->getMockBuilder('\Product')
+				->setConstructorArgs(array(23521, 25, 35, .75, "cartridge", 10.00, 5.99, 0, "cheap"))
+				->getMock();
+
+			$getProductId->expects($this->once())
+				->method('getProductId')
+				->will($this->returnValue($response));
+			*/
+			  
+			// create a new productcategory and insert into mySQL
 			$productCategory = new ProductCategory($this->category->getCategoryId(), $this->product->getProductId());
 			$productCategory->insert($this->getPDO());
 
@@ -101,10 +114,10 @@
 		 *
 		 * @expectedException PDOException
 		 **/
-		public function testInsertInvalidProductCategory() {
+		public function testInsertInvalidProductCategoryCategoryId() {
 			// create a ProductCategory with a non null category id and watch it fail
 			$productCategory = new ProductCategory(CartridgeCodersTest::INVALID_KEY, $this->product->getProductId);
-			$category->insert($this->getPDO());
+			$productCategory->insert($this->getPDO());
 		}
 
 		/**
@@ -112,10 +125,10 @@
 		 *
 		 * @expectedException PDOException
 		 **/
-		public function testInsertInvalidProductCategory() {
+		public function testInsertInvalidProductCategoryProductId() {
 			// create a ProductCategory with a non null category id and watch it fail
 			$productCategory = new ProductCategory($this->category->getCategoryId, CartridgeCodersTest::INVALID_KEY);
-			$category->insert($this->getPDO());
+			$productCategory->insert($this->getPDO());
 		}
 
 		/**
