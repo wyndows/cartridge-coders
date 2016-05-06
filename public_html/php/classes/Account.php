@@ -143,6 +143,62 @@ class Account implements \JsonSerializable {
 		$this->accountImageId = $newAccountImageId;
 	}
 
+	/**
+	 * accessor method for account active flag
+	 * @return int|null value of account active flag
+	 */
+	public function getAccountActive(){
+		return ($this->accountActive);
+	}
+
+	/**
+	 * mutator method for account active flag
+	 * @param int|null $newAccountActive - new value of active flag
+	 * @throws \RangeException if $newAccountActive is not positive
+	 * @throws \TypeError if $newAccountActive is not an integer
+	 **/
+	public function accountActive(int $newAccountActive = null) {
+		//if account active flag is null (composing), allow new account without mySQL assignment
+		if($newAccountActive === null) {
+			$this->accountActive = null;
+			return;
+		}
+		// verify account active flag is positive
+		if($newAccountActive <= 0) {
+			throw(new \RangeException("account active flag is not positive"));
+		}
+		// convert and store account active flag
+		$this->accountActive = $newAccountActive;
+	}
+
+
+	/**
+	 * accessor method for account admin flag
+	 * @return int|null value of account admin flag
+	 */
+	public function getAccountAdmin(){
+		return ($this->accountAdmin);
+	}
+
+	/**
+	 * mutator method for account admin flag
+	 * @param int|null $newAccountAdmin - new value of admin flag
+	 * @throws \RangeException if $newAccountAdmin is not positive
+	 * @throws \TypeError if $newAccountAdmin is not an integer
+	 **/
+	public function accountAdmin(int $newAccountAdmin = null) {
+		//if account admin flag is null (composing), allow new admin without mySQL assignment
+		if($newAccountAdmin === null) {
+			$this->accountAdmin = null;
+			return;
+		}
+		// verify account admin flag is positive
+		if($newAccountAdmin <= 0) {
+			throw(new \RangeException("account admin flag is not positive"));
+		}
+		// convert and store account admin flag
+		$this->accountAdmin = $newAccountAdmin;
+	}
 
 
 
@@ -156,6 +212,11 @@ class Account implements \JsonSerializable {
 
 
 
+//
+//$this->setAccountName($newAccountName);
+//$this->setAccountPpEmail($newAccountPpEmail);
+//$this->setAccountUserName($newAccountUserName);
+//
 
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
