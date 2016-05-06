@@ -105,8 +105,9 @@ class MessageTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoMessage->getAccountId(), $this->account->getAccountId());
 		$this->assertEquals($pdoMessage->getProductId(), $this->product->getProductId());
 		$this->assertEquals($pdoMessage->getAccountId(), $this->account2->getAccountId());
-		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT());
-		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT());
+		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
+		$this->assertEquals($pdoMessage->getMessageMailGunId(), $this->VALID_MAILGUNID());
+		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
 	/**
 	 *test inserting a Message that already exists
@@ -129,7 +130,29 @@ class MessageTest extends CartridgeCodersTest {
 
 		//grab the data from mySQl and enforce the fields match our expectations
 		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $Message->getMessageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
+		$this->assertEquals($pdoMessage->getAccountId(), $this->account->getAccountID());
+		$this->assertEquals($pdoMessage->getProductId(), $this->product->getProductId());
+		$this->assertEquals($pdoMessage->getAccountID(), $this->account2->getAaccountId());
+		$this->assertEquals($pdoMessage->getMessageContecnt(), $this->VALID_MESSAGECONTENT);
+		$this->assertEquals($pdoMessage->getMessageMailGunId(), $this->VALID_MESSAGEMAILGUNID());
+		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
+	}
 
+	/**
+	 * test grabbing a Message that does not exist
+	 **/
+	public function testGetInvalidMessageByMessageId() {
+		//grab an account id that exceeds the maximum allowable account id
+		$message = Message::getMessageByMessageId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
+		$this->assertNull($Message);
+	}
+
+	/**
+	 * test grabbing a Message by message Subject
+	 **/
+	public function testGetMessageByMessageSubject() {
+		
 	}
 
 
