@@ -1,7 +1,8 @@
 <phpunit>
 	<testsuites>
 		<testsuite name="Cartridge Coders">
-			<file>CategoryTest.php</file>
+<!-- <file>CategoryTest.php</file> -->
+			<file>ImageTest.php</file>
 		</testsuite>
 	</testsuites>
 	<filter>

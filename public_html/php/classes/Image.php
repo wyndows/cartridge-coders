@@ -190,7 +190,7 @@ class Image implements \JsonSerializable{
 	}
 
 	/**
-	 * gets the image by image id
+	 * gets the image file name by image id
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $imageId - image id to search for
@@ -199,7 +199,7 @@ class Image implements \JsonSerializable{
 	 * @throws \TypeError when variables are not the correct data type
 	 */
 
-	public static function getImageByImageId(\PDO $pdo, int $imageId) {
+	public static function getImageFileNameByImageId(\PDO $pdo, int $imageId) {
 		// sanitize the imageId before searching
 		if($imageId <= 0) {
 			throw(new \PDOException("image id is not positive"));
@@ -209,22 +209,22 @@ class Image implements \JsonSerializable{
 		$statement = $pdo->prepare($query);
 
 		// bind the image id to the place holder in the template
-		$parameters = array("imageId => $imageId");
+		$parameters = array("imageId" => $imageId);
 		$statement->execute($parameters);
 
 		// grab the image from mySQL
 		try {
-			$description = null;
+			$image = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$description = new $description($row["imageId"], $row["imageFileName"], $row["imageType"]);
+				$image = new Image($row["imageId"], $row["imageFileName"], $row["imageType"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return ($description);
+		return ($image);
 	}
 
 	// jsonSerialize
