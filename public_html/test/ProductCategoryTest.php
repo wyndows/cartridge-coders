@@ -208,7 +208,28 @@
 			$this->assertNull($productCategory);
 		}
 
+		/**
+		 * test grabbing all ProductCategory Primary Composite keys
+		 **/
+		public function testGetAllValidProductCategory() {
+			// count the number of rows and save it for later
+			$numRows = $this->getConnection()->getRowCount("productCategory");
 
+			// create a new ProductCategory and insert to into mySQL
+			$productCategory = new ProductCategory($this->category->getCategoryId(), $this->product->getProductId());
+			$productCategory->insert($this->getPDO());
+
+			// grab the data from mySQL and enforce the fields match our expectations
+			$results = ProductCategory::getAllProductCategory($this->getPDO());
+			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("productCategory"));
+			$this->assertCount(1, $results);
+			$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\Tweet", $results);
+
+			// grab the result from the array and validate it
+			$pdoProductCategory = $results[0];
+			$this->assertEquals($pdoProductCategory->getProductCategoryCategoryId(), $this->category->getCategoryId());
+			$this->assertEquals($pdoProductCategory->getProductCategoryProductId(), $this->product->getProductId());
+		}
 
 	}
 
