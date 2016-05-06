@@ -87,6 +87,23 @@ class Account implements \JsonSerializable {
 		}
 	}
 
+	/**
+	 * accessor method for account id
+	 * @return int|null value of account id
+	 */
+	public function getAccountId(){
+		return ($this->accountId);
+	}
+
+	/**
+	 * mutator mothod 
+	 */
+
+
+
+
+
+
 
 }
 
