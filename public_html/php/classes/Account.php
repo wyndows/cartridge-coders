@@ -91,7 +91,7 @@ class Account implements \JsonSerializable {
 	 * accessor method for account id
 	 * @return int|null value of account id
 	 */
-	public function getAccountId(){
+	public function getAccountId() {
 		return ($this->accountId);
 	}
 
@@ -119,7 +119,7 @@ class Account implements \JsonSerializable {
 	 * accessor method for account image id
 	 * @return int|null value of account image id
 	 */
-	public function getAccountImageId(){
+	public function getAccountImageId() {
 		return ($this->accountImageId);
 	}
 
@@ -147,7 +147,7 @@ class Account implements \JsonSerializable {
 	 * accessor method for account active flag
 	 * @return int|null value of account active flag
 	 */
-	public function getAccountActive(){
+	public function getAccountActive() {
 		return ($this->accountActive);
 	}
 
@@ -176,7 +176,7 @@ class Account implements \JsonSerializable {
 	 * accessor method for account admin flag
 	 * @return int|null value of account admin flag
 	 */
-	public function getAccountAdmin(){
+	public function getAccountAdmin() {
 		return ($this->accountAdmin);
 	}
 
@@ -201,22 +201,104 @@ class Account implements \JsonSerializable {
 	}
 
 
+	/**
+	 * accessor method for account name
+	 *
+	 * @return string of account name
+	 */
+	public function getAccountName() {
+		return ($this->accountName);
+	}
+
+	/**
+	 * mutator method for account name
+	 * @param string $newAccountName - new value of account name
+	 * @throws \InvalidArgumentException if $newAccountName is not a string or insecure
+	 * @throws \RangeException if $newAccountName is > 128 chars
+	 * @throws \TypeError if $newAccountName is not a string
+	 */
+	public function setAccountName(string $newAccountName) {
+		// verify account name is secure
+		$newAccountName = trim($newAccountName);
+		$newAccountName = filter_var($newAccountName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAccountName) === true) {
+			throw(new \InvalidArgumentException("account name is empty or insecure"));
+		}
+		// verify the account name will fit in the database
+		if(strlen($newAccountName) > 128) {
+			throw(new \RangeException("account name too large"));
+		}
+		// store account file name
+		$this->accountName = $newAccountName;
+	}
+
+
+	/**
+	 * accessor method for account pay pal email
+	 * @return string of account pay pal email
+	 */
+	public function getAccountPpEmail() {
+		return ($this->accountPpEmail);
+	}
+
+	/**
+	 * mutator method for account pay pal email
+	 * @param string $newAccountPpEmail - new value of account pay pal email
+	 * @throws \InvalidArgumentException if $newAccountPpEmail is not a string or insecure
+	 * @throws \RangeException if $newAccountPpEmail is > 128 chars
+	 * @throws \TypeError if $newAccountPpEmail is not a string
+	 */
+	public function setAccountPpEmail(string $newAccountPpEmail) {
+		// verify account pay pal email is secure
+		$newAccountPpEmail = trim($newAccountPpEmail);
+		$newAccountPpEmail = filter_var($newAccountPpEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAccountPpEmail) === true) {
+			throw(new \InvalidArgumentException("account pay pal email is empty or insecure"));
+		}
+		// verify the account pay pal email will fit in the database
+		if(strlen($newAccountPpEmail) > 128) {
+			throw(new \RangeException("account pay pal email too large"));
+		}
+		// store account pay pal email
+		$this->accountPpEmail = $newAccountPpEmail;
+	}
+
+
+	/**
+	 * accessor method for account user name
+	 * @return string of account user name
+	 */
+	public function getAccountUserName() {
+		return ($this->accountUserName);
+	}
+
+	/**
+	 * mutator method for account user name
+	 * @param string $newAccountPpEmail - new value of account user name
+	 * @throws \InvalidArgumentException if $newAccountPpEmail is not a string or insecure
+	 * @throws \RangeException if $newAccountPpEmail is > 128 chars
+	 * @throws \TypeError if $newAccountPpEmail is not a string
+	 */
+	public function setAccountUserName(string $newAccountUserName) {
+		// verify account user name is secure
+		$newAccountUserName = trim($newAccountUserName);
+		$newAccountUserName = filter_var($newAccountUserName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAccountUserName) === true) {
+			throw(new \InvalidArgumentException("account user name is empty or insecure"));
+		}
+		// verify the account user name will fit in the database
+		if(strlen($newAccountUserName) > 128) {
+			throw(new \RangeException("account user name too large"));
+		}
+		// store account user name
+		$this->accountUserName = $newAccountUserName;
+	}
+
+	
 
 
 
 
-
-
-
-
-
-
-
-//
-//$this->setAccountName($newAccountName);
-//$this->setAccountPpEmail($newAccountPpEmail);
-//$this->setAccountUserName($newAccountUserName);
-//
 
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
