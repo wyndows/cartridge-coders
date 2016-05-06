@@ -79,7 +79,7 @@ class ImageTest extends CartridgeCodersTest {
 
 		// create an image file name with a non null image id and watch it fail
 		$imageFileName = new ImageFileName(CartridgeCodersTest::INVALID_KEY, $this->VALID_IMAGEFILENAME1);
-		$category->insert($this->getPDO());
+		$imageFileName->insert($this->getPDO());
 	}
 
 	/**
@@ -109,7 +109,7 @@ class ImageTest extends CartridgeCodersTest {
 	 * test updating a image file name that already exist
 	 * @expectatedException
 	 */
-	public function testUpdateInvalidImageFileName(){
+	public function testUpdateInvalidImageFileName() {
 
 		// create a image file name with a non null image file name id and watch it fail
 		$imageFileName = new ImageFileName(null, $this->VALID_IMAGEFILENAME1);
@@ -117,18 +117,18 @@ class ImageTest extends CartridgeCodersTest {
 	}
 
 	/**
-	 * test creatinga image file name and deleting it
+	 * test creating image file name and deleting it
 	 */
-	public function testDeleteValidImageFileName(){
+	public function testDeleteValidImageFileName() {
 
 		// count the number of rows and save it for later
-		$numRows=$this->getConnection()->getRowCount("imageFileName");
+		$numRows = $this->getConnection()->getRowCount("imageFileName");
 
 		// create new image file anme and inseet it into mySQL
 		$imageFileName = new ImageFileName(null, $this->VALID_IMAGEFILENAME1);
 		$imageFileName->insert($this->getPDO());
 
-		// delete the category from mySQL
+		// delete the image file name from mySQL
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("imageFileName"));
 		$imageFileName->delete($this->getPDO());
 
@@ -143,7 +143,7 @@ class ImageTest extends CartridgeCodersTest {
 	 * @expectedException \PDOException
 	 */
 
-	public function testDeleteInvalidImageFileName(){
+	public function testDeleteInvalidImageFileName() {
 
 		// create a image file name and try to delete it without actually inserting it
 
@@ -155,11 +155,11 @@ class ImageTest extends CartridgeCodersTest {
 	 * test grabbing a image file name that does not exist
 	 */
 
-	public function testGetInvalidImageFileNameByImageId(){
+	public function testGetInvalidImageFileNameByImageId() {
 
 		// grab a image id that exceeds the maximum allowable image id
 		$imageFileName = ImageFileName::getImageFileNameByImageId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
-		$this->assertNull($category);
+		$this->assertNull($imageFileName);
 	}
 
 	/**
@@ -175,19 +175,52 @@ class ImageTest extends CartridgeCodersTest {
 		$imageFileName->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results=ImageFileName::getImageFileNameByImageFileNameName($this->getPDO(), $imageFileName->getImageFileName());
-		$this->assertEquals($numRows+1, $this->getConnection()->getRowCount("imageFileName"));
+		$results = ImageFileName::getImageFileNameByImageFileNameName($this->getPDO(), $imageFileName->getImageFileName());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("imageFileName"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnltInstancesOf("Edu\\Cnm\\CartridgeCoders\\Category", $results);
+		$this->assertContainsOnltInstancesOf("Edu\\Cnm\\CartridgeCoders\\Image", $results);
 
 		// grab the result from the array and validate it
 		$pdoImageFileName = $results[0];
 		$this->assertEquals($pdoImageFileName->getImageId(), $this->imageFileName->getImageId());
 		$this->assertEquals($pdoImageFileName->getImageFileNameName(), $this->VALID_IMAGEFILENAME1);
-		}
+	}
 
+	/**
+	 * test grabbing a image file name by name that does not exist
+	 */
+	public function testGetInvalidImageFileNameByImageFileNameName() {
+		// grab image file name that does not exist
+		$imageFileName = ImageFileName::getImageFileNameByImageFileNameName($this->getPDO(), "this image file name never existed");
+		$this->assertCount(0, $imageFileName);
+	};
+
+	/**
+	 * test grabbing all image file names
+	 **/
+	public function testGetAllValidImageFileNames() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("imageFileName");
+
+		// create a new image file name and insert to into mySQL
+		$imageFileName = new ImageFileName(null, $this->VALID_IMAGEFILENAME1);
+		$imageFileName->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = ImageFileName::getAllImageFileNames($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("imageFileName"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\Image", $results);
+
+		// grab the result from the array and validate it
+		$pdoImage = $results[0];
+		$this->assertEquals($pdoImage->getImageid(), $this->imageFileName->getImageid());
+		$this->assertEquals($pdoImage->getImageFileNameName(), $this->VALID_IMAGEFILENAME1);
+	}
 
 }
+
+?>
 
 
 
