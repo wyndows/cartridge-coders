@@ -125,7 +125,7 @@
 		 **/
 		public function testUpdateInvalidProductCategory() {
 			// create a ProductCategory with an existing foreign key and watch it fail
-			$productCategory = new ProdutCategory($this->category->getCategoryId(), $this->product->getProductId());
+			$productCategory = new ProductCategory($this->category->getCategoryId(), $this->product->getProductId());
 			$productCategory->update($this->getPDO());
 		}
 
@@ -215,7 +215,7 @@
 			$results = ProductCategory::getAllProductCategory($this->getPDO());
 			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("productCategory"));
 			$this->assertCount(1, $results);
-			$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\Tweet", $results);
+			$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\ProductCategory", $results);
 
 			// grab the result from the array and validate it
 			$pdoProductCategory = $results[0];
