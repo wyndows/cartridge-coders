@@ -294,7 +294,7 @@ class Account implements \JsonSerializable {
 		$this->accountUserName = $newAccountUserName;
 	}
 
-	
+
 
 
 
