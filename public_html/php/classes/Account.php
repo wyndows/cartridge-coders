@@ -45,6 +45,11 @@ class Account implements \JsonSerializable{
 
 	/**
 	 * id for user name
+	 * @var string $accountUserName
+	 */
+	private $accountUserName;
+
+	/**
 	 * 
 	 */
 
