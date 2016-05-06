@@ -89,7 +89,7 @@ class ImageTest extends CartridgeCodersTest {
 	public function testInsertInvalidImageFileName() {
 
 		// create an image file name with a non null image id and watch it fail
-		$image = new Image(CartridgeCodersTest::INVALID_KEY, $this->VALID_IMAGEFILENAME1, $this->$VALID_IMAGETYPE);
+		$image = new Image(CartridgeCodersTest::INVALID_KEY, $this->VALID_IMAGEFILENAME1, $this->VALID_IMAGETYPE);
 		$image->insert($this->getPDO());
 	}
 
@@ -159,7 +159,7 @@ class ImageTest extends CartridgeCodersTest {
 
 		// grab the result from the array and validate it
 		$pdoImage = $results[0];
-		$this->assertEquals($pdoImage->getImageId(), $this->getImageId());
+//		$this->assertEquals($pdoImage->getImageId(), $this->getPDO());
 		$this->assertEquals($pdoImage->getImageFileName(), $this->VALID_IMAGEFILENAME1);
 		$this->assertEquals($pdoImage->getImageType(), $this->VALID_IMAGETYPE);
 	}
@@ -192,8 +192,9 @@ class ImageTest extends CartridgeCodersTest {
 
 		// grab the result from the array and validate it
 		$pdoImage = $results[0];
-		$this->assertEquals($pdoImage->getImageid(), $this->image->getImageid());
-		$this->assertEquals($pdoImage->getImage(), $this->VALID_IMAGEFILENAME1);
+//		$this->assertEquals($pdoImage->getImageid(), $this->getImageid());
+		$this->assertEquals($pdoImage->getImageFileName(), $this->VALID_IMAGEFILENAME1);
+		$this->assertEquals($pdoImage->getImageType(), $this->VALID_IMAGETYPE);
 	}
 }
 

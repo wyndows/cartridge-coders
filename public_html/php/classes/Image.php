@@ -6,7 +6,7 @@ namespace Edu\Cnm\CartridgeCoders;
  * @author Donald DeLeeuw <donald.deleeuw@gmail.com> based on code by Dylan McDonald <dmcdonald21@cnm.edu>
  */
 
-class Image implements \JsonSerializable{
+class Image implements \JsonSerializable {
 
 	/**
 	 * id for image, this is the primary key
@@ -228,8 +228,6 @@ class Image implements \JsonSerializable{
 	}
 
 
-
-
 	/**
 	 * gets the image file name by file name
 	 *
@@ -269,17 +267,45 @@ class Image implements \JsonSerializable{
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($imageFileNames);
+		return ($imageFileNames);
 	}
 
+		/**
+		 * getAllImageFileNames
+		 *
+		 * @param \PDO $pdo PDO connection object
+		 * @return \SplFixedArray SplFixedArray of Tweets found or null if not found
+		 * @throws \PDOException when mySQL related errors occur
+		 * @throws \TypeError when variables are not the correct data type
+		 **/
+		public static function getAllImageFileNames(\PDO $pdo) {
+			// create query template
+			$query = "SELECT imageId, imageFileName, imageType FROM image";
+			$statement = $pdo->prepare($query);
+			$statement->execute();
 
+			// build an array of image file names
+			$images = new \SplFixedArray($statement->rowCount());
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			while(($row = $statement->fetch()) !== false) {
+				try {
+					$image = new Image($row["imageId"], $row["imageFileName"], $row["imageType"]);
+					$images[$images->key()] = $image;
+					$images->next();
+				} catch(\Exception $exception) {
+					// if the row couldn't be converted, rethrow it
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
+			}
+			return ($images);
+		}
 
 
 	// jsonSerialize
 
-	public function jsonSerialize(){
+	public function jsonSerialize() {
 		$fields = get_object_vars($this);
-		return($fields);
+		return ($fields);
 	}
 
 }
