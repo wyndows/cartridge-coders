@@ -95,7 +95,7 @@ CREATE TABLE message (
 	FOREIGN KEY (messageBuyerId) REFERENCES account (accountId),
 	FOREIGN KEY (messageProductId) REFERENCES product (productId),
 	FOREIGN KEY (messageSellerId) REFERENCES account (accountId),
-	PRIMARY KEY (messageId)
+	PRIMARY KEY (messageId)LID_
 );
 
 CREATE TABLE productCategory (

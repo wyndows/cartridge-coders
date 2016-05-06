@@ -1,4 +1,18 @@
 <?php
+/**
+ * plan for unit testing Message class
+ *
+ * Message class will contain messageId, messageBuyerId, messageProductId, messageSellerId, messageContent, messageMailGunId, and messageSubjectId
+ *
+ * tesing will be attempted on the following.
+ * inserting a valid Message and verify that the mySQL data matches
+ * inserting a Message , changing it and updating it
+ * test grabbing a message by message id
+ * test updating a message that already exists
+ *
+ **/
+
+
 namespace Edu\Cnm\CartridgeCoders\Test;
 
 use Edu\Cnm\CartridgeCoders\{Message,Product,AccountId};
@@ -82,12 +96,32 @@ class MessageTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		//create a new Message and insert to into mySQL
-		$message = new Message(null, $this->account->getAccountId(), $this->product->getProductId, $this->account2->getAccountId2(),  $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->account->getAccountId(), $this->product->getProductId, $this->account2->getAccountId2(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 
-		// grab the data from mySQL and enforce the fields match out expectations
+		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("Message"));
-		$this->assertEquals($pdoMessage->getAccountId(), $this->profile->)
+		$this->assertEquals($pdoMessage->getAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoMessage->getProductId(), $this->product->getProductId());
+		$this->assertEquals($pdoMessage->getAccountId(), $this->account2->getAccountId());
+		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT());
+		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT());
 	}
+	/**
+	 *test inserting a Message that already exists
+	 *
+	 * @expectedException \PDOException
+	 *
+	 **/
+	public function testInsertInvalidMessage() {
+		//create a Message with a non null Message id and watch it fai
+		$message = new Message(CartridgeCodersTest::INVALID_KEY, $this->account->getAccountId(), $this->product->getProductId, $this->account2->getAccountId2(), $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$messgage->insert($this->getPDO());
+	}
+	/**
+	 * 
+	 **/
+
+
 }

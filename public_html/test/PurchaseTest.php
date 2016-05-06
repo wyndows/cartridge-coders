@@ -3,7 +3,7 @@ namespace Edu\Cnm\CartridgeCoders\Test
 
 use Edu\Cnm\Cartridgecoders\{Purchase, Account};
 
-//parts of this code have been modified from the original, created by Dylan Mcdonald and taken from https://bootcamp-coders.cnm.edu
+//parts of this code have been modified from the original, created by Dylan Mcdonald and taken from https://bootcamp-coders.cnm.edu and from Marlan Ball
 
 // grab the project test parameters
 require_once("CartridgeCodersTest.php");
