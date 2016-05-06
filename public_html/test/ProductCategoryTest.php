@@ -190,6 +190,24 @@
 			$productCategory->delete($this->getPDO());
 		}
 
+		/**
+		 * test grabbing a ProductCategory by a CategoryId that does not exist
+		 **/
+		public function testGetInvalidProductCategoryByProductCategoryCategoryId() {
+			// grab a productcategorycategory id that exceeds the maximum allowable category id
+			$productCategory = ProductCategory::getProductCategoryByProductCategoryCategoryId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
+			$this->assertNull($productCategory);
+		}
+
+		/**
+		 * test grabbing a ProductCategory by a ProductId that does not exist
+		 **/
+		public function testGetInvalidProductCategoryByProductCategoryProductId() {
+			// grab a productcategoryproduct id that exceeds the maximum allowable category id
+			$productCategory = ProductCategory::getProductCategoryByProductCategoryProductId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
+			$this->assertNull($productCategory);
+		}
+
 
 
 	}
