@@ -8,11 +8,11 @@ namespace Edu\Cnm\CartridgeCoders;
 
 class ProductPurchase implements \JsonSerializable {
 
-// /**
-//  * id for productPurchasePurchaseId.productPurchaseProductId, this is the primary key
-//  * @var int $productPurchasePurchaseIdProductPurchaseProductId
-//  */
-// private $productPurchasePurchaseIdProductPurchaseProductId;
+ /**
+  * id for productPurchasePurchaseId.productPurchaseProductId, this is the primary key
+  * @var int $productPurchasePurchaseIdProductPurchaseProductId
+  */
+ private $productPurchasePurchaseIdProductPurchaseProductId;
 
 
 	/**

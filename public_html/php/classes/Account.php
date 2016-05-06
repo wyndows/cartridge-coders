@@ -96,14 +96,44 @@ class Account implements \JsonSerializable {
 	}
 
 	/**
-	 * mutator mothod 
-	 */
+	 * mutator method for account id
+	 * @param int|null $newAccountId - new value of account id
+	 * @throws \RangeException if $newAccountId is not positive
+	 * @throws \TypeError if $newAccountId is not an integer
+	 **/
+	public function setAccountId(int $newAccountId = null) {
+		//if account id is null (composing), allow new account id without mySQL assignment
+		if($newAccountId === null) {
+			$this->accountId = null;
+			return;
+		}
+		// verify account id is positive
+		if($newAccountId <= 0) {
+			throw(new \RangeException("account id is not positive"));
+		}
+		// convert and store image id
+		$this->accountId = $newAccountId;
+	}
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		return ($fields);
+	}
 
 }
 
