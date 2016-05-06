@@ -23,23 +23,15 @@
  *
  * Testing will consist of the following:
  * 	test inserting a valid ProductCategory composite key and verify that the actual mySQL data matches
- * 	test inserting a ProductCategory composite key with categoryId that already exists
- * 	test inserting a ProductCategory composite key with productId that already exists
- * 	test inserting a ProductCategory composite key, editing it, and then updating it
- * 	test inserting a ProductCategory composite key, with productId editing it, and then updating it
- * 	test updating a ProductCategory composite key with categoryId that already exists
- * 	test updating a ProductCategory composite key with productId that already exists
- * 	test creating a ProductCategory composite key with categoryId and then deleting it
- * 	test creating a ProductCategory composite key with productId and then deleting it
- * 	test deleting a ProductCategory composite key with categoryId that does not exist
- * 	test deleting a ProductCategory composite key with productId that does not exist
- * 	test grabbing a ProductCategory composite key with categoryId does not exist
- * 	test grabbing a ProductCategory composite key with productId does not exist
- * 	test grabbing a ProductCategory composite key by categoryId
- * 	test grabbing a ProductCategory composite key by productId
- * 	test grabbing a ProductCategory by categoryId that does not exist
- * 	test grabbing a ProductCategory by productId that does not exist
- * 	test grabbing all composite keys in the table
+ * 	test inserting a ProductCategory with foreign key outside the limit
+ * 	test inserting a ProductCategory with a different foreign key outside the limit
+ * 	test updating a ProductCategory that already exists
+ * 	test creating a ProductCategory using categoryId and then deleting it
+ * 	test creating a ProductCategory using a productId and then deleting it
+ * 	test deleting a ProductCategory that does not exist
+ * 	test grabbing a ProductCategory by a CategoryId that does not exist
+ * 	test grabbing a ProductCategory by a ProductId that does not exist
+ * 	test grabbing all ProductCategory Primary Composite keys
  *
  * @author Marlan Ball <wyndows@earthlink.net> based on code by Dylan McDonald <dmcdonald21@cnm.edu>
  */
