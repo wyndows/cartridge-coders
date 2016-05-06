@@ -96,7 +96,7 @@ class MessageTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		//create a new Message and insert to into mySQL
-		$message = new Message(null, $this->account->getAccountId(), $this->product->getProductId, $this->account2->getAccountId2(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->account->getAccountId(), $this->product->getProductId(), $this->account2->getAccountId2(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -115,13 +115,22 @@ class MessageTest extends CartridgeCodersTest {
 	 *
 	 **/
 	public function testInsertInvalidMessage() {
-		//create a Message with a non null Message id and watch it fai
-		$message = new Message(CartridgeCodersTest::INVALID_KEY, $this->account->getAccountId(), $this->product->getProductId, $this->account2->getAccountId2(), $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
+		//create a Message with a non null Message id and watch it fail
+		$message = new Message(CartridgeCodersTest::INVALID_KEY, $this->account->getAccountId(), $this->product->getProductId(), $this->account2->getAccountId2(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$messgage->insert($this->getPDO());
 	}
 	/**
-	 * 
+	 * test inserting a Message and regrabbing it from mySQL
 	 **/
+	public function testGetValidMessageByMessageId() {
+		// count the nunber of rows and save it for later
+		$numRows = new Message(null, $this->account->getAccountId(), $this->product->getProductId(), $this->account2->getAccountId2(), $this->VALID_MESSAGECONENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message->insert($this->getPDO());
+
+		//grab the data from mySQl and enforce the fields match our expectations
+		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $Message->getMessageId());
+
+	}
 
 
 }
