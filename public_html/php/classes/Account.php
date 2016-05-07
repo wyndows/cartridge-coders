@@ -295,6 +295,7 @@ class Account implements \JsonSerializable {
 	}
 
 
+	// ----------------------------------------   accountId ----------------------------------------------
 	/**
 	 * insert this account into mySQL
 	 *
@@ -360,23 +361,144 @@ class Account implements \JsonSerializable {
 		$statement->execute();
 
 		// build an array of account ids
-		$accountids = new \SplFixedArray($statement->rowCount());
+		$accountIds = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$accountid = new Image($row["accountId"], $row["imageFileName"], $row["imageType"]);
-				$accountids[$accountids->key()] = $accountid;
-				$accountids->next();
+				$accountId = new Image($row["accountId"], $row["imageFileName"], $row["imageType"]);
+				$accountIds[$accountIds->key()] = $accountId;
+				$accountIds->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($accountids);
+		return ($accountIds);
 	}
 
+
+	// -------------------------------------- accountAdmin --------------------------------------
+	/**
+	 * insert admin flag into mySQL
+	 * @param \PDO $pdo - PDO connection object
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function insertAdminFlag(\PDO $pdo) {
+		// enforce admin flag is null - make sure inserting new flag vs an existing one
+		if($this->accountAdmin !== null) {
+			throw(new \PDOException("not an admin flag"));
+		}
+
+		//create query table
+		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES(:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders on the template
+		$parameters = ["accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+		$statement->execute($parameters);
+
+		//update the null accountAdmin with what mySQL just gave us
+		$this->accountAdmin = intval($pdo->lastInsertId());
+	}
+
+	/**
+	 * updates admin flag in mySQL
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL errors occure
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function updateAdminFlag(\PDO $pdo) {
+
+		// enforce the accountAdmin is not null (don't update whats not there)
+		if($this->accountAdmin === null) {
+			throw(new \PDOException("unable to update accout admin that does not exist"));
+		}
+
+		// create query template
+		$query = "UPDATE account SET accountAdmin = :accountAdmin WHERE accountAdmin = :accountAdmin";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders
+		$parameters = ["accountId" => $this->accountId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+		$statement->execute($parameters);
+	}
+
+
+
+
+	/**
+	 * gets the admin flag by account id
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $accountAdmin - adming flag search for
+	 * @param int $accountId - prim key
+	 * @return Image|null - flag found or null if not
+	 * @throws \PDOException when mySQL related error occurs
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+
+	public static function getAccountAdminByAccountId(\PDO $pdo, int $accountId) {
+		// sanitize the accountId before searching
+		if($accountId <= 0) {
+			throw(new \PDOException("account id is not positive"));
+		}
+		// create query template
+		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountId = :accountId";
+		$statement = $pdo->prepare($query);
+
+		// bind the account id to the place holder in the template
+		$parameters = array("accountId" => $accountId);
+		$statement->execute($parameters);
+
+		// grab the flag from mySQL
+		try {
+			$accountId = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$accountId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($accountId);
+	}
+
+	/**
+	 * Gets all teh admin flags
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of admin flags found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAllAdminFlags(\PDO $pdo) {
+		// create query template
+		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// build an array of admin flags
+		$accountIds = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$accountId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
+				$accountIds[$accountIds->key()] = $accountId;
+				$accountIds->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($accountIds);
+	}
+
+
+
 	
-	
+
+
 
 
 // ****************************** DRAFT CODING NOTES **********************************
@@ -384,13 +506,14 @@ class Account implements \JsonSerializable {
 //* 		DONE		@param int|null $newAccountId - id of account or null if new account - primary key
 //* @param int|null $newAccountImageId - id of image - this is a foreign key
 //* @param int|null $newAccountActive - flag for account active
-//* @param int|null $newAccountAdmin - flag for account admin
+//* 		DONE		@param int|null $newAccountAdmin - flag for account admin
 //* @param string $newAccountName - user's name
 //* @param string $newAccountPpEmail - user's paypal email address
 //* @param string $newAccountUserName - user's chosen user name
 
 // accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName
 // :accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName
+//
 // "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName
 
 // insert into
