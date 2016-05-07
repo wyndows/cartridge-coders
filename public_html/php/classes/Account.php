@@ -314,35 +314,35 @@ class Account implements \JsonSerializable {
 
 		// bind the member variables to the place holders on the template
 		$parameters = ["accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
-  $statement->execute($parameters);
+		$statement->execute($parameters);
 
-  //update the null accountId with what mySQL just gave us
-  $this->accountId = intval($pdo->lastInsertId());
-}
+		//update the null accountId with what mySQL just gave us
+		$this->accountId = intval($pdo->lastInsertId());
+	}
 
-/**
- * updates this account in mySQL
- *
- * @param \PDO $pdo PDO connection object
- * @throws \PDOException when mySQL errors occure
- * @throws \TypeError if $pdo is not a PDO connection object
- */
-public function update(\PDO $pdo) {
+	/**
+	 * updates this account in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL errors occure
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function update(\PDO $pdo) {
 
-  // enforce the accountId is not null (don't update whats not there)
-  if($this->accountId === null) {
-    throw(new \PDOException("unable to update accout id that does not exist"));
-  }
+		// enforce the accountId is not null (don't update whats not there)
+		if($this->accountId === null) {
+			throw(new \PDOException("unable to update accout id that does not exist"));
+		}
 
-  // create query template
-  $query = "UPDATE account SET accountId = :accountImageId WHERE accountId = :accountId";
+		// create query template
+		$query = "UPDATE account SET accountId = :accountImageId WHERE accountId = :accountId";
 
-  $statement = $pdo->prepare($query);
+		$statement = $pdo->prepare($query);
 
-  // bind the member variables to the place holders
-  $parameters = ["accountId" => $this->accountId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
-  $statement->execute($parameters);
-}
+		// bind the member variables to the place holders
+		$parameters = ["accountId" => $this->accountId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+		$statement->execute($parameters);
+	}
 
 
 	/**
@@ -377,6 +377,7 @@ public function update(\PDO $pdo) {
 
 
 
+// ****************************** DRAFT CODING NOTES **********************************
 
 //* 		DONE		@param int|null $newAccountId - id of account or null if new account - primary key
 //* @param int|null $newAccountImageId - id of image - this is a foreign key
@@ -390,7 +391,12 @@ public function update(\PDO $pdo) {
 // :accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName
 // "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName
 
+// insert into
+// update by
+// get by
+// get all
 
+// ****************************************************************************************
 
 
 	public function jsonSerialize() {
