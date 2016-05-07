@@ -51,6 +51,55 @@ class ProductPurchase implements \JsonSerializable {
 		}
 	}
 
+	/**
+	 * accessor method for productPurchasePurchaseId
+	 * @return int|null value of productPurchasePurchaseId
+	 */
+
+	public function getPproductPurchasePurchaseId() {
+		return($this->productPurchasePurchaseId);
+	}
+
+	/**
+	 * mutator method for productPurchasePurchaseId
+	 * @param int|null $newProductPurchasePurchaseId new value of productPurchasePurchaseId
+	 * @throws \RangeException if $newProductPurchasePurchaseId is not positive
+	 * @throws \TypeError if $newProductPurchasePurchaseId is not an integer
+	 */
+	public function setProductPurchasePurchaseId(int $newProductPurchasePurchaseId) {
+		// verify the productPurchasePurchaseId is positive
+		if($newProductPurchasePurchaseId <= 0) {
+			throw(new \RangeException("productPurchasePurchaseId is not positive"));
+		}
+
+		// convert and store the profile id
+		$this->productPurchasePurchaseId = $newProductPurchasePurchaseId;
+	}
+
+	/**
+	 * accessor method for productPurchaseProductId
+	 * @return int|null value of productPurchaseProductId
+	 */
+
+	public function getproductPurchaseProductId() {
+		return($this->productPurchaseProductId);
+	}
+
+	/**
+	 * mutator method for productPurchaseProductId
+	 * @param int|null $newProductPurchaseProductId new value of productPurchaseProductId
+	 * @throws \RangeException if $newProductPurchaseProductId is not positive
+	 * @throws \TypeError if $newProductPurchaseProductId is not an integer
+	 */
+	public function setProductPurchaseProductId(int $newProductPurchaseProductId) {
+		// verify the productPurchaseProductId is positive
+		if($newProductPurchaseProductId <= 0) {
+			throw(new \RangeException("productPurchaseProductId is not positive"));
+		}
+
+		// convert and store the profile id
+		$this->productPurchaseProductId = $newProductPurchaseProductId;
+	}
 
 
 
