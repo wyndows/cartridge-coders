@@ -495,8 +495,126 @@ class Account implements \JsonSerializable {
 	}
 
 
+// ------------------------------------------- accountActive   -------------------------------------------
 
-	
+	/**
+	 * insert account status into mySQL
+	 * @param \PDO $pdo - PDO connection object
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function insertAccountStatus(\PDO $pdo) {
+		// enforce account status is null - make sure inserting new flag vs an existing one
+		if($this->accountActive !== null) {
+			throw(new \PDOException("not an account status"));
+		}
+
+		//create query table
+		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES(:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders on the template
+		$parameters = ["accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+		$statement->execute($parameters);
+
+		//update the null accountActive with what mySQL just gave us
+		$this->accountActive = intval($pdo->lastInsertId());
+	}
+
+	/**
+	 * updates account status in mySQL
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL errors occure
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function updateAccountStatus(\PDO $pdo) {
+
+		// enforce the accountActive is not null (don't update whats not there)
+		if($this->accountActive === null) {
+			throw(new \PDOException("unable to update accout admin that does not exist"));
+		}
+
+		// create query template
+		$query = "UPDATE account SET accountActive = :accountActive WHERE accountActive = :accountActive";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders
+		$parameters = ["accountId" => $this->accountId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+		$statement->execute($parameters);
+	}
+
+
+
+
+	/**
+	 * gets the account status by account id
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $accountActive - account status search for
+	 * @param int $accountId - prim key
+	 * @return Image|null - flag found or null if not
+	 * @throws \PDOException when mySQL related error occurs
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+
+	public static function getAccountStatusByAccountId(\PDO $pdo, int $accountId) {
+		// sanitize the accountId before searching
+		if($accountId <= 0) {
+			throw(new \PDOException("account id is not positive"));
+		}
+		// create query template
+		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountId = :accountId";
+		$statement = $pdo->prepare($query);
+
+		// bind the account id to the place holder in the template
+		$parameters = array("accountId" => $accountId);
+		$statement->execute($parameters);
+
+		// grab the flag from mySQL
+		try {
+			$accountId = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$accountId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($accountId);
+	}
+
+	/**
+	 * Gets all the account status
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of account status found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAllAccountStatuses(\PDO $pdo) {
+		// create query template
+		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// build an array of account status
+		$accountActives = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$accountActive = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
+				$accountActives[$accountActives->key()] = $accountActive;
+				$accountActives->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($accountActives);
+	}
+
+
+
 
 
 
@@ -505,7 +623,7 @@ class Account implements \JsonSerializable {
 
 //* 		DONE		@param int|null $newAccountId - id of account or null if new account - primary key
 //* @param int|null $newAccountImageId - id of image - this is a foreign key
-//* @param int|null $newAccountActive - flag for account active
+//* 		DONE		@param int|null $newAccountActive - flag for account active
 //* 		DONE		@param int|null $newAccountAdmin - flag for account admin
 //* @param string $newAccountName - user's name
 //* @param string $newAccountPpEmail - user's paypal email address
