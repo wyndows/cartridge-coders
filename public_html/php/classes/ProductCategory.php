@@ -106,7 +106,49 @@ class ProductCategory implements \JsonSerializable {
 		$this->productCategoryProductId = $newProductCategoryProductId;
 	}
 
-	
+	/**
+	 * inserts productCategory composite primary key information into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function insert(\PDO $pdo) {
+		// enforce the productCategoryCategoryId or productCategoryProductId is not null (i.e., don't insert a composite primary key with missing data
+		if($this->productCategoryCategoryId === null || $this->productCategoryProductId === null) {
+			throw(new \PDOException("not a valid composite key"));
+		}
+
+		// create query template
+		$query = "INSERT INTO productCategory(productCategoryCategoryId, productCategoryProductId) VALUES(:productCategoryCategoryId, :productCategoryProductId)";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["productCategoryCategoryId" => $this->productCategoryCategoryId, "productCategoryProductId" => $this->productCategoryProductId];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * deletes this productCategory composite primary key from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function delete(\PDO $pdo) {
+		// enforce the productCategoryCategoryId and productCategoryProductId is not null (don't delete a category that has just been inserted)
+		if($this->productCategoryCategoryId === null && $this->productCategoryProductId === null) {
+			throw(new \PDOException("unable to delete a productCategory that does not exist"));
+		}
+
+		// create query template
+		$query = "DELETE FROM productCategory WHERE (productCategoryCategoryId = :productCategoryCategoryId AND productCategoryProductId = :productCategoryProductId)";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holder in the template
+		$parameters = ["productCategoryCategoryId" => $this->categoryId, "productCategoryProductId" => $this->productId];
+		$statement->execute($parameters);
+	}
 
 	/**
 	 * formats the state variables for JSON serialization

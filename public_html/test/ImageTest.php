@@ -32,7 +32,7 @@ namespace Edu\Cnm\CartridgeCoders\Test;
 
 use Edu\Cnm\CartridgeCoders\Image;
 
-// grab the project test parameters
+// grab  the project test parameters
 require_once("CartridgeCodersTest.php");
 
 //grab the class under scrutiny
