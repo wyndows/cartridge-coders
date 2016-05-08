@@ -146,7 +146,29 @@ class ProductCategory implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
-		$parameters = ["productCategoryCategoryId" => $this->categoryId, "productCategoryProductId" => $this->productId];
+		$parameters = ["productCategoryCategoryId" => $this->productCategoryCategoryId, "productCategoryProductId" => $this->productCategoryProductId];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * updates the productCategory data in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function update(\PDO $pdo) {
+		// enforce the productCategoryCategoryId is not null (don't update the category data that hasn't been inserted yet
+		if($this->productCategoryCategoryId === null || $this->productCategoryProductId) {
+			throw(new \PDOException("unable to update the productCategory data that doesn't exist"));
+		}
+
+		// create query template
+		$query = "UPDATE productCategory SET productCategoryCategoryId = :productCategoryCategoryId AND productCategoryProductId = :productCategoryProductId WHERE productCategoryCategoryId = :productCategoryCategoryId AND productCategoryProductId = :productCategoryProductId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["productCategoryCategoryId" => $this->productCategoryCategoryId, "productCategoryProductId" => $this->productCategoryProductId];
 		$statement->execute($parameters);
 	}
 
