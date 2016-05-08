@@ -249,6 +249,36 @@ class ProductCategory implements \JsonSerializable {
 	}
 
 	/**
+	 * gets all productCategory primary keys
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of ProductCategories found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAllProductCategories(\PDO $pdo) {
+		// create query template
+		$query = "SELECT productCategoryCategoryId, productCategoryProductId FROM productCategory";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// build an array of productCategories
+		$productCategories = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$productCategory = new ProductCategory($row["productCategoryCategoryId"], $row["productCategoryProductId"]);
+				$productCategories[$productCategories->key()] = $productCategory;
+				$productCategories->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($productCategories);
+	}
+
+	/**
 	 * formats the state variables for JSON serialization
 	 *
 	 * @return array resulting state variables to serialize
