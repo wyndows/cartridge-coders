@@ -173,6 +173,44 @@ class ProductCategory implements \JsonSerializable {
 	}
 
 	/**
+	 * get the productCategory by productCategoryCategoryId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $productCategoryCategoryId productCategoryCategoryId to search for
+	 * @return productCategoryCategoryId|null productCategoryCategoryId found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+	public static function getProductCategoryByProductCategoryCategoryId(\PDO $pdo, int $categoryId) {
+		// sanitize the productCategoryCategoryId before searching
+		if($productCategoryCategoryId <= 0) {
+			throw(new \PDOException("productCategoryCategoryId is not positive"));
+		}
+
+		// create query template
+		$query = "SELECT productCategoryCategoryId, productCategoryProductId FROM productCategory WHERE productCategoryCategoryId = :productCategoryCategoryId";
+		$statement = $pdo->prepare($query);
+
+		// bind the composite key to the place holder in the template
+		$parameters = array("productCategoryCategoryId" => $productCategoryCategoryId, "productCategoryProductId" = $productCategoryProductId);
+		$statement->execute($parameters);
+
+		// grab the category from mySQL
+		try {
+			$productCategory = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$productCategory = new ProductCategory($row["productCategoryCategoryId"], $row["productCategoryProductId"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($productCategory);
+	}
+
+	/**
 	 * formats the state variables for JSON serialization
 	 *
 	 * @return array resulting state variables to serialize
