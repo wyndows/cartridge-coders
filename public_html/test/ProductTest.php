@@ -60,6 +60,92 @@
  *
  * @author Marlan Ball <wyndows@earthlink.net> based on code by Dylan McDonald <dmcdonald21@cnm.edu>
  */
+namespace Edu\Cnm\CartridgeCoders\Test;
 
+use Edu\Cnm\CartridgeCoders\Product;
 
+// grab the project test parameters
+require_once("CartridgeCodersTest.php");
+
+// grab the class under scrutiny
+require_once(dirname(__DIR__) . "/php/classes/autoload.php");
+
+/**
+ * Unit testing for the Product class for Cartridge Coders
+ *
+ * @see Product
+ **/
+class ProductTest extends CartridgeCodersTest {
+	/**
+	 * content of the Product
+	 * @var string $VALID_PRODUCTADMINFEE
+	 **/
+	protected $VALID_PRODUCTADMINFEE = 0.1;
+	/**
+	 * content of the Product
+	 * @var string $VALID_PRODUCTDESCRIPTION
+	 **/
+	protected $VALID_PRODUCTDESCRIPTION = "Legend of Zelda Cartridge for Nintendo";
+	/**
+	 * content of the Product
+	 * @var string $VALID_PRODUCTPRICE
+	 **/
+	protected $VALID_PRODUCTPRICE = 29.99;
+	/**
+	 * content of the Product
+	 * @var string $VALID_PRODUCTSHIPPING
+	 **/
+	protected $VALID_PRODUCTSHIPPING = 5.99;
+	/**
+	 * content of the Product
+	 * @var string $VALID_PRODUCTSOLD
+	 **/
+	protected $VALID_PRODUCTSOLD = 0;
+	/**
+	 * content of the Product
+	 * @var string $VALID_PRODUCTTITLE
+	 **/
+	protected $VALID_PRODUCTTITLE ="Legend of Zelda";
+
+	/**
+	 * create dependent objects before running each test
+	 **/
+	public final function setUp() {
+		// run the default setUp() method first
+		parent::setUp();
+
+		// create and insert an Account to own the test Product
+		$this->account = new Account(null, $this->image->getImageId, 1, 0, "john", "john@john.com", "johndoe");
+		$this->account->insert($this->getPDO());
+
+		// create and insert an Image to own the test Product
+		$this->image = new Image(null, "filename", "type/jpg");
+		$this->image->insert($this->getPDO());
+	}
+
+	/**
+	 * test inserting a valid Product Id and verify that the actual mySQL data matches
+	 **/
+	public function testInsertValidProduct() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("product");
+
+		// create a new product and insert into mySQL
+		$product = new PRODUCT(null, $this->getCategoryId, $this->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoProduct = Product::getProductByProductId($this->getPDO(), $product->getProductId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("product"));
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->Account->getAccountId);
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->Image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
+		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
+		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
+		$this->assertEquals($pdoProduct->getProductShipping(), $this->VALID_PRODUCTSHIPPING);
+		$this->assertEquals($pdoProduct->getProductSold(), $this->VALID_PRODUCTSOLD);
+		$this->assertEquals($pdoProduct->getProductTitle(), $this->VALID_PRODUCTTITLE);
+	}
+
+	
 ?>

@@ -84,19 +84,6 @@
 		public function testInsertValidProductCategory() {
 			// count the number of rows and save it for later
 			$numRows = $this->getConnection()->getRowCount("productCategory");
-
-			/** create a mock object to handle the Product class that doesn't exist
-			$response = new \stdClass();
-			$response-> productId = 23521;
-
-			$product = $this->getMockBuilder('\Product')
-				->setConstructorArgs(array(23521, 25, 35, .75, "cartridge", 10.00, 5.99, 0, "cheap"))
-				->getMock();
-
-			$getProductId->expects($this->once())
-				->method('getProductId')
-				->will($this->returnValue($response));
-			*/
 			  
 			// create a new productcategory and insert into mySQL
 			$productCategory = new ProductCategory($this->category->getCategoryId(), $this->product->getProductId());
@@ -143,7 +130,7 @@
 		}
 
 		/**
-		 * test creating a ProductCategory using categoryId and then deleting it
+		 * test creating a ProductCategory using productCategoryCategoryId and then deleting it
 		 **/
 		public function testDeleteValidProductCategoryCategoryId() {
 			// count the number of rows and save it for later
