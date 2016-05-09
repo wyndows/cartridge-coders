@@ -38,11 +38,6 @@ class MessageTest extends CartridgeCodersTest {
 	 **/
 	protected $VALID_MESSAGECONTENT = "PHPUnit test Passing";
 	/**
-	 * content of the updated Message
-	 * @var string $VALID_MESSAGECONTENT2
-	 **/
-	protected $VALID_MESSAGECONTENT2 = "PHPUnit test hopfully still working";
-	/**
 	 * this is the messages MailGunId
 	 * @var string $VALID_MESSAGEMAILGUNID
 	 **/
@@ -156,7 +151,7 @@ class MessageTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		// create a new Message and insert to into mySQL
-		$message = new Message(null, $this->account->getAccountId(), $this->product->getProductId(), $this->account2->getAccountId2(), $this->VALID_MESSAGECONENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->account->getAccountId(), $this->product->getProductId(), $this->account2->getAccountId2(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 
 		//grab the data from the mySQL and enforce the fields match our expectations
@@ -173,36 +168,38 @@ class MessageTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoMessage->getMessageContecnt(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageMailGunId(), $this->VALID_MESSAGEMAILGUNID());
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	}
 
+	/**
+	 * test grabbing a Message by message content
+	 **/
+	public function testGetMessageByMessageSubject() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("message");
 
+		// create a new Message and insert to into mySQL
+		$message = new Message(null, $this->account->getAccountId(), $this->product->getProductId(), $this->account2->getAccountId2(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message->insert($this->getPDO());
+
+		//grab the data from the mySQL and enforce the fields match our expectations
+		$results = Message::getMessageByMessageContent($this->getPDO(), $message->getMessageSubject());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
+		$this->assertcount(1, $results);
+		$this->assertcountainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\Message", $results);
+
+		//grab the result from the array and validate it
+		$pdoMessage = $results[0];
+		$this->assertEquals($pdoMessage->getAccountId(), $this->account->getAccountID());
+		$this->assertEquals($pdoMessage->getProductId(), $this->product->getProductId());
+		$this->assertEquals($pdoMessage->getAccountID(), $this->account2->getAaccountId());
+		$this->assertEquals($pdoMessage->getMessageContecnt(), $this->VALID_MESSAGECONTENT);
+		$this->assertEquals($pdoMessage->getMessageMailGunId(), $this->VALID_MESSAGEMAILGUNID());
+		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
+}
+	/**
+	 * test grabbing a messaage by content that does not exist
+	 **/
+	public function testGetInvalidMessageByMessageConent() {
+		
+	}
 }
