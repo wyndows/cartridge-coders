@@ -258,12 +258,12 @@ class ProductTest extends CartridgeCodersTest {
 	}
 
 	/**
-	 * test inserting an invalid product id
+	 * test inserting an invalid image id
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testInsertInvalidProductId() {
-		// create a Product with an invalid product id and watch it fail
+	public function testInsertInvalidImageId() {
+		// create a Product with an invalid image id and watch it fail
 		$product = new Product(null, $this->account->getAccountId, CartridgeCodersTest::INVALID_KEY, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 	}
