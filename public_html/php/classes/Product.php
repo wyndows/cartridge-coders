@@ -158,7 +158,7 @@ class Product implements \JsonSerializable {
 			throw(new \RangeException("productAccountId is not positive"));
 		}
 
-		// convert and store the profile id
+		// convert and store the account id
 		$this->productAccountId = $newProductAccountId;
 	}
 
@@ -185,8 +185,68 @@ class Product implements \JsonSerializable {
 			throw(new \RangeException("productImageId is not positive"));
 		}
 
-		// convert and store the profile id
+		// convert and store the image id
 		$this->productImageId = $newProductImageId;
+	}
+
+	/**
+	 * accessor method for product admin fee
+	 *
+	 * @return string value of product admin fee
+	 */
+	public function getProductAdminFee() {
+		return($this->productAdminFee);
+	}
+
+	/**
+	 * mutator method for product admin fee
+	 *
+	 * @param int|null $newProductAdminFee new value of product admin fee
+	 * @throws \RangeException if $newProductAdminFee is not positive
+	 * @throws \TypeError if $newProductAdminFee is not an integer
+	 */
+	public function setProductAdminFee(decimal $newProductAdminFee) {
+		// verify the productAdminFee is positive
+		if($newProductAdminFee < 0) {
+			throw(new \RangeException("productAdminFee is not positive"));
+		}
+
+		// convert and store the product admin fee
+		$this->productAdminFee = $newProductAdminFee;
+	}
+
+	/**
+	 * accessor method for product description
+	 *
+	 * @return string value of product description
+	 */
+	public function getProductDescription() {
+		return($this->productDescription);
+	}
+
+	/**
+	 * mutator method for product description
+	 *
+	 * @param string $newProductDescription new value of product description
+	 * @throws \InvalidArgumentException if $newProductDescription is not a string or insecure
+	 * @throws \RangeException if $newProductDescription is > 50 characters
+	 * @throws \TypeError if $newProductDescription is not a string
+	 */
+	public function setProductDescription(string $newProductDescription) {
+		// verify the product description is secure
+		$newProductDescription = trim($newProductDescription);
+		$newProductDescription = filter_var($newProductDescription, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newProductDescription) === true) {
+			throw(new \InvalidArgumentException("product description is empty or insecure"));
+		}
+
+		// verify the product description will fit in the database
+		if(strlen($newProductDescription) > 255) {
+			throw(new \RangeException("product description is too long"));
+		}
+
+		// store the product description
+		$this->productDescription = $newProductDescription;
 	}
 
 
