@@ -275,6 +275,32 @@ class Product implements \JsonSerializable {
 		$this->productPrice = $newProductPrice;
 	}
 
+	/**
+	 * accessor method for product shipping
+	 *
+	 * @return decimal value of product shipping
+	 */
+	public function getProductShipping() {
+		return($this->productShipping);
+	}
+
+	/**
+	 * mutator method for product shippping
+	 *
+	 * @param decimal $newProductShipping new value of product shipping
+	 * @throws \RangeException if $newProductShipping is not positive
+	 * @throws \TypeError if $newProductShipping is not a decimal
+	 */
+	public function setProductShipping(decimal $newProductShipping) {
+		// verify the productShipping is positive
+		if($newProductShipping < 0) {
+			throw(new \RangeException("productShipping is not positive"));
+		}
+
+		// convert and store the product admin fee
+		$this->productShipping = $newProductShipping;
+	}
+
 
 
 
