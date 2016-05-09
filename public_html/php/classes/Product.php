@@ -203,12 +203,16 @@ class Product implements \JsonSerializable {
 	 *
 	 * @param decimal $newProductAdminFee new value of product admin fee
 	 * @throws \RangeException if $newProductAdminFee is not positive
+	 * @throws \RangeException if $newProductAdminFee is too high
 	 * @throws \TypeError if $newProductAdminFee is not a decimal
 	 */
 	public function setProductAdminFee(decimal $newProductAdminFee) {
-		// verify the productAdminFee is positive
+		// verify the productAdminFee is positive and not too high
 		if($newProductAdminFee < 0) {
 			throw(new \RangeException("productAdminFee is not positive"));
+		}
+		if($newProductAdminFee >= 1000.00) {
+			throw(new \RangeException("productAdminFee is too high"));
 		}
 
 		// convert and store the product admin fee
@@ -263,15 +267,19 @@ class Product implements \JsonSerializable {
 	 *
 	 * @param decimal $newProductPrice new value of product price
 	 * @throws \RangeException if $newProductPrice is not positive
+	 * @throws \RangeException if $newProductPrice is too high
 	 * @throws \TypeError if $newProductPrice is not a decimal
 	 */
 	public function setProductPrice(decimal $newProductPrice) {
-		// verify the productPrice is positive
+		// verify the productPrice is positive and not too high
 		if($newProductPrice < 0) {
 			throw(new \RangeException("productPrice is not positive"));
 		}
+		if($newProductPrice >= 10000.00) {
+			throw(new \RangeException("productPrice is too high"));
+		}
 
-		// convert and store the product admin fee
+		// convert and store the product price
 		$this->productPrice = $newProductPrice;
 	}
 
@@ -289,17 +297,53 @@ class Product implements \JsonSerializable {
 	 *
 	 * @param decimal $newProductShipping new value of product shipping
 	 * @throws \RangeException if $newProductShipping is not positive
+	 * @throws \RangeException if $newProductShipping is too high
 	 * @throws \TypeError if $newProductShipping is not a decimal
 	 */
 	public function setProductShipping(decimal $newProductShipping) {
-		// verify the productShipping is positive
+		// verify the productShipping is positive and not too high
 		if($newProductShipping < 0) {
 			throw(new \RangeException("productShipping is not positive"));
 		}
+		if($newProductShipping >= 1000.00) {
+			throw(new \RangeException("productShipping is too high"));
+		}
 
-		// convert and store the product admin fee
+		// convert and store the product shipping
 		$this->productShipping = $newProductShipping;
 	}
+
+	/**
+	 * accessor method for product sold
+	 *
+	 * @return int value of product sold
+	 */
+	public function getProductSold() {
+		return($this->productSold);
+	}
+
+	/**
+	 * mutator method for product sold
+	 *
+	 * @param int $newProductSold new value of product sold
+	 * @throws \RangeException if $newProductSold is not positive
+	 * @throws \RangeException if $newProductSold is too high
+	 * @throws \TypeError if $newProductSold is not an int
+	 */
+	public function setProductSold(int $newProductSold) {
+		// verify the productSold is positive and not too high
+		if($newProductSold < 0) {
+			throw(new \RangeException("productSold is not positive"));
+		}
+		if($newProductSold > 1) {
+			throw(new \RangeException("productSold is too high"));
+		}
+
+		// convert and store the product sold
+		$this->productSold = $newProductSold;
+	}
+	
+	
 
 
 
