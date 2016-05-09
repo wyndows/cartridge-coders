@@ -18,14 +18,14 @@ class Product implements \JsonSerializable {
 	 */
 	private $productId;
 	/**
- * the account id of the product (foreign key)
- * @var string $productAccountId
- */
+	 * the account id of the product (foreign key)
+	 * @var string $productAccountId
+	 */
 	private $productAccountId;
 	/**
- * the image id of the product (foreign key)
- * @var string $productImageId
- */
+	 * the image id of the product (foreign key)
+	 * @var string $productImageId
+	 */
 	private $productImageId;
 	/**
 	 * the admin fee of the product
@@ -33,9 +33,9 @@ class Product implements \JsonSerializable {
 	 */
 	private $productAdminFee;
 	/**
- * the description of the product
- * @var string $productDescription
- */
+	 * the description of the product
+	 * @var string $productDescription
+	 */
 	private $productDescription;
 	/**
 	 * the price of the product
@@ -108,7 +108,7 @@ class Product implements \JsonSerializable {
 	 */
 
 	public function getProductId() {
-		return($this->productId);
+		return ($this->productId);
 	}
 
 	/**
@@ -126,7 +126,7 @@ class Product implements \JsonSerializable {
 		}
 
 		// verify the product id is positive
-		if($newProductId <=0) {
+		if($newProductId <= 0) {
 			throw(new \RangeException("product id is not positive"));
 		}
 
@@ -136,13 +136,13 @@ class Product implements \JsonSerializable {
 	}
 
 	/**
- * accessor method for product account id
- *
- * @return int value of product account id
- */
+	 * accessor method for product account id
+	 *
+	 * @return int value of product account id
+	 */
 
 	public function getProductAccountId() {
-		return($this->productAccountId);
+		return ($this->productAccountId);
 	}
 
 	/**
@@ -169,7 +169,7 @@ class Product implements \JsonSerializable {
 	 */
 
 	public function getProductImageId() {
-		return($this->productImageId);
+		return ($this->productImageId);
 	}
 
 	/**
@@ -195,7 +195,7 @@ class Product implements \JsonSerializable {
 	 * @return decimal value of product admin fee
 	 */
 	public function getProductAdminFee() {
-		return($this->productAdminFee);
+		return ($this->productAdminFee);
 	}
 
 	/**
@@ -225,7 +225,7 @@ class Product implements \JsonSerializable {
 	 * @return string value of product description
 	 */
 	public function getProductDescription() {
-		return($this->productDescription);
+		return ($this->productDescription);
 	}
 
 	/**
@@ -259,7 +259,7 @@ class Product implements \JsonSerializable {
 	 * @return decimal value of product price
 	 */
 	public function getProductPrice() {
-		return($this->productPrice);
+		return ($this->productPrice);
 	}
 
 	/**
@@ -289,7 +289,7 @@ class Product implements \JsonSerializable {
 	 * @return decimal value of product shipping
 	 */
 	public function getProductShipping() {
-		return($this->productShipping);
+		return ($this->productShipping);
 	}
 
 	/**
@@ -319,7 +319,7 @@ class Product implements \JsonSerializable {
 	 * @return int value of product sold
 	 */
 	public function getProductSold() {
-		return($this->productSold);
+		return ($this->productSold);
 	}
 
 	/**
@@ -349,7 +349,7 @@ class Product implements \JsonSerializable {
 	 * @return string value of product title
 	 */
 	public function getProductTitle() {
-		return($this->productTitle);
+		return ($this->productTitle);
 	}
 
 	/**
@@ -378,8 +378,6 @@ class Product implements \JsonSerializable {
 	}
 
 
-
-
 	/**
 	 * formats the state variables for JSON serialization
 	 *
@@ -387,6 +385,7 @@ class Product implements \JsonSerializable {
 	 */
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
-		return($fields);
+		return ($fields);
 	}
+}
 ?>
