@@ -683,8 +683,17 @@ class ProductTest extends CartridgeCodersTest {
 	 * test grabbing a Product by product description that does not exist
 	 **/
 	public function testGetInvalidProductByProductDescription() {
-		// grab a product by searching for admin fee that does not exist
+		// grab a product by searching for description that does not exist
 		$product = Product::getProductByProductDescription($this->getPDO(), null);
+		$this->assertCount(0, $product);
+	}
+
+	/**
+	 * test grabbing a Product by product price that does not exist
+	 **/
+	public function testGetInvalidProductByProductPrice() {
+		// grab a product by searching for price that does not exist
+		$product = Product::getProductByProductPrice($this->getPDO(), -1);
 		$this->assertCount(0, $product);
 	}
 
