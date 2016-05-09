@@ -233,7 +233,7 @@ class Product implements \JsonSerializable {
 	 *
 	 * @param string $newProductDescription new value of product description
 	 * @throws \InvalidArgumentException if $newProductDescription is not a string or insecure
-	 * @throws \RangeException if $newProductDescription is > 50 characters
+	 * @throws \RangeException if $newProductDescription is > 255 characters
 	 * @throws \TypeError if $newProductDescription is not a string
 	 */
 	public function setProductDescription(string $newProductDescription) {
@@ -342,8 +342,40 @@ class Product implements \JsonSerializable {
 		// convert and store the product sold
 		$this->productSold = $newProductSold;
 	}
-	
-	
+
+	/**
+	 * accessor method for product title
+	 *
+	 * @return string value of product title
+	 */
+	public function getProductTitle() {
+		return($this->productTitle);
+	}
+
+	/**
+	 * mutator method for product title
+	 *
+	 * @param string $newProductTitle new value of product title
+	 * @throws \InvalidArgumentException if $newProductTitle is not a string or insecure
+	 * @throws \RangeException if $newProductTitle is > 64 characters
+	 * @throws \TypeError if $newProductTitle is not a string
+	 */
+	public function setProductTitle(string $newProductTitle) {
+		// verify the product title is secure
+		$newProductTitle = trim($newProductTitle);
+		$newProductTitle = filter_var($newProductTitle, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newProductTitle) === true) {
+			throw(new \InvalidArgumentException("product title is empty or insecure"));
+		}
+
+		// verify the product title will fit in the database
+		if(strlen($newProductTitle) > 64) {
+			throw(new \RangeException("product title is too long"));
+		}
+
+		// store the product title
+		$this->productTitle = $newProductTitle;
+	}
 
 
 
