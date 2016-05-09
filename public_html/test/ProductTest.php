@@ -83,9 +83,19 @@ class ProductTest extends CartridgeCodersTest {
 	protected $VALID_PRODUCTADMINFEE = 0.1;
 	/**
 	 * content of the Product
+	 * @var string $VALID_PRODUCTADMINFEE2
+	 **/
+	protected $VALID_PRODUCTADMINFEE2 = 0.2;
+	/**
+	 * content of the Product
 	 * @var string $VALID_PRODUCTDESCRIPTION
 	 **/
 	protected $VALID_PRODUCTDESCRIPTION = "Legend of Zelda Cartridge for Nintendo";
+	/**
+	 * content of the Product
+	 * @var string $VALID_PRODUCTDESCRIPTION2
+	 **/
+	protected $VALID_PRODUCTDESCRIPTION2 = "Legend of Zelda Cartridge for Sega";
 	/**
 	 * content of the Product
 	 * @var string $VALID_PRODUCTPRICE
@@ -93,19 +103,39 @@ class ProductTest extends CartridgeCodersTest {
 	protected $VALID_PRODUCTPRICE = 29.99;
 	/**
 	 * content of the Product
+	 * @var string $VALID_PRODUCTPRICE2
+	 **/
+	protected $VALID_PRODUCTPRICE2 = 39.99;
+	/**
+	 * content of the Product
 	 * @var string $VALID_PRODUCTSHIPPING
 	 **/
 	protected $VALID_PRODUCTSHIPPING = 5.99;
 	/**
 	 * content of the Product
-	 * @var string $VALID_PRODUCTSOLD
+	 * @var string $VALID_PRODUCTSHIPPING2
 	 **/
+	protected $VALID_PRODUCTSHIPPING2 = 7.99;
+	/**
+ * content of the Product
+ * @var string $VALID_PRODUCTSOLD
+ **/
 	protected $VALID_PRODUCTSOLD = 0;
+	/**
+	 * content of the Product
+	 * @var string $VALID_PRODUCTSOLD2
+	 **/
+	protected $VALID_PRODUCTSOLD2 = 1;
 	/**
 	 * content of the Product
 	 * @var string $VALID_PRODUCTTITLE
 	 **/
 	protected $VALID_PRODUCTTITLE ="Legend of Zelda";
+	/**
+	 * content of the Product
+	 * @var string $VALID_PRODUCTTITLE2
+	 **/
+	protected $VALID_PRODUCTTITLE2 ="Mario Brothers";
 
 	/**
 	 * create dependent objects before running each test
@@ -228,7 +258,33 @@ class ProductTest extends CartridgeCodersTest {
 		$product->insert($this->getPDO());
 	}
 
-	
+	/**
+	 * test inserting a Product, editing it, and then updating it
+	 **/
+	public function testUpdateValidProduct() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("product");
+
+		// create a new Product and insert to into mySQL
+		$product = new Product(null, $this->account->getAccountId, $this->product->getProductId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product->insert($this->getPDO());
+
+		// edit the Product and update it in mySQL
+		$product->setProductAdminFee($this->VALID_PRODUCTADMINFEE2);
+		$product->update($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoProduct = Product::getProductByProductId($this->getPDO(), $product->getProductId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("product"));
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE2);
+		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
+		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
+		$this->assertEquals($pdoProduct->getProductShipping(), $this->VALID_PRODUCTSHIPPING);
+		$this->assertEquals($pdoProduct->getProductSold(), $this->VALID_PRODUCTSOLD);
+		$this->assertEquals($pdoProduct->getProductTitle(), $this->VALID_PRODUCTTITLE);
+	}
 
 
 ?>
