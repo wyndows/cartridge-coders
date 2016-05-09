@@ -161,7 +161,7 @@ class ProductTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("product");
 
 		// create a new product and insert into mySQL
-		$product = new PRODUCT(null, $this->getCategoryId, $this->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->getProductId, $this->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -185,7 +185,7 @@ class ProductTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("product");
 
 		// create a new product and insert into mySQL
-		$product = new PRODUCT(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -209,7 +209,7 @@ class ProductTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("product");
 
 		// create a new product and insert into mySQL
-		$product = new PRODUCT(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -265,7 +265,7 @@ class ProductTest extends CartridgeCodersTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("product");
 
-		// create a new Product and insert to into mySQL
+		// create a new Product and insert into mySQL
 		$product = new Product(null, $this->account->getAccountId, $this->product->getProductId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
@@ -293,7 +293,7 @@ class ProductTest extends CartridgeCodersTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("product");
 
-		// create a new Product and insert to into mySQL
+		// create a new Product and insert into mySQL
 		$product = new Product(null, $this->account->getAccountId, $this->product->getProductId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
@@ -321,7 +321,7 @@ class ProductTest extends CartridgeCodersTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("product");
 
-		// create a new Product and insert to into mySQL
+		// create a new Product and insert into mySQL
 		$product = new Product(null, $this->account->getAccountId, $this->product->getProductId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
@@ -349,7 +349,7 @@ class ProductTest extends CartridgeCodersTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("product");
 
-		// create a new Product and insert to into mySQL
+		// create a new Product and insert into mySQL
 		$product = new Product(null, $this->account->getAccountId, $this->product->getProductId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
@@ -377,7 +377,7 @@ class ProductTest extends CartridgeCodersTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("product");
 
-		// create a new Product and insert to into mySQL
+		// create a new Product and insert into mySQL
 		$product = new Product(null, $this->account->getAccountId, $this->product->getProductId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
@@ -405,7 +405,7 @@ class ProductTest extends CartridgeCodersTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("product");
 
-		// create a new Product and insert to into mySQL
+		// create a new Product and insert into mySQL
 		$product = new Product(null, $this->account->getAccountId, $this->product->getProductId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
@@ -426,5 +426,74 @@ class ProductTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoProduct->getProductTitle(), $this->VALID_PRODUCTTITLE2);
 	}
 
+	/**
+	 * test updating a Product that already exists
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testUpdateInvalidProduct() {
+		// create a Product with a non null product id and watch it fail
+		$product = new Product(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product->update($this->getPDO());
+	}
+
+	/**
+	 * test creating a Product and then deleting it
+	 **/
+	public function testDeleteValidProduct() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("product");
+
+		// create a new Product and insert into mySQL
+		$product = new Product(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product->insert($this->getPDO());
+
+		// delete the Product from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("product"));
+		$product->delete($this->getPDO());
+
+		// grab the data from mySQL and enforce the Product does not exist
+		$pdoProduct = Product::getProductByProductId($this->getPDO(), $product->getProductId());
+		$this->assertNull($pdoProduct);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("product"));
+	}
+
+	/**
+	 * test deleting a Product that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testDeleteInvalidProduct() {
+		// create a Product and try to delete it without actually inserting it
+		$product = new Product(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product->delete($this->getPDO());
+	}
+
+	/**
+	 * test grabbing a Product with Product Id that does not exist
+	 **/
+	public function testGetInvalidProductByProductId() {
+		// grab a product id that exceeds the maximum allowable product id
+		$product = Product::getProductByProductId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
+		$this->assertNull($product);
+	}
+
+	/**
+	 * test grabbing a Product with Account Id that does not exist
+	 **/
+	public function testGetInvalidProductByAccountId() {
+		// grab an account id that exceeds the maximum allowable account id
+		$product = Product::getProductByAccountId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
+		$this->assertNull($product);
+	}
+
+	/**
+	 * test grabbing a Product with Image Id that does not exist
+	 **/
+	public function testGetInvalidProductByImageId() {
+		// grab an image id that exceeds the maximum allowable image id
+		$product = Product::getProductByImageId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
+		$this->assertNull($product);
+	}
 
 ?>
