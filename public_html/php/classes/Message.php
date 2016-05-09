@@ -81,7 +81,7 @@ class Message implements \JsonSerializable {
 			throw(new UnexpectedValueException("AccountId is not a valid integer"));
 		}
 		//convert and store the account id
-		$this->accountId2 = intval($newAccountId);
+		$this->accountId = intval($newAccountId);
 	}
 	/**
 	 * accessor method for product id
@@ -97,6 +97,34 @@ class Message implements \JsonSerializable {
 	 * @throws unexpectedValueException if $newProductId is not a valid integer
 	 **/
 	public function setProductId($newProductId) {
-		if()
+		$newProductId = filter_var($newProductId, FILTER_VALIDATE_INT);
+		if($newProductId === false) {
+			throw(new UnexpectedValueException("ProductId is not a valid integer"));
+		}
+		//convert and store the product id
+		$this->productId = intval($newProductId);
+	}
+	/**
+	 * accessor for message content
+	 *
+	 * @return string value of message content
+	 **/
+	public function getMessageContent() {
+		return($this->messageContent);
+	}
+	/**
+	 * mutator method for message content
+	 *
+	 * @param string $newMessageContent new value of message content
+	 * @throws UnexpectedValueException if $newMessageContent is not valid
+	 **/
+	public function setMessageContent($newMessageContent) {
+		//verify the message content is valid
+		$newMessageContent = filter_var($newMessageContent, FILTER_SANITIZE_STRING);
+		if($newMessageContent === false) {
+			throw(new UnexpectedValueException("cotent is not a valid string"));
+		}
+		// store the message content
+		$this->messageContent = $newMessageContent;
 	}
 }
