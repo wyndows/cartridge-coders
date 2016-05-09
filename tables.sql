@@ -67,9 +67,9 @@ CREATE TABLE product (
 
 CREATE TABLE feedback (
 	feedbackId        INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	feedbackBuyerId   INT UNSIGNED                NOT NULL,
+	feedbackSenderId   INT UNSIGNED                NOT NULL,
 	feedbackProductId INT UNSIGNED                NOT NULL,
-	feedbackSellerId  INT UNSIGNED                NOT NULL,
+	feedbackRecipientId  INT UNSIGNED                NOT NULL,
 	feedbackContent   VARCHAR(255)                NOT NULL,
 	feedbackRating    TINYINT UNSIGNED            NOT NULL,
 	INDEX (feedbackBuyerId),
@@ -83,9 +83,9 @@ CREATE TABLE feedback (
 
 CREATE TABLE message (
 	messageId        INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	messageBuyerId   INT UNSIGNED                NOT NULL,
+	messageSenderId   INT UNSIGNED                NOT NULL,
 	messageProductId INT UNSIGNED                NOT NULL,
-	messageSellerId  INT UNSIGNED                NOT NULL,
+	messageRecipientId  INT UNSIGNED                NOT NULL,
 	messageContent   VARCHAR(255)                NOT NULL,
 	messageMailGunId CHAR(32)                    NOT NULL,
 	messageSubject   VARCHAR(128)                NOT NULL,

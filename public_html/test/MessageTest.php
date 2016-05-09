@@ -34,7 +34,7 @@ require_once(dirname(__DIR__) . "/php/classes/autoload.php");
 class MessageTest extends CartridgeCodersTest {
 	/**
 	 * content of the Message
-	 * @var string $VALID_MESSAGECONTENT
+	 * @var int $VALID_MESSAGECONTENT
 	 **/
 	protected $VALID_MESSAGECONTENT = "PHPUnit test Passing";
 	/**
