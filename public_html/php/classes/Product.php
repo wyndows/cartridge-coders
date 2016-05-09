@@ -101,6 +101,40 @@ class Product implements \JsonSerializable {
 		}
 	}
 
+	/**
+	 * accessor method for product id
+	 *
+	 * @return int|null value of product id
+	 */
+
+	public function getProductId() {
+		return($this->productId);
+	}
+
+	/**
+	 * mutator method for product id
+	 *
+	 * @param int|null $newProductId new value of product id
+	 * @throws \RangeException if $newProductId is not positive
+	 * @throws \TypeError if $newProductId is not an integer
+	 */
+	public function setProductId(int $newProductId = null) {
+		// base case: if the product id is null, this is a new product without a mySQL assigned id
+		if($newProductId === null) {
+			$this->productId = null;
+			return;
+		}
+
+		// verify the product id is positive
+		if($newProductId <=0) {
+			throw(new \RangeException("product id is not positive"));
+		}
+
+		// store the product id
+		$this->productId = $newProductId;
+
+	}
+
 
 
 
