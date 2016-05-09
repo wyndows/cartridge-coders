@@ -133,7 +133,7 @@ class Message implements \JsonSerializable {
 	 * #return string value of message mailgun id
 	 **/
 	public function getMessageMailGunId() {
-	return($this->messageMailGunId);
+		return($this->messageMailGunId);
 	}
 	/**
 	 * mutator method for message mailgun id
@@ -149,5 +149,28 @@ class Message implements \JsonSerializable {
 		}
 		//store the message mailgun id
 		$this->messageMailGunId = $newMessageMailGunId;
+	}
+	/**
+	 * accessor for message subject
+	 *
+	 * @return string value of message subject
+	 **/
+	public function  getMessageSubject() {
+		return($this->messageSubject);
+	}
+	/**
+	 * mutator method for message subject
+	 *
+	 * @param string $newMessageSubject new value of message subject
+	 * @throws UnexpectedValueException if $newMessageSubject is not valid
+	 **/
+	public function setMessageSubject($newMessageSubject) {
+		// verify the message subject is valid
+		$newMessageSubject = filter_var($newMessageSubject, FILTER_SANITIZE_STRING);
+		if($newMessageSubject === false) {
+			throw(new UnexpectedValueException("message subject is not a valid string"));
+		}
+		//store the message subject
+		$this->messageSubject = $newMessageSubject;
 	}
 }
