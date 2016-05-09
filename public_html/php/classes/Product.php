@@ -192,7 +192,7 @@ class Product implements \JsonSerializable {
 	/**
 	 * accessor method for product admin fee
 	 *
-	 * @return string value of product admin fee
+	 * @return decimal value of product admin fee
 	 */
 	public function getProductAdminFee() {
 		return($this->productAdminFee);
@@ -201,9 +201,9 @@ class Product implements \JsonSerializable {
 	/**
 	 * mutator method for product admin fee
 	 *
-	 * @param int|null $newProductAdminFee new value of product admin fee
+	 * @param decimal $newProductAdminFee new value of product admin fee
 	 * @throws \RangeException if $newProductAdminFee is not positive
-	 * @throws \TypeError if $newProductAdminFee is not an integer
+	 * @throws \TypeError if $newProductAdminFee is not a decimal
 	 */
 	public function setProductAdminFee(decimal $newProductAdminFee) {
 		// verify the productAdminFee is positive
@@ -247,6 +247,32 @@ class Product implements \JsonSerializable {
 
 		// store the product description
 		$this->productDescription = $newProductDescription;
+	}
+
+	/**
+	 * accessor method for product price
+	 *
+	 * @return decimal value of product price
+	 */
+	public function getProductPrice() {
+		return($this->productPrice);
+	}
+
+	/**
+	 * mutator method for product price
+	 *
+	 * @param decimal $newProductPrice new value of product price
+	 * @throws \RangeException if $newProductPrice is not positive
+	 * @throws \TypeError if $newProductPrice is not a decimal
+	 */
+	public function setProductPrice(decimal $newProductPrice) {
+		// verify the productPrice is positive
+		if($newProductPrice < 0) {
+			throw(new \RangeException("productPrice is not positive"));
+		}
+
+		// convert and store the product admin fee
+		$this->productPrice = $newProductPrice;
 	}
 
 
