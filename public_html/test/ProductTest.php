@@ -671,11 +671,20 @@ class ProductTest extends CartridgeCodersTest {
 	}
 
 	/**
-	 * test grabbing a Product by admin fee that does not exist
-	 **/
+ * test grabbing a Product by admin fee that does not exist
+ **/
 	public function testGetInvalidProductByProductAdminFee() {
 		// grab a product by searching for admin fee that does not exist
 		$product = Product::getProductByProductAdminFee($this->getPDO(), 100);
+		$this->assertCount(0, $product);
+	}
+
+	/**
+	 * test grabbing a Product by product description that does not exist
+	 **/
+	public function testGetInvalidProductByProductDescription() {
+		// grab a product by searching for admin fee that does not exist
+		$product = Product::getProductByProductDescription($this->getPDO(), null);
 		$this->assertCount(0, $product);
 	}
 
