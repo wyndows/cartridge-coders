@@ -735,7 +735,121 @@ class Account implements \JsonSerializable {
 
 // ------------------------------------------- accountPpEmail   -------------------------------------------
 
+	/**
+	 * insert account pay pal email into mySQL
+	 * @param \PDO $pdo - PDO connection object
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function insertAccountPpEmail(\PDO $pdo) {
+		// enforce account pay pal email is null - make sure inserting new account pay pal email vs an existing one
+		if($this->accountPpEmail !== null) {
+			throw(new \PDOException("not an account pay pal email"));
+		}
 
+		//create query table
+		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES(:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders on the template
+		$parameters = ["accountPpEmail" => $this->accountPpEmail, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+		$statement->execute($parameters);
+
+		//update the null accountPpEmail with what mySQL just gave us
+		$this->accountPpEmail = intval($pdo->lastInsertId());
+	}
+
+	/**
+	 * updates account pay pal email in mySQL
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL errors occure
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function updateAccountPpEmail(\PDO $pdo) {
+
+		// enforce the accountPpEmail is not null (don't update whats not there)
+		if($this->accountPpEmail === null) {
+			throw(new \PDOException("unable to update accout name that does not exist"));
+		}
+
+		// create query template
+		$query = "UPDATE account SET accountPpEmail = :accountPpEmail WHERE accountPpEmail = :accountPpEmail";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders
+		$parameters = ["accountId" => $this->accountId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+		$statement->execute($parameters);
+	}
+
+
+
+
+	/**
+	 * gets the account pay pal email by account id
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $accountPpEmail - account pay pal email search for
+	 * @param int $accountId - prim key
+	 * @return string|null - name found or null if not
+	 * @throws \PDOException when mySQL related error occurs
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+
+	public static function getAccountPpEmailByAccountId(\PDO $pdo, int $accountId) {
+		// sanitize the accountId before searching
+		if($accountId <= 0) {
+			throw(new \PDOException("account id is not positive"));
+		}
+		// create query template
+		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountId = :accountId";
+		$statement = $pdo->prepare($query);
+
+		// bind the account id to the place holder in the template
+		$parameters = array("accountId" => $accountId);
+		$statement->execute($parameters);
+
+		// grab the name from mySQL
+		try {
+			$accountId = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$accountId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($accountId);
+	}
+
+	/**
+	 * Gets all the account pay pal email
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of account pay pal email found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAllAccountPpEmails(\PDO $pdo) {
+		// create query template
+		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// build an array of account pay pal email
+		$accountPpEmails = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$accountPpEmail = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountPpEmail"], $row["accountPpEmail"], $row["accountUserName"]);
+				$accountPpEmails[$accountPpEmails->key()] = $accountPpEmail;
+				$accountPpEmails->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($accountPpEmails);
+	}
 
 
 
@@ -752,13 +866,8 @@ class Account implements \JsonSerializable {
 //* 		DONE		@param int|null $newAccountActive - flag for account active
 //* 		DONE		@param int|null $newAccountAdmin - flag for account admin
 //* 		DONE		@param string $newAccountName - user's name
-//* @param string $newAccountPpEmail - user's paypal email address
+//* 		DONE		@param string $newAccountPpEmail - user's paypal email address
 //* @param string $newAccountUserName - user's chosen user name
-
-// accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName
-// :accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName
-//
-// "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName
 
 // insert into
 // update by
