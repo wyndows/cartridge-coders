@@ -135,11 +135,43 @@ class Product implements \JsonSerializable {
 
 	}
 
+	/**
+	 * accessor method for product account id
+	 *
+	 * @return int value of product account id
+	 */
+
+	public function getProductAccountId() {
+		return($this->productAccountId);
+	}
+
+	/**
+	 * mutator method for product image id
+	 *
+	 * @param int|null $newProductImageId new value of product image id
+	 * @throws \RangeException if $newProductImageId is not positive
+	 * @throws \TypeError if $newProductImageId is not an integer
+	 */
+	public function setProductAccountId(int $newProductAccountId) {
+		// verify the productAccountId is positive
+		if($newProductAccountId <= 0) {
+			throw(new \RangeException("productAccountId is not positive"));
+		}
+
+		// convert and store the profile id
+		$this->productAccountId = $newProductAccountId;
+	}
 
 
 
 
-
-
-
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 */
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		return($fields);
+	}
 ?>
