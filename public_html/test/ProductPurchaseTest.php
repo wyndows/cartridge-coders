@@ -112,7 +112,45 @@ class ProductPurchaseTest extends CartridgeCodersTest{
 		$productPurchase = new ProductPurchase($this->purchase->getPurchaseId(), $this->product->getProductId());
 		$productPurchase->update($this->getPDO());
 	}
-	
+
+
+	/**
+	 * test creating a product purchase using purchase id and then deleting it
+	 */
+	public function testDeleteValidProductPurchasePurchaseId(){
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("productPurchase");
+		// create a new product purchase and insert into mysql
+		$productPurchase = new productPurchase($this->purchase->getPurchaseId(), $this->product->getProductId());
+		$productPurchase->insert($this->getPDO());
+		// delete the product purchase from mysql
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("productPurchase"));
+		$productPurchase->delete($this->getPDO());
+		// grab the data from mysql and enforce the productPurchase does not exist
+		$pdoProductPurchase = ProductPurchase::getProductPurchaseByPurchaseId($this->getPDO(), $productPurchase->getProductPurchasePurchaseId());
+		$this->assertNull($pdoProductPurchase);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("productPurchase"));
+	}
+
+
+
+	/**
+	 * test creating a product purchase using product id and then deleting it
+	 */
+	public function testDeleteValidProductPurchaseProductId(){
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("productPurchase");
+		// create a new product purchase and insert into mysql
+		$productPurchase = new productPurchase($this->product->getProductId(), $this->purchase->getPurchaseId());
+		$productPurchase->insert($this->getPDO());
+		// delete the product purchase from mysql
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("productPurchase"));
+		$productPurchase->delete($this->getPDO());
+		// grab the data from mysql and enforce the productPurchase does not exist
+		$pdoProductPurchase = ProductPurchase::getProductPurchaseByProductId($this->getPDO(), $productPurchase->getProductPurchaseProductId());
+		$this->assertNull($pdoProductPurchase);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("productPurchase"));
+	}
 
 
 
