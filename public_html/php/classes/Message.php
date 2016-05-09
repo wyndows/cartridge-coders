@@ -42,6 +42,21 @@ class Message implements \JsonSerializable {
 	private $messageSubject;
 
 	/**
+	 * contructor for the message
+	 *
+	 * @param int $newMessageId new message id
+	 * @param int $newAccountId new account id
+	 * @param int $newProductId new product id
+	 * @param int $newAccountId new account id
+	 * @param string $newMessageContent new message content
+	 * @param string $newMessageMailGunId new message mail gun Id
+	 * @param string $newMessageSubject new message subject
+	 * @throws UnexpectedValueException if any of the parameters are invalid
+	 **/
+	public function __construct($newMessageId, $newAccountId, $newProductId, $newAccountId, $newMessageContent, $newMessageMailGunId, $newMessageSubject) {
+		try 
+}
+	/**
 	 * accessor method for message Id
 	 *
 	 * @return int value of message id
