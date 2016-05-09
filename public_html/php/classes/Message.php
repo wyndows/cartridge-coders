@@ -54,7 +54,18 @@ class Message implements \JsonSerializable {
 	 * @throws UnexpectedValueException if any of the parameters are invalid
 	 **/
 	public function __construct($newMessageId, $newAccountId, $newProductId, $newAccountId, $newMessageContent, $newMessageMailGunId, $newMessageSubject) {
-		try 
+		try {
+			$this->setMessageId($newMessageId);
+			$this->setAccountId($newAccountId);
+			$this->setProductId($newProductId);
+			$this->setAccountId($newAccountId);
+			$this->setMessageContent($newMessageContent);
+			$this->setMessageMailGunId($newMessageMailGunId);
+			$this->setMessageSubject($newMessageSubject);
+		} catch(UnexpectedValueException $exception) {
+			// rethrow to the caller
+			throw(new UnexpectedValueException("unable to contruct Message", 0, $exception));
+		}
 }
 	/**
 	 * accessor method for message Id
