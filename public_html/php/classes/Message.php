@@ -53,7 +53,7 @@ class Message implements \JsonSerializable {
 	 * @param string $newMessageSubject new message subject
 	 * @throws UnexpectedValueException if any of the parameters are invalid
 	 **/
-	public function __construct($newMessageId, $newAccountId, $newProductId, $newAccountId, $newMessageContent, $newMessageMailGunId, $newMessageSubject) {
+	public function __construct($newMessageId, $newAccountId, $newProductId, $newAccountId2, $newMessageContent, $newMessageMailGunId, $newMessageSubject) {
 		try {
 			$this->setMessageId($newMessageId);
 			$this->setAccountId($newAccountId);
@@ -210,7 +210,11 @@ class Message implements \JsonSerializable {
 				. "Account id: "    . $this->accountId
 				. "Product id: "    . $this->productId
 				. "Account id: "    . $this->accountId
-				. ""
+				. "MessageContent"  . $this->messageContent
+				. "MessageMailGunId". $this->messageMailGunId
+				. "MessageSubject"  . $this->messageSubject
+				. "</p>";
+		return($html);
 	}
 	/**
 	 * formats the state variables for JSON serialization
