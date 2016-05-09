@@ -376,6 +376,122 @@ class Account implements \JsonSerializable {
 		return ($accountIds);
 	}
 
+// ------------------------------------------- AccountImageId   -------------------------------------------
+
+	/**
+	 * insert account image id into mySQL
+	 * @param \PDO $pdo - PDO connection object
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function insertAccountImageId(\PDO $pdo) {
+		// enforce account image id is null - make sure inserting new id vs an existing one
+		if($this->accountImageId !== null) {
+			throw(new \PDOException("not an account image id"));
+		}
+
+		//create query table
+		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES(:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders on the template
+		$parameters = ["accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+		$statement->execute($parameters);
+
+		//update the null accountImageId with what mySQL just gave us
+		$this->accountImageId = intval($pdo->lastInsertId());
+	}
+
+	/**
+	 * updates account image id in mySQL
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL errors occure
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function updateAccountImageId(\PDO $pdo) {
+
+		// enforce the accountImageId is not null (don't update whats not there)
+		if($this->accountImageId === null) {
+			throw(new \PDOException("unable to update image id that does not exist"));
+		}
+
+		// create query template
+		$query = "UPDATE account SET accountImageId = :accountImageId WHERE accountImageId = :accountImageId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders
+		$parameters = ["accountId" => $this->accountId, "accountImageId" => $this->accountImageId, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+		$statement->execute($parameters);
+	}
+
+
+	/**
+	 * gets the account image id by account id
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $accountImageId - account image id search for
+	 * @param int $accountId - prim key
+	 * @return Image|null - id found or null if not
+	 * @throws \PDOException when mySQL related error occurs
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+
+	public static function getAccountImageIdByAccountId(\PDO $pdo, int $accountId) {
+		// sanitize the accountId before searching
+		if($accountId <= 0) {
+			throw(new \PDOException("account id is not positive"));
+		}
+		// create query template
+		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountId = :accountId";
+		$statement = $pdo->prepare($query);
+
+		// bind the account id to the place holder in the template
+		$parameters = array("accountId" => $accountId);
+		$statement->execute($parameters);
+
+		// grab the id from mySQL
+		try {
+			$accountId = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$accountId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($accountId);
+	}
+
+	/**
+	 * Gets all the account image id
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of account image id found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAllAccountImageIds(\PDO $pdo) {
+		// create query template
+		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// build an array of account image id
+		$accountImageIds = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$accountImageId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
+				$accountImageIds[$accountImageIds->key()] = $accountImageId;
+				$accountImageIds->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($accountImageIds);
+	}
+
 
 	// -------------------------------------- accountAdmin --------------------------------------
 	/**
@@ -423,8 +539,6 @@ class Account implements \JsonSerializable {
 		$parameters = ["accountId" => $this->accountId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
 		$statement->execute($parameters);
 	}
-
-
 
 
 	/**
@@ -544,8 +658,6 @@ class Account implements \JsonSerializable {
 	}
 
 
-
-
 	/**
 	 * gets the account status by account id
 	 * @param \PDO $pdo PDO connection object
@@ -616,7 +728,6 @@ class Account implements \JsonSerializable {
 // ------------------------------------------- accountName   -------------------------------------------
 
 
-
 	/**
 	 * insert account name into mySQL
 	 * @param \PDO $pdo - PDO connection object
@@ -662,8 +773,6 @@ class Account implements \JsonSerializable {
 		$parameters = ["accountId" => $this->accountId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
 		$statement->execute($parameters);
 	}
-
-
 
 
 	/**
@@ -782,8 +891,6 @@ class Account implements \JsonSerializable {
 	}
 
 
-
-
 	/**
 	 * gets the account pay pal email by account id
 	 * @param \PDO $pdo PDO connection object
@@ -900,8 +1007,6 @@ class Account implements \JsonSerializable {
 	}
 
 
-
-
 	/**
 	 * gets the account user name by account id
 	 * @param \PDO $pdo PDO connection object
@@ -968,31 +1073,6 @@ class Account implements \JsonSerializable {
 		}
 		return ($accountUserNames);
 	}
-
-
-
-
-
-
-
-
-
-// ****************************** DRAFT CODING NOTES **********************************
-
-//* 		DONE		@param int|null $newAccountId - id of account or null if new account - primary key
-//* @param int|null $newAccountImageId - id of image - this is a foreign key
-//* 		DONE		@param int|null $newAccountActive - flag for account active
-//* 		DONE		@param int|null $newAccountAdmin - flag for account admin
-//* 		DONE		@param string $newAccountName - user's name
-//* 		DONE		@param string $newAccountPpEmail - user's paypal email address
-//* 		DONE		@param string $newAccountUserName - user's chosen user name
-
-// insert into
-// update by
-// get by
-// get all
-
-// ****************************************************************************************
 
 
 	public function jsonSerialize() {
