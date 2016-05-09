@@ -122,9 +122,32 @@ class Message implements \JsonSerializable {
 		//verify the message content is valid
 		$newMessageContent = filter_var($newMessageContent, FILTER_SANITIZE_STRING);
 		if($newMessageContent === false) {
-			throw(new UnexpectedValueException("cotent is not a valid string"));
+			throw(new UnexpectedValueException("message cotent is not a valid string"));
 		}
 		// store the message content
 		$this->messageContent = $newMessageContent;
+	}
+	/**
+	 * accessor for mail gun id
+	 *
+	 * #return string value of message mailgun id
+	 **/
+	public function getMessageMailGunId() {
+	return($this->messageMailGunId);
+	}
+	/**
+	 * mutator method for message mailgun id
+	 *
+	 * @param string $newMessageMailGunId new value of message mailgun id
+	 * @throws UnexpectedValueException if $newMessageMailGunId is not valid
+	 **/
+	public function setMessageMailGunId($newMessageMailGunId) {
+		//verify the message mail gun id is valid
+		$newMessageMailGunId = filter_var($newMessageMailGunId, FILTER_SANITIZE_STRING);
+		if($newMessageMailGunId === false) {
+			throw(new UnexpectedValueException("message mailgun id is not a valid string"));
+		}
+		//store the message mailgun id
+		$this->messageMailGunId = $newMessageMailGunId;
 	}
 }
