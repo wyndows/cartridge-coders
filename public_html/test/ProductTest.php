@@ -124,8 +124,8 @@ class ProductTest extends CartridgeCodersTest {
 	}
 
 	/**
-	 * test inserting a valid Product Id and verify that the actual mySQL data matches
-	 **/
+ * test inserting a valid Product Id and verify that the actual mySQL data matches
+ **/
 	public function testInsertValidProduct() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("product");
@@ -137,8 +137,8 @@ class ProductTest extends CartridgeCodersTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProduct = Product::getProductByProductId($this->getPDO(), $product->getProductId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("product"));
-		$this->assertEquals($pdoProduct->getProductAccountId(), $this->Account->getAccountId);
-		$this->assertEquals($pdoProduct->getProductImageId(), $this->Image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
 		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
 		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
 		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
@@ -147,5 +147,88 @@ class ProductTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoProduct->getProductTitle(), $this->VALID_PRODUCTTITLE);
 	}
 
+	/**
+	 * test inserting a valid Account Id and verify that the actual mySQL data matches
+	 **/
+	public function testInsertValidAccountId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("product");
+
+		// create a new product and insert into mySQL
+		$product = new PRODUCT(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoProduct = Product::getProductByAccountId($this->getPDO(), $product->account->getProductId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("product"));
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
+		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
+		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
+		$this->assertEquals($pdoProduct->getProductShipping(), $this->VALID_PRODUCTSHIPPING);
+		$this->assertEquals($pdoProduct->getProductSold(), $this->VALID_PRODUCTSOLD);
+		$this->assertEquals($pdoProduct->getProductTitle(), $this->VALID_PRODUCTTITLE);
+	}
+
+	/**
+	 * test inserting a valid Product Id and verify that the actual mySQL data matches
+	 **/
+	public function testInsertValidProductId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("product");
+
+		// create a new product and insert into mySQL
+		$product = new PRODUCT(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoProduct = Product::getProductByAccountId($this->getPDO(), $product->account->getProductId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("product"));
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
+		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
+		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
+		$this->assertEquals($pdoProduct->getProductShipping(), $this->VALID_PRODUCTSHIPPING);
+		$this->assertEquals($pdoProduct->getProductSold(), $this->VALID_PRODUCTSOLD);
+		$this->assertEquals($pdoProduct->getProductTitle(), $this->VALID_PRODUCTTITLE);
+	}
+
+	/**
+	 * test inserting a Product that already exists
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testInsertInvalidProductId() {
+		// create a Product with a non null product id and watch it fail
+		$product = new Product(CartridgeCodersTest::INVALID_KEY, $this->account->getAccountId(), $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product->insert($this->getPDO());
+	}
+
+	/**
+ * test inserting an invalid account id
+ *
+ * @expectedException PDOException
+ **/
+	public function testInsertInvalidAccountId() {
+		// create a Product with an invalid account id and watch it fail
+		$product = new Product(null, CartridgeCodersTest::INVALID_KEY, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product->insert($this->getPDO());
+	}
+
+	/**
+	 * test inserting an invalid product id
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testInsertInvalidProductId() {
+		// create a Product with an invalid product id and watch it fail
+		$product = new Product(null, $this->account->getAccountId, CartridgeCodersTest::INVALID_KEY, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product->insert($this->getPDO());
+	}
+
 	
+
+
 ?>
