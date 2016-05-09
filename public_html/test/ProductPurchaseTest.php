@@ -17,20 +17,93 @@
  * get of productPurchase by purchaseId
  *
  * Testing will consist of;
- * test inserting a valid ImageFileName and verify that the actual mySQL data matches
- * test inserting a ImageFileName that already exists
- * test inserting a ImageFileName, editing it, and then updating it
- * test updating a ImageFileName that already exists
- * test creating a ImageFileName and then deleting it
- * test deleting a ImageFileName that does not exist
- * test grabbing a ImageFileName that does not exist
- * test grabbing a ImageFileName by ImageFileName name
- * test grabbing a ImageFileName by ImageFileName name that does not exist
- * test grabbing all ImageFileNames in the table
+ * test inserting valid ProductPurchase and verifying
+ * test inserting invalid ProductPurchase (over limit) and verifying
+ * test inserting ProductPurchase where already exist
+ * test updating ProductPurchase where already exist
+ * test getting ProductPurchase by productId where does not exist
+ * test getting ProductPurchase by purchaseId where does not exist
  *
  * @author Donald DeLeeuw <donald.deleeuw@gmail.com> based on code by Dylan McDonald <dmcdonald21@cnm.edu>
  */
 
 namespace Edu\Cnm\CartridgeCoders\Test;
 
-use Edu\Cnm\CartridgeCoders\Image;
+use Edu\Cnm\CartridgeCoders\{ProductPurchase, Product, Purchase};
+
+
+// grab  the project test parameters
+require_once("CartridgeCodersTest.php");
+
+//grab the class under scrutiny
+require_once(dirname(__DIR__) . "/php/classes/autoload.php");
+
+/**
+ * Unit testing for the ProductPurchase class
+ * @see ProductPurchase
+ */
+class ProductPurchaseTest extends CartridgeCodersTest{
+
+	/**
+	 * creating mock objects for foreign keys
+	 * @var Product profile
+	 * @var Purchase profile
+	 */
+	protected $product = null;
+	protected $purchase = null;
+
+	/**
+	 * create dependent objects before running each test
+	 */
+	public final function setUp(){
+		// run the default setUp() method first
+		parent::setUp();
+		
+		// creare and insert a Product class
+		$this->product = new Product(null, 11, 22, 33, "discription would be here", 44, 55, 0, "the title is here");
+		$this->product->insert($this->getPDO());
+		
+		// create and insert Purchase class
+		$this->purchase = new Purchase(null, 21, "transaction0123456789numbers", "2016-05-09 17:00:00");
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
