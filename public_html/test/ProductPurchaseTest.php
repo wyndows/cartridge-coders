@@ -67,6 +67,52 @@ class ProductPurchaseTest extends CartridgeCodersTest{
 		$this->purchase = new Purchase(null, 21, "transaction0123456789numbers", "2016-05-09 17:00:00");
 	}
 
+	/**
+	 * test inserting a valid ProductPurchase composit key and verify that the actuial mySQL data matches
+	 */
+	public function testInsertValidProductPurchase(){
+		// count the number of rowsa andsave it for later
+		$numRows = $this->getConnection()->getRowCount("productPurchase");
+		// create a new productPurchase and insert into mySQL
+		$productPurchase = new ProductPurchase($this->product->getProductId(), $this->purchase->getPurchaseId());
+		$productPurchase->insert($this->getPDO());
+		// grab the data from mysql and enforce the fields match our expectations
+		$pdoProductPurchase = ProductPurchase::getProductPurchaseByProductPurchaseProductId($this->getPDO(), $productPurchase->getProductPurchasePurchaseId());
+		$this->assertEquals($numRows +1, $this->getConnection()-getRowCount("productPurchase"));
+		$this->assertEquals($pdoProductPurchase->getProductPurchaseProductId(), $this->productPurchase->getProductPurchaseProductId());
+		$this->assertEquals($pdoProductPurchase->getProductPurchasePurchaseId(), $this->productPurchase->getProductPurchasePurchaseId());
+	}
+
+	/**
+	 * test inserting a ProductPurchase with a foreign key outside the limit
+	 * @expectedException \PDOException
+	 */
+	public function testInsertInvalidProductPurchasePurchaseId(){
+		// create a ProductPurchase wirh a non null purchaseId and watch it fail
+		$productPurchase = new ProductPurchase(CartridgeCodersTest::INVALID_KEY, $this->purchase->getPurchaseId);
+		$productPurchase->insert($this->getPDO());
+	}
+
+	/**
+	 * test inserting a ProductPurchase with a foreign key outside the limit
+	 * @expectedException \PDOException
+	 */
+	public function testInsertInvalidProductPurchaseProductId(){
+		// create a ProductPurchase wirh a non null productId and watch it fail
+		$productPurchase = new ProductPurchase(CartridgeCodersTest::INVALID_KEY, $this->product->getProductId);
+		$productPurchase->insert($this->getPDO());
+	}
+
+	/**
+	 * test updating a ProductPurchase that already exist
+	 * @expectedException \PDO
+	 */
+	public function testUpdateInvalidProductPurchase(){
+		// create a ProductPurchase with an existing foreign key and watch it fail
+		$productPurchase = new ProductPurchase($this->purchase->getPurchaseId(), $this->product->getProductId());
+		$productPurchase->update($this->getPDO());
+	}
+	
 
 
 
@@ -74,6 +120,17 @@ class ProductPurchaseTest extends CartridgeCodersTest{
 
 
 
+
+
+
+
+// * Testing will consist of;
+// * test inserting valid ProductPurchase and verifying
+// * test inserting invalid ProductPurchase (over limit) and verifying
+// * test inserting ProductPurchase where already exist
+// * test updating ProductPurchase where already exist
+// * test getting ProductPurchase by productId where does not exist
+// * test getting ProductPurchase by purchaseId where does not exist
 
 
 
