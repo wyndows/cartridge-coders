@@ -136,21 +136,21 @@ class Product implements \JsonSerializable {
 	}
 
 	/**
-	 * accessor method for product account id
-	 *
-	 * @return int value of product account id
-	 */
+ * accessor method for product account id
+ *
+ * @return int value of product account id
+ */
 
 	public function getProductAccountId() {
 		return($this->productAccountId);
 	}
 
 	/**
-	 * mutator method for product image id
+	 * mutator method for product account id
 	 *
-	 * @param int|null $newProductImageId new value of product image id
-	 * @throws \RangeException if $newProductImageId is not positive
-	 * @throws \TypeError if $newProductImageId is not an integer
+	 * @param int|null $newProductAccountId new value of product account id
+	 * @throws \RangeException if $newProductAccountId is not positive
+	 * @throws \TypeError if $newProductAccountId is not an integer
 	 */
 	public function setProductAccountId(int $newProductAccountId) {
 		// verify the productAccountId is positive
@@ -160,6 +160,33 @@ class Product implements \JsonSerializable {
 
 		// convert and store the profile id
 		$this->productAccountId = $newProductAccountId;
+	}
+
+	/**
+	 * accessor method for product image id
+	 *
+	 * @return int value of product image id
+	 */
+
+	public function getProductImageId() {
+		return($this->productImageId);
+	}
+
+	/**
+	 * mutator method for product image id
+	 *
+	 * @param int|null $newProductImageId new value of product image id
+	 * @throws \RangeException if $newProductImageId is not positive
+	 * @throws \TypeError if $newProductImageId is not an integer
+	 */
+	public function setProductImageId(int $newProductImageId) {
+		// verify the productAccountId is positive
+		if($newProductImageId <= 0) {
+			throw(new \RangeException("productImageId is not positive"));
+		}
+
+		// convert and store the profile id
+		$this->productImageId = $newProductImageId;
 	}
 
 
