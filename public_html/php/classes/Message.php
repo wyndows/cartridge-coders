@@ -24,7 +24,7 @@ class Message implements \JsonSerializable {
 	 * id of the seller
 	 * @var int $accountID
 	 **/
-	private $accountId2;
+	private $accountId;
 	/**
 	 * content for message
 	 * @var string $messageContent
@@ -198,5 +198,27 @@ class Message implements \JsonSerializable {
 		}
 		//store the message subject
 		$this->messageSubject = $newMessageSubject;
+	}
+	/**
+	 * toString() magic method
+	 *
+	 * @return string HTML formatted message
+	 **/
+	public function __tostring() {
+		// create an HTML formatted message
+		$html = "<p>Message id: " . $this->messageId
+				. "Account id: "    . $this->accountId
+				. "Product id: "    . $this->productId
+				. "Account id: "    . $this->accountId
+				. ""
+	}
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 */
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		return ($fields);
 	}
 }
