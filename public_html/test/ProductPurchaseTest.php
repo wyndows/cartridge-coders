@@ -4,7 +4,7 @@
  * Formulating plan for unit testing of ProductPurchase class
  *
  * Class will consist of two foreign keys only, primary will be a compost of the two
- * 
+ *
  * Foreign keys:
  * ProductPurchaseProductId
  * ProductPurchasePurchaseId
@@ -29,7 +29,9 @@
 
 namespace Edu\Cnm\CartridgeCoders\Test;
 
-use Edu\Cnm\CartridgeCoders\{ProductPurchase, Product, Purchase};
+use Edu\Cnm\CartridgeCoders\{
+	ProductPurchase, Product, Purchase
+};
 
 
 // grab  the project test parameters
@@ -42,7 +44,7 @@ require_once(dirname(__DIR__) . "/php/classes/autoload.php");
  * Unit testing for the ProductPurchase class
  * @see ProductPurchase
  */
-class ProductPurchaseTest extends CartridgeCodersTest{
+class ProductPurchaseTest extends CartridgeCodersTest {
 
 	/**
 	 * creating mock objects for foreign keys
@@ -55,14 +57,14 @@ class ProductPurchaseTest extends CartridgeCodersTest{
 	/**
 	 * create dependent objects before running each test
 	 */
-	public final function setUp(){
+	public final function setUp() {
 		// run the default setUp() method first
 		parent::setUp();
-		
+
 		// creare and insert a Product class
 		$this->product = new Product(null, 11, 22, 33, "discription would be here", 44, 55, 0, "the title is here");
 		$this->product->insert($this->getPDO());
-		
+
 		// create and insert Purchase class
 		$this->purchase = new Purchase(null, 21, "transaction0123456789numbers", "2016-05-09 17:00:00");
 	}
@@ -70,7 +72,7 @@ class ProductPurchaseTest extends CartridgeCodersTest{
 	/**
 	 * test inserting a valid ProductPurchase composit key and verify that the actuial mySQL data matches
 	 */
-	public function testInsertValidProductPurchase(){
+	public function testInsertValidProductPurchase() {
 		// count the number of rowsa andsave it for later
 		$numRows = $this->getConnection()->getRowCount("productPurchase");
 		// create a new productPurchase and insert into mySQL
@@ -78,7 +80,7 @@ class ProductPurchaseTest extends CartridgeCodersTest{
 		$productPurchase->insert($this->getPDO());
 		// grab the data from mysql and enforce the fields match our expectations
 		$pdoProductPurchase = ProductPurchase::getProductPurchaseByProductPurchaseProductId($this->getPDO(), $productPurchase->getProductPurchasePurchaseId());
-		$this->assertEquals($numRows +1, $this->getConnection()-getRowCount("productPurchase"));
+		$this->assertEquals($numRows + 1, $this->getConnection() - getRowCount("productPurchase"));
 		$this->assertEquals($pdoProductPurchase->getProductPurchaseProductId(), $this->productPurchase->getProductPurchaseProductId());
 		$this->assertEquals($pdoProductPurchase->getProductPurchasePurchaseId(), $this->productPurchase->getProductPurchasePurchaseId());
 	}
@@ -87,7 +89,7 @@ class ProductPurchaseTest extends CartridgeCodersTest{
 	 * test inserting a ProductPurchase with a foreign key outside the limit
 	 * @expectedException \PDOException
 	 */
-	public function testInsertInvalidProductPurchasePurchaseId(){
+	public function testInsertInvalidProductPurchasePurchaseId() {
 		// create a ProductPurchase wirh a non null purchaseId and watch it fail
 		$productPurchase = new ProductPurchase(CartridgeCodersTest::INVALID_KEY, $this->purchase->getPurchaseId);
 		$productPurchase->insert($this->getPDO());
@@ -97,7 +99,7 @@ class ProductPurchaseTest extends CartridgeCodersTest{
 	 * test inserting a ProductPurchase with a foreign key outside the limit
 	 * @expectedException \PDOException
 	 */
-	public function testInsertInvalidProductPurchaseProductId(){
+	public function testInsertInvalidProductPurchaseProductId() {
 		// create a ProductPurchase wirh a non null productId and watch it fail
 		$productPurchase = new ProductPurchase(CartridgeCodersTest::INVALID_KEY, $this->product->getProductId);
 		$productPurchase->insert($this->getPDO());
@@ -107,7 +109,7 @@ class ProductPurchaseTest extends CartridgeCodersTest{
 	 * test updating a ProductPurchase that already exist
 	 * @expectedException \PDO
 	 */
-	public function testUpdateInvalidProductPurchase(){
+	public function testUpdateInvalidProductPurchase() {
 		// create a ProductPurchase with an existing foreign key and watch it fail
 		$productPurchase = new ProductPurchase($this->purchase->getPurchaseId(), $this->product->getProductId());
 		$productPurchase->update($this->getPDO());
@@ -117,7 +119,7 @@ class ProductPurchaseTest extends CartridgeCodersTest{
 	/**
 	 * test creating a product purchase using purchase id and then deleting it
 	 */
-	public function testDeleteValidProductPurchasePurchaseId(){
+	public function testDeleteValidProductPurchasePurchaseId() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("productPurchase");
 		// create a new product purchase and insert into mysql
@@ -133,11 +135,10 @@ class ProductPurchaseTest extends CartridgeCodersTest{
 	}
 
 
-
 	/**
 	 * test creating a product purchase using product id and then deleting it
 	 */
-	public function testDeleteValidProductPurchaseProductId(){
+	public function testDeleteValidProductPurchaseProductId() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("productPurchase");
 		// create a new product purchase and insert into mysql
@@ -152,29 +153,55 @@ class ProductPurchaseTest extends CartridgeCodersTest{
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("productPurchase"));
 	}
 
+	/**
+	 * test deleting a product purchase that does not exist
+	 * @expectedExcption PDOException
+	 */
+	public function testDeleteInvalidProductPurchase() {
+		// create a product purchase and try to delete it without actually inserting it
+		$productPurchase = new ProductPurchase($this->product->getProductId(), $this->purchase->getPurchaseId());
+		$productPurchase->delete($this->getPDO());
+	}
 
+	/**
+	 * test grabbing a product purchase by product id that does not exist
+	 */
+	public function testGetInvalidProductPurchaseByProductPurchaseProductId(){
+		// grab a product purchase product id that exceeds the maximum allowable product id
+		$productPurchase = ProductPurchase::getProductPurchaseByProductPurchaseProductId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
+		$this->assertNull($productPurchase);
+	}
 
+	/**
+	 * test grabbing a product purchase by purchase id that does not exist
+	 */
+	public function testGetInvalidProductPurchaseByProductPurchasePurchaseId(){
+		// grab a product purchase product id that exceeds the maximum allowable product id
+		$productPurchase = ProductPurchase::getProductPurchaseByProductPurchasePurchaseId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
+		$this->assertNull($productPurchase);
+	}
 
+	/**
+	 * test grabbing all product purchase primary composit keys
+	 */
+	public function testGetAllValidProductPurchase(){
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("productPurchase");
+		// create a new product purchase and insert into mysql
+		$productPurchase = new ProductPurchase($this->product->getProductId(), $this->purchase->getPurchaseId());
+		$productPurchase->insert($this->getPDO());
+		// grab the data from mysql and enforce the fields match our expectations
+		$results = productPurchase::getAllProductPurchase($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()-getRowCount("productPurchase"));
+		$this->assertCount(1, $results);
+		$this->asserContainsOnlyInstancesOf("Edu\\Cnm||CartridgesCoders\\ProductPurchase", $results);
 
-
-
-
-
-
-
-// * Testing will consist of;
-// * test inserting valid ProductPurchase and verifying
-// * test inserting invalid ProductPurchase (over limit) and verifying
-// * test inserting ProductPurchase where already exist
-// * test updating ProductPurchase where already exist
-// * test getting ProductPurchase by productId where does not exist
-// * test getting ProductPurchase by purchaseId where does not exist
-
-
-
-
-
-
+		// grab the result from the array and validate
+		$pdoProductPurchase = $results[0];
+		$this->assertEquals($pdoProductPurchase->getProductPurchaseProductId(), $this->product->getProductId());
+		$this->assertEquals($pdoProductPurchase->getProductPurchasePurchaseId(), $this->purchase->getPurchaseId());
+	}
+	
 }
 
 
