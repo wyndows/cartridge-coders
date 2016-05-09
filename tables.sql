@@ -60,7 +60,7 @@ CREATE TABLE product (
 	productTitle       VARCHAR(64)                 NOT NULL,
 	INDEX (productAccountId),
 	INDEX (productImageId),
-	FOREIGN KEY (,productAccountId) REFERENCES account (accountId),
+	FOREIGN KEY (productAccountId) REFERENCES account (accountId),
 	FOREIGN KEY (productImageId) REFERENCES image (imageId),
 	PRIMARY KEY (productId)
 );
@@ -72,12 +72,12 @@ CREATE TABLE feedback (
 	feedbackRecipientId  INT UNSIGNED                NOT NULL,
 	feedbackContent   VARCHAR(255)                NOT NULL,
 	feedbackRating    TINYINT UNSIGNED            NOT NULL,
-	INDEX (feedbackBuyerId),
+	INDEX (feedbackSenderId),
 	INDEX (feedbackProductId),
-	INDEX (feedbackSellerId),
-	FOREIGN KEY (feedbackBuyerId) REFERENCES account (accountId),
+	INDEX (feedbackRecipientId),
+	FOREIGN KEY (feedbackSenderId) REFERENCES account (accountId),
 	FOREIGN KEY (feedbackProductId) REFERENCES product (productId),
-	FOREIGN KEY (feedbackSellerId) REFERENCES account (accountId),
+	FOREIGN KEY (feedbackRecipientId) REFERENCES account (accountId),
 	PRIMARY KEY (feedbackId)
 );
 
@@ -89,13 +89,13 @@ CREATE TABLE message (
 	messageContent   VARCHAR(255)                NOT NULL,
 	messageMailGunId CHAR(32)                    NOT NULL,
 	messageSubject   VARCHAR(128)                NOT NULL,
-	INDEX (messageBuyerId),
+	INDEX (messageSenderId),
 	INDEX (messageProductId),
-	INDEX (messageSellerId),
-	FOREIGN KEY (messageBuyerId) REFERENCES account (accountId),
+	INDEX (messageRecipientId),
+	FOREIGN KEY (messageSenderId) REFERENCES account (accountId),
 	FOREIGN KEY (messageProductId) REFERENCES product (productId),
-	FOREIGN KEY (messageSellerId) REFERENCES account (accountId),
-	PRIMARY KEY (messageId)LID_
+	FOREIGN KEY (messageRecipientId) REFERENCES account (accountId),
+	PRIMARY KEY (messageId)
 );
 
 CREATE TABLE productCategory (
