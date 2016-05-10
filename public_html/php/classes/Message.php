@@ -264,7 +264,7 @@ class Message implements \JsonSerializable {
 	}
 	/**
 	 * insert message into mySQL
-	 * 
+	 *
 	 * @param PDO $pdo - PDO connection object
 	 * @throw PDOexception when mySql errors occur
 	 * @throws TypeError if $pdo is not a PDO connection object
