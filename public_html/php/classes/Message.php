@@ -121,7 +121,7 @@ class Message implements \JsonSerializable {
 		}
 		//confirm sender id is positive
 		if($newSenderId <=0) {
-			throw(new RangeException("sender id is not positive"))
+			throw(new RangeException("sender id is not positive"));
 		}
 		//convert and store the account id
 		$this->senderId = intval($newSenderId);
@@ -173,7 +173,7 @@ class Message implements \JsonSerializable {
 		}
 		//confirm sender id is positive
 		if($newRecipientId <=0) {
-			throw(new RangeException("sender id is not positive"))
+			throw(new RangeException("sender id is not positive"));
 		}
 		//convert and store the account id
 		$this->recipientId = intval($newRecipientId);
@@ -262,6 +262,7 @@ class Message implements \JsonSerializable {
 		//store the message subject
 		$this->messageSubject = $newMessageSubject;
 	}
+
 	/**
 	 * insert message into mySQL
 	 *
@@ -270,40 +271,33 @@ class Message implements \JsonSerializable {
 	 * @throws TypeError if $pdo is not a PDO connection object
 	 **/
 	public function insert(PDO $pdo) {
-		// enforce message id is null - make sure createing a new message
+		// enforce message id is null - make sure we're inserting a new message
 		if($this->messageId !== null) {
 			throw(new PDOException("not new message"));
 		}
-		$query = "INSERT INTO message(messageSenderId, messageProductId, messageRecipientId, messageContent, messageMailGunId, messageSubject) VALUES(:messageSenderId: messageProductId, :messageRecipientId, :messageContent, :messageMailGunId, :messageSubject");
+
+		// create a query template
+		$query = "INSERT INTO message(messageSenderId, messageProductId, messageRecipientId, messageContent, messageMailGunId, messageSubject) VALUES(:messageSenderId, :messageProductId, :messageRecipientId, :messageContent, :messageMailGunId, :messageSubject)";
 		$statement = $pdo->prepare($query);
 
-		// bind the member variable to the kplace holders on the template
-		$parameters = ["senderId" => $this->account->getAccountId, "productId" => ]
+		// bind the member variable to the place holders in the template
+		$parameters = ["senderId" => $this->senderId, "productId" => $this->productId, "recipientId" => $this->recipientId, "messageContent" => $this->messageContent, "messageMailGunId" => $this->messageMailGunId, "messageSubject" => $this->messageSubject];
+		$statement->execute($parameters);
+
+		//update the null messageId with what mySQL just gave us
+		$this->messageId = intval($pdo->lastInsertId());
 	}
 	/**
-	 * toString() magic method
+	 * delets this Message from mySQL
 	 *
-	 * @return string HTML formatted message
+	 * @param \PDO $pdo PDO connecction object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
-	public function __tostring() {
-		// create an HTML formatted message
-		$html = "<p>Message id: " . $this->messageId
-				. "Account id: "    . $this->accountId
-				. "Product id: "    . $this->productId
-				. "Account id: "    . $this->accountId
-				. "MessageContent"  . $this->messageContent
-				. "MessageMailGunId". $this->messageMailGunId
-				. "MessageSubject"  . $this->messageSubject
-				. "</p>";
-		return($html);
+	public function delete(\PDO $pdo) {
+		// enforce the messageId is not null (i.E., don't delete a tweet that hasn't been inserted
+		if($this->messageId === null) {
+			throw(new \PDOException("unable to delete a twwet that does not exist"));
+		}
 	}
-	/**
-	 * formats the state variables for JSON serialization
-	 *
-	 * @return array resulting state variables to serialize
-	 */
-	public function jsonSerialize() {
-		$fields = get_object_vars($this);
-		return ($fields);
-	}
-}
+	} /* end Message Class */
