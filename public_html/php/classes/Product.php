@@ -699,6 +699,50 @@ class Product implements \JsonSerializable {
 		return ($products);
 	}
 
+	/**
+	 * get the product by productSold
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $productSold product sold to search for
+	 * @return Products|null products found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+	public static function getProductByProductSold(\PDO $pdo, int $productSold) {
+		// sanitize the productSold before searching
+		if($productSold < 0) {
+			throw(new \PDOException("product sold is not positive"));
+		}
+		if($productSold > 1) {
+			throw(new \PDOException("product sold is too high"));
+		}
+
+		// create query template
+		$query = "SELECT productId, productAccountId, productImageId, productAdminFee, productDescription, productPrice, productShipping, productSold, productTitle FROM product WHERE productSold = :productSold";
+		$statement = $pdo->prepare($query);
+
+		// bind the product admin fee to the place holder in the template
+		$parameters = array("productSold" => $productSold);
+		$statement->execute($parameters);
+
+		// build an array of products
+		$products = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$product = new Product($row["productId"], $row["productAccountId"], $row["productImageId"], $row["productAdminFee"], $row["productDescription"], $row["productPrice"], $row["productShipping"], $row["productSold"], $row["productTitle"]);
+				$products[$products->key()] = $product;
+				$products->next();
+			}
+			catch
+			(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($products);
+	}
+
 
 
 
