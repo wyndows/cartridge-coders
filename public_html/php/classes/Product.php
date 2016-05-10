@@ -377,6 +377,80 @@ class Product implements \JsonSerializable {
 		$this->productTitle = $newProductTitle;
 	}
 
+	/**
+	 * inserts product information into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function insert(\PDO $pdo) {
+		// enforce the productId is null (i.e., don't insert a product that already exists
+		if($this->productId !== null) {
+			throw(new \PDOException("not a new product"));
+		}
+
+		// create query template
+		$query = "INSERT INTO product(productAccountId, productImageId, productAdminFee, productDescription, productPrice, productShipping, productSold, productTitle) VALUES(:productAccountId, :productImageId, :productAdminFee, :productDescription, :productPrice, :productShipping, :productSold, :productTitle)";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["productAccountId" => $this->account->getAccountId, "productImageId" => $this->image->getImageId, "productAdminFee" => $this->productAdminFee, "productDescription" => $this->productDescription, "productPrice" => $this->productPrice, "productShipping" => $this->productShipping, "productSold" => $this->productSold, "productTitle" => $this->productTitle];
+		$statement->execute($parameters);
+
+		// update the null productId with what mySQL just gave us
+		$this->productId = intval($pdo->lastInsertId());
+
+	}
+
+	/**
+	 * deletes this product from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function delete(\PDO $pdo) {
+		// enforce the productId is not null (don't delete a product that has just been inserted)
+		if($this->productId === null) {
+			throw(new \PDOException("unable to delete a product that does not exist"));
+		}
+
+		// create query template
+		$query = "DELETE FROM product WHERE productId = :productId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holder in the template
+		$parameters = ["productId" => $this->productId];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * updates the product data in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function update(\PDO $pdo) {
+		// enforce the productId is not null (don't update the product data that hasn't been inserted yet
+		if($this->productId === null) {
+			throw(new \PDOException("unable to update the product data that doesn't exist"));
+		}
+
+		// create query template
+		$query = "UPDATE product SET productAccountId = :productAccountId, productImageId = :productImageId, productAdminFee = :productAdminFee, productDescription = :productDescription, productPrice = :productPrice, productShipping = :productShipping, productSold = :productSold, productTitle = :productTitle WHERE productId = :productId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["productAccountId" => $this->productAccountId, "productImageId" => $this->productImageId, "productAdminFee" => $this->productAdminFee, "productDescription" => $this->productDescription, "productPrice" => $this->productPrice, "productShipping" => $this->productShipping, "productSold" => $this->productSold, "productTitle" => $this->productTitle, "productId" => $this->productId];
+		$statement->execute($parameters);
+	}
+
+	
+
+
+
 
 	/**
 	 * formats the state variables for JSON serialization
