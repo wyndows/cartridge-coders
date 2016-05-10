@@ -299,5 +299,15 @@ class Message implements \JsonSerializable {
 		if($this->messageId === null) {
 			throw(new \PDOException("unable to delete a twwet that does not exist"));
 		}
+
+		//create query template
+		$query = "DELETE FROM message WHERE messageId = :messageId";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variable to the place holder in the template
+		$parameters = ["messageId" => $this->messageId];
+		$statement->execute($parameters);
+
+		
 	}
 	} /* end Message Class */
