@@ -448,14 +448,14 @@ class Product implements \JsonSerializable {
 	}
 
 	/**
- * get the product by productId
- *
- * @param \PDO $pdo PDO connection object
- * @param int $productId product id to search for
- * @return Product|null product found or null if not found
- * @throws \PDOException when mySQL related errors occur
- * @throws \TypeError when variables are not the correct data type
- */
+	 * get the product by productId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $productId product id to search for
+	 * @return Product|null product found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 */
 	public static function getProductByProductId(\PDO $pdo, int $productId) {
 		// sanitize the productId before searching
 		if($productId <= 0) {
@@ -482,7 +482,7 @@ class Product implements \JsonSerializable {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($product);
+		return ($product);
 	}
 
 	/**
@@ -508,28 +508,66 @@ class Product implements \JsonSerializable {
 		$parameters = array("productAccountId" => $productAccountId);
 		$statement->execute($parameters);
 
-		// grab the product from mySQL
-		try {
-			$product = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
+		// build an array of products
+		$products = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
 				$product = new Product($row["productId"], $row["productAccountId"], $row["productImageId"], $row["productAdminFee"], $row["productDescription"], $row["productPrice"], $row["productShipping"], $row["productSold"], $row["productTitle"]);
+				$products[$products->key()] = $product;
+				$products->next();
 			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+			catch
+			(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
 		}
-		return($product);
+		return ($products);
 	}
 
+	/**
+	 * get the product by productImageId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $productImageId product imageid to search for
+	 * @return Product|null product found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+	public static function getProductByProductImageId(\PDO $pdo, int $productImageId) {
+		// sanitize the productImageId before searching
+		if($productImageId <= 0) {
+			throw(new \PDOException("product imageid is not positive"));
+		}
 
+		// create query template
+		$query = "SELECT productId, productAccountId, productImageId, productAdminFee, productDescription, productPrice, productShipping, productSold, productTitle FROM product WHERE productImageId = :productImageId";
+		$statement = $pdo->prepare($query);
 
+		// bind the product imageid to the place holder in the template
+		$parameters = array("productImageId" => $productImageId);
+		$statement->execute($parameters);
 
+		// build an array of products
+		$products = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$product = new Product($row["productId"], $row["productAccountId"], $row["productImageId"], $row["productAdminFee"], $row["productDescription"], $row["productPrice"], $row["productShipping"], $row["productSold"], $row["productTitle"]);
+				$products[$products->key()] = $product;
+				$products->next();
+			}
+			catch
+			(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($products);
+	}
 
-
-
-
+	
 	/**
 	 * formats the state variables for JSON serialization
 	 *
