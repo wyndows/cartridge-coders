@@ -490,7 +490,7 @@ class Product implements \JsonSerializable {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $productAccountId product accountid to search for
-	 * @return Products|null products found or null if not found
+	 * @return \SplFixedArray SplFixedArray of product found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 */
@@ -531,7 +531,7 @@ class Product implements \JsonSerializable {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $productImageId product imageid to search for
-	 * @return Products|null products found or null if not found
+	 * @return \SplFixedArray SplFixedArray of product found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 */
@@ -572,7 +572,7 @@ class Product implements \JsonSerializable {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $productAdminFee product admin fee to search for
-	 * @return Products|null products found or null if not found
+	 * @return \SplFixedArray SplFixedArray of product found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 */
@@ -616,7 +616,7 @@ class Product implements \JsonSerializable {
  *
  * @param \PDO $pdo PDO connection object
  * @param int $productPrice product price to search for
- * @return Products|null products found or null if not found
+ * @return \SplFixedArray SplFixedArray of product found
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError when variables are not the correct data type
  */
@@ -625,7 +625,7 @@ class Product implements \JsonSerializable {
 		if($productPrice < 0) {
 			throw(new \PDOException("product price is not positive"));
 		}
-		if($productAdminFee >= 100000) {
+		if($productPrice >= 100000) {
 			throw(new \PDOException("product price is too high"));
 		}
 
@@ -660,7 +660,7 @@ class Product implements \JsonSerializable {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $productShipping product shipping to search for
-	 * @return Products|null products found or null if not found
+	 * @return \SplFixedArray SplFixedArray of product found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 */
@@ -704,7 +704,7 @@ class Product implements \JsonSerializable {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $productSold product sold to search for
-	 * @return Products|null products found or null if not found
+	 * @return \SplFixedArray SplFixedArray of product found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 */
@@ -741,6 +741,48 @@ class Product implements \JsonSerializable {
 			}
 		}
 		return ($products);
+	}
+
+	/**
+	 * get the product by description
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $productDescription product description to search for
+	 * @return \SplFixedArray SplFixedArray of product found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getProductByProductDescription(\PDO $pdo, string $productDescription) {
+		// sanitize the description before searching
+		$productDescription = trim($productDescription);
+		$productDescription = filter_var($productDescription, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($productDescription) === true) {
+			throw(new \PDOException("product description is invalid"));
+		}
+
+		// create query template
+		$query = "SELECT productId, productAccountId, productImageId, productAdminFee, productDescription, productPrice, productShipping, productSold, productTitle FROM tweet WHERE productDescription LIKE :productDescription";
+		$statement = $pdo->prepare($query);
+
+		// bind the product description to the place holder in the template
+		$productDescription = "%$productDescription%";
+		$parameters = array("productDescription" => $productDescription);
+		$statement->execute($parameters);
+
+		// build an array of products
+		$products = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$product = new Product($row["productId"], $row["productAccountId"], $row["productImageId"], $row["productAdminFee"], $row["productDescription"], $row["productPrice"], $row["productShipping"], $row["productSold"], $row["productTitle"]);
+				$products[$products->key()] = $product;
+				$products->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($products);
 	}
 
 
