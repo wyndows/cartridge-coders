@@ -192,7 +192,7 @@ class ProductCategory implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the composite key to the place holder in the template
-		$parameters = array("productCategoryCategoryId" => $productCategoryCategoryId, "productCategoryProductId" = $productCategoryProductId);
+		$parameters = array("productCategoryCategoryId" => $productCategoryCategoryId, "productCategoryProductId" => $productCategoryProductId);
 		$statement->execute($parameters);
 
 		// grab the category from mySQL
@@ -230,7 +230,7 @@ class ProductCategory implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the composite key to the place holder in the template
-		$parameters = array("productCategoryCategoryId" => $productCategoryCategoryId, "productCategoryProductId" = $productCategoryProductId);
+		$parameters = array("productCategoryCategoryId" => $productCategoryCategoryId, "productCategoryProductId" => $productCategoryProductId);
 		$statement->execute($parameters);
 
 		// grab the category from mySQL
