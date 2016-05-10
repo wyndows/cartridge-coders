@@ -129,7 +129,7 @@ class Account implements \JsonSerializable {
 	 * @throws \RangeException if $newAccountImageId is not positive
 	 * @throws \TypeError if $newAccountImageId is not an integer
 	 **/
-	public function accountImageId(int $newAccountImageId = null) {
+	public function setAccountImageId(int $newAccountImageId = null) {
 		//if account image id is null (composing), allow new account image id without mySQL assignment
 		if($newAccountImageId === null) {
 			$this->accountImageId = null;
