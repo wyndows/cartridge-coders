@@ -490,7 +490,7 @@ class Product implements \JsonSerializable {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $productAccountId product accountid to search for
-	 * @return Product|null product found or null if not found
+	 * @return Products|null products found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 */
@@ -531,7 +531,7 @@ class Product implements \JsonSerializable {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $productImageId product imageid to search for
-	 * @return Product|null product found or null if not found
+	 * @return Products|null products found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 */
@@ -572,16 +572,16 @@ class Product implements \JsonSerializable {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $productAdminFee product admin fee to search for
-	 * @return Product|null product found or null if not found
+	 * @return Products|null products found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 */
-	public static function getProductByAdminFee(\PDO $pdo, int $productAdminFee) {
+	public static function getProductByProductAdminFee(\PDO $pdo, int $productAdminFee) {
 		// sanitize the productAdminFee before searching
 		if($productAdminFee < 0) {
 			throw(new \PDOException("product admin fee is not positive"));
 		}
-		if($productAdminFee >= 1000) {
+		if($productAdminFee >= 1000.00) {
 			throw(new \PDOException("product admin fee is too high"));
 		}
 
@@ -591,6 +591,50 @@ class Product implements \JsonSerializable {
 
 		// bind the product admin fee to the place holder in the template
 		$parameters = array("productAdminFee" => $productAdminFee);
+		$statement->execute($parameters);
+
+		// build an array of products
+		$products = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$product = new Product($row["productId"], $row["productAccountId"], $row["productImageId"], $row["productAdminFee"], $row["productDescription"], $row["productPrice"], $row["productShipping"], $row["productSold"], $row["productTitle"]);
+				$products[$products->key()] = $product;
+				$products->next();
+			}
+			catch
+			(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($products);
+	}
+
+	/**
+	 * get the product by productPrice
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $productPrice product price to search for
+	 * @return Products|null products found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+	public static function getProductByProductPrice(\PDO $pdo, int $productPrice) {
+		// sanitize the productPrice before searching
+		if($productPrice < 0) {
+			throw(new \PDOException("product price is not positive"));
+		}
+		if($productAdminFee >= 100000) {
+			throw(new \PDOException("product price is too high"));
+		}
+
+		// create query template
+		$query = "SELECT productId, productAccountId, productImageId, productAdminFee, productDescription, productPrice, productShipping, productSold, productTitle FROM product WHERE productPrice = :productPrice";
+		$statement = $pdo->prepare($query);
+
+		// bind the product admin fee to the place holder in the template
+		$parameters = array("productPrice" => $productPrice);
 		$statement->execute($parameters);
 
 		// build an array of products
