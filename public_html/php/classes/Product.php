@@ -744,14 +744,14 @@ class Product implements \JsonSerializable {
 	}
 
 	/**
-	 * get the product by description
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param string $productDescription product description to search for
-	 * @return \SplFixedArray SplFixedArray of product found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
+ * get the product by description
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param string $productDescription product description to search for
+ * @return \SplFixedArray SplFixedArray of product found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when variables are not the correct data type
+ **/
 	public static function getProductByProductDescription(\PDO $pdo, string $productDescription) {
 		// sanitize the description before searching
 		$productDescription = trim($productDescription);
@@ -785,8 +785,47 @@ class Product implements \JsonSerializable {
 		return($products);
 	}
 
+	/**
+	 * get the product by title
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $productTitle product title to search for
+	 * @return \SplFixedArray SplFixedArray of product found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getProductByProductTitle(\PDO $pdo, string $productTitle) {
+		// sanitize the title before searching
+		$productTitle = trim($productTitle);
+		$productTitle = filter_var($productTitle, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($productTitle) === true) {
+			throw(new \PDOException("product title is invalid"));
+		}
 
+		// create query template
+		$query = "SELECT productId, productAccountId, productImageId, productAdminFee, productDescription, productPrice, productShipping, productSold, productTitle FROM tweet WHERE productTitle LIKE :productTitle";
+		$statement = $pdo->prepare($query);
 
+		// bind the product title to the place holder in the template
+		$productTitle = "%$productTitle%";
+		$parameters = array("productTitle" => $productTitle);
+		$statement->execute($parameters);
+
+		// build an array of products
+		$products = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$product = new Product($row["productId"], $row["productAccountId"], $row["productImageId"], $row["productAdminFee"], $row["productDescription"], $row["productPrice"], $row["productShipping"], $row["productSold"], $row["productTitle"]);
+				$products[$products->key()] = $product;
+				$products->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($products);
+	}
 
 	/**
 	 * formats the state variables for JSON serialization
