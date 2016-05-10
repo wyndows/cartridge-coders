@@ -485,6 +485,44 @@ class Product implements \JsonSerializable {
 		return($product);
 	}
 
+	/**
+	 * get the product by productAccountId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $productAccountId product accountid to search for
+	 * @return Product|null product found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+	public static function getProductByProductAccountId(\PDO $pdo, int $productAccountId) {
+		// sanitize the productAccountId before searching
+		if($productAccountId <= 0) {
+			throw(new \PDOException("product accountid is not positive"));
+		}
+
+		// create query template
+		$query = "SELECT productId, productAccountId, productImageId, productAdminFee, productDescription, productPrice, productShipping, productSold, productTitle FROM product WHERE productAccountId = :productAccountId";
+		$statement = $pdo->prepare($query);
+
+		// bind the product accountid to the place holder in the template
+		$parameters = array("productAccountId" => $productAccountId);
+		$statement->execute($parameters);
+
+		// grab the product from mySQL
+		try {
+			$product = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$product = new Product($row["productId"], $row["productAccountId"], $row["productImageId"], $row["productAdminFee"], $row["productDescription"], $row["productPrice"], $row["productShipping"], $row["productSold"], $row["productTitle"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($product);
+	}
+
 
 
 
