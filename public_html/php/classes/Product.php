@@ -612,14 +612,14 @@ class Product implements \JsonSerializable {
 	}
 
 	/**
-	 * get the product by productPrice
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param int $productPrice product price to search for
-	 * @return Products|null products found or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 */
+ * get the product by productPrice
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param int $productPrice product price to search for
+ * @return Products|null products found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when variables are not the correct data type
+ */
 	public static function getProductByProductPrice(\PDO $pdo, int $productPrice) {
 		// sanitize the productPrice before searching
 		if($productPrice < 0) {
@@ -635,6 +635,50 @@ class Product implements \JsonSerializable {
 
 		// bind the product admin fee to the place holder in the template
 		$parameters = array("productPrice" => $productPrice);
+		$statement->execute($parameters);
+
+		// build an array of products
+		$products = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$product = new Product($row["productId"], $row["productAccountId"], $row["productImageId"], $row["productAdminFee"], $row["productDescription"], $row["productPrice"], $row["productShipping"], $row["productSold"], $row["productTitle"]);
+				$products[$products->key()] = $product;
+				$products->next();
+			}
+			catch
+			(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($products);
+	}
+
+	/**
+	 * get the product by productShipping
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $productShipping product shipping to search for
+	 * @return Products|null products found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+	public static function getProductByProductShipping(\PDO $pdo, int $productShipping) {
+		// sanitize the productShipping before searching
+		if($productShipping < 0) {
+			throw(new \PDOException("product shipping is not positive"));
+		}
+		if($productShipping >= 1000) {
+			throw(new \PDOException("product shipping is too high"));
+		}
+
+		// create query template
+		$query = "SELECT productId, productAccountId, productImageId, productAdminFee, productDescription, productPrice, productShipping, productSold, productTitle FROM product WHERE productShipping = :productShipping";
+		$statement = $pdo->prepare($query);
+
+		// bind the product admin fee to the place holder in the template
+		$parameters = array("productShipping" => $productShipping);
 		$statement->execute($parameters);
 
 		// build an array of products
