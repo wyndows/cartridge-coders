@@ -63,7 +63,7 @@ class Account implements \JsonSerializable {
 	 * @throws \TypeError - if data types violate type hints
 	 * @throws \Exception - catch all if another error occurs
 	 */
-	public function __construct(int $newAccountId = null, int $newAccountImageId = null, int $newAccountActive = null, int $newAccountAdmin = null, string $newAccountName, string $newAccountPpEmail, string $newAccountUserName) {
+	public function __construct(int $newAccountId = null, int $newAccountImageId, int $newAccountActive, int $newAccountAdmin, string $newAccountName, string $newAccountPpEmail, string $newAccountUserName) {
 		try {
 			$this->setAccountId($newAccountId);
 			$this->setAccountImageId($newAccountImageId);
@@ -129,12 +129,8 @@ class Account implements \JsonSerializable {
 	 * @throws \RangeException if $newAccountImageId is not positive
 	 * @throws \TypeError if $newAccountImageId is not an integer
 	 **/
-	public function setAccountImageId(int $newAccountImageId = null) {
-		//if account image id is null (composing), allow new account image id without mySQL assignment
-		if($newAccountImageId === null) {
-			$this->accountImageId = null;
-			return;
-		}
+	public function setAccountImageId(int $newAccountImageId) {
+
 		// verify account image id is positive
 		if($newAccountImageId <= 0) {
 			throw(new \RangeException("account image id is not positive"));
@@ -157,12 +153,7 @@ class Account implements \JsonSerializable {
 	 * @throws \RangeException if $newAccountActive is not positive
 	 * @throws \TypeError if $newAccountActive is not an integer
 	 **/
-	public function accountActive(int $newAccountActive = null) {
-		//if account active flag is null (composing), allow new account without mySQL assignment
-		if($newAccountActive === null) {
-			$this->accountActive = null;
-			return;
-		}
+	public function setAccountActive(int $newAccountActive) {
 		// verify account active flag is positive
 		if($newAccountActive <= 0) {
 			throw(new \RangeException("account active flag is not positive"));
@@ -186,14 +177,10 @@ class Account implements \JsonSerializable {
 	 * @throws \RangeException if $newAccountAdmin is not positive
 	 * @throws \TypeError if $newAccountAdmin is not an integer
 	 **/
-	public function accountAdmin(int $newAccountAdmin = null) {
-		//if account admin flag is null (composing), allow new admin without mySQL assignment
-		if($newAccountAdmin === null) {
-			$this->accountAdmin = null;
-			return;
-		}
+	public function setAccountAdmin(int $newAccountAdmin) {
+		
 		// verify account admin flag is positive
-		if($newAccountAdmin <= 0) {
+		if($newAccountAdmin < 0) {
 			throw(new \RangeException("account admin flag is not positive"));
 		}
 		// convert and store account admin flag
@@ -310,11 +297,11 @@ class Account implements \JsonSerializable {
 		}
 
 		//create query table
-		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES(:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
+		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES (:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders on the template
-		$parameters = ["accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+		$parameters = ["accountImageId" => $this->accountImageId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
 		$statement->execute($parameters);
 
 		//update the null accountId with what mySQL just gave us
