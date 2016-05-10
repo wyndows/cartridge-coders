@@ -45,7 +45,7 @@ use Edu\Cnm\CartridgeCoders\Account;
 require_once("CartridgeCodersTest.php");
 
 //grab the class under scrutiny
-require_once(dirname(__DIR__) . "../php/classes/autoload.php");
+require_once(dirname(__DIR__) . "/php/classes/autoload.php");
 
 /**
  * Unit testing for the account class for Cartridge Coders

@@ -36,7 +36,7 @@ use Edu\Cnm\CartridgeCoders\Image;
 require_once("CartridgeCodersTest.php");
 
 //grab the class under scrutiny
-require_once(dirname(__DIR__) . "../php/classes/autoload.php");
+require_once(dirname(__DIR__) . "/php/classes/autoload.php");
 
 /**
  * Unit testing for the Image class for Cartridge Coders
