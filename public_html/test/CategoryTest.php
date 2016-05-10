@@ -31,7 +31,7 @@
 	require_once("CartridgeCodersTest.php");
 
 	// grab the class under scrutiny
-	require_once(dirname(__DIR__) . "/php/classes/autoload.php");
+	require_once ("../php/classes/autoload.php");
 
 	/**
 	 * Unit testing for the Category class for Cartridge Coders

@@ -61,6 +61,10 @@
 		protected $category = null;
 
 		protected $product = null;
+
+		protected $account = null;
+
+		protected $image = null;
 		
 		/**
 		 * create dependent objects before running each test
@@ -74,7 +78,7 @@
 			$this->category->insert($this->getPDO());
 
 			// create and insert a Product class
-			$this->product = new Product(null, 25, 35, .75, "cartridge", 10.00, 5.99, 0, "cheap");
+			$this->product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), 2.00, "cartridge", 10.00, 5.99, 0, "cheap");
 			$this->product->insert($this->getPDO());
 		}
 
@@ -103,7 +107,7 @@
 		 **/
 		public function testInsertInvalidProductCategoryCategoryId() {
 			// create a ProductCategory with a non null category id and watch it fail
-			$productCategory = new ProductCategory(CartridgeCodersTest::INVALID_KEY, $this->product->getProductId);
+			$productCategory = new ProductCategory(CartridgeCodersTest::INVALID_KEY, $this->product->getProductId());
 			$productCategory->insert($this->getPDO());
 		}
 
@@ -114,7 +118,7 @@
 		 **/
 		public function testInsertInvalidProductCategoryProductId() {
 			// create a ProductCategory with a non null category id and watch it fail
-			$productCategory = new ProductCategory($this->category->getCategoryId, CartridgeCodersTest::INVALID_KEY);
+			$productCategory = new ProductCategory($this->category->getCategoryId(), CartridgeCodersTest::INVALID_KEY);
 			$productCategory->insert($this->getPDO());
 		}
 
@@ -145,7 +149,7 @@
 			$productCategory->delete($this->getPDO());
 
 			// grab the data from mySQL and enforce the ProductCategory does not exist
-			$pdoProductCategory = ProductCategory::getProductCategoryByCategoryId($this->getPDO(), $ProductCategory->getProductCategoryCategoryId());
+			$pdoProductCategory = ProductCategory::getProductCategoryByProductCategoryCategoryId($this->getPDO(), $productCategory->getProductCategoryCategoryId());
 			$this->assertNull($pdoProductCategory);
 			$this->assertEquals($numRows, $this->getConnection()->getRowCount("productCategory"));
 		}
@@ -166,7 +170,7 @@
 			$productCategory->delete($this->getPDO());
 
 			// grab the data from mySQL and enforce the ProductCategory does not exist
-			$pdoProductCategory = ProductCategory::getProductCategoryByProductId($this->getPDO(), $ProductCategory->getProductCategoryProductId());
+			$pdoProductCategory = ProductCategory::getProductCategoryByProductCategoryProductId($this->getPDO(), $productCategory->getProductCategoryProductId());
 			$this->assertNull($pdoProductCategory);
 			$this->assertEquals($numRows, $this->getConnection()->getRowCount("productCategory"));
 		}

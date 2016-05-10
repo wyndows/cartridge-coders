@@ -72,13 +72,13 @@
  */
 namespace Edu\Cnm\CartridgeCoders\Test;
 
-use Edu\Cnm\CartridgeCoders\Product;
+use Edu\Cnm\CartridgeCoders\{Product, Image, Account};
 
 // grab the project test parameters
 require_once("CartridgeCodersTest.php");
 
 // grab the class under scrutiny
-require_once(dirname(__DIR__) . "/php/classes/autoload.php");
+require_once("../php/classes/autoload.php");
 
 /**
  * Unit testing for the Product class for Cartridge Coders
@@ -147,6 +147,9 @@ class ProductTest extends CartridgeCodersTest {
 	 **/
 	protected $VALID_PRODUCTTITLE2 = "Mario Brothers";
 
+	protected $image = null;
+	protected $account = null;
+
 	/**
 	 * create dependent objects before running each test
 	 **/
@@ -154,79 +157,33 @@ class ProductTest extends CartridgeCodersTest {
 		// run the default setUp() method first
 		parent::setUp();
 
+		// create and insert an Image to own the test Product
+		$this->image = new Image(null, "filename", "image/jpg");
+		$this->image->insert($this->getPDO());
+
 		// create and insert an Account to own the test Product
-		$this->account = new Account(null, $this->image->getImageId, 1, 0, "john", "john@john.com", "johndoe");
+		$this->account = new Account(null, $this->image->getImageId(), 1, 0, "john", "john@john.com", "johndoe");
 		$this->account->insert($this->getPDO());
 
-		// create and insert an Image to own the test Product
-		$this->image = new Image(null, "filename", "type/jpg");
-		$this->image->insert($this->getPDO());
+
 	}
 
 	/**
-	 * test inserting a valid Product Id and verify that the actual mySQL data matches
-	 **/
-	public function testInsertValidProduct() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("product");
-
-		// create a new product and insert into mySQL
-		$product = new Product(null, $this->getProductId, $this->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
-		$product->insert($this->getPDO());
-
-		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProduct = Product::getProductByProductId($this->getPDO(), $product->getProductId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("product"));
-		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
-		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
-		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
-		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
-		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
-		$this->assertEquals($pdoProduct->getProductShipping(), $this->VALID_PRODUCTSHIPPING);
-		$this->assertEquals($pdoProduct->getProductSold(), $this->VALID_PRODUCTSOLD);
-		$this->assertEquals($pdoProduct->getProductTitle(), $this->VALID_PRODUCTTITLE);
-	}
-
-	/**
-	 * test inserting a valid Account Id and verify that the actual mySQL data matches
-	 **/
-	public function testInsertValidAccountId() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("product");
-
-		// create a new product and insert into mySQL
-		$product = new Product(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
-		$product->insert($this->getPDO());
-
-		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProduct = Product::getProductByAccountId($this->getPDO(), $product->account->getProductId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("product"));
-		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
-		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
-		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
-		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
-		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
-		$this->assertEquals($pdoProduct->getProductShipping(), $this->VALID_PRODUCTSHIPPING);
-		$this->assertEquals($pdoProduct->getProductSold(), $this->VALID_PRODUCTSOLD);
-		$this->assertEquals($pdoProduct->getProductTitle(), $this->VALID_PRODUCTTITLE);
-	}
-
-	/**
-	 * test inserting a valid Product Id and verify that the actual mySQL data matches
+	 * test inserting a valid Product and verify that the actual mySQL data matches
 	 **/
 	public function testInsertValidProductId() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("product");
 
 		// create a new product and insert into mySQL
-		$product = new Product(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProduct = Product::getProductByAccountId($this->getPDO(), $product->account->getProductId());
+		$pdoProduct = Product::getProductByProductId($this->getPDO(), $product->getProductId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("product"));
-		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
-		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
 		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
 		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
@@ -242,7 +199,7 @@ class ProductTest extends CartridgeCodersTest {
 	 **/
 	public function testInsertInvalidProductId() {
 		// create a Product with a non null product id and watch it fail
-		$product = new Product(CartridgeCodersTest::INVALID_KEY, $this->account->getAccountId(), $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(CartridgeCodersTest::INVALID_KEY, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 	}
 
@@ -253,7 +210,7 @@ class ProductTest extends CartridgeCodersTest {
 	 **/
 	public function testInsertInvalidAccountId() {
 		// create a Product with an invalid account id and watch it fail
-		$product = new Product(null, CartridgeCodersTest::INVALID_KEY, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, CartridgeCodersTest::INVALID_KEY, $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 	}
 
@@ -264,7 +221,7 @@ class ProductTest extends CartridgeCodersTest {
 	 **/
 	public function testInsertInvalidImageId() {
 		// create a Product with an invalid image id and watch it fail
-		$product = new Product(null, $this->account->getAccountId, CartridgeCodersTest::INVALID_KEY, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId(), CartridgeCodersTest::INVALID_KEY, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 	}
 
@@ -276,7 +233,7 @@ class ProductTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("product");
 
 		// create a new Product and insert into mySQL
-		$product = new Product(null, $this->account->getAccountId, $this->product->getProductId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
 		// edit the Product Admin Fee and update it in mySQL
@@ -286,8 +243,8 @@ class ProductTest extends CartridgeCodersTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProduct = Product::getProductByProductId($this->getPDO(), $product->getProductId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("product"));
-		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
-		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE2);
 		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
 		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
@@ -304,7 +261,7 @@ class ProductTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("product");
 
 		// create a new Product and insert into mySQL
-		$product = new Product(null, $this->account->getAccountId, $this->product->getProductId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
 		// edit the Product Description and update it in mySQL
@@ -312,10 +269,10 @@ class ProductTest extends CartridgeCodersTest {
 		$product->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProduct = Product::getProductByProductDescription($this->getPDO(), $product->getProductDescription());
+		$pdoProduct = Product::getProductByProductId($this->getPDO(), $product->getProductId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("product"));
-		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
-		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
 		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION2);
 		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
@@ -323,6 +280,7 @@ class ProductTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoProduct->getProductSold(), $this->VALID_PRODUCTSOLD);
 		$this->assertEquals($pdoProduct->getProductTitle(), $this->VALID_PRODUCTTITLE);
 	}
+
 
 	/**
 	 * test inserting a Product, editing Product Price, and then updating it
@@ -332,18 +290,18 @@ class ProductTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("product");
 
 		// create a new Product and insert into mySQL
-		$product = new Product(null, $this->account->getAccountId, $this->product->getProductId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
-		// edit the Product Price and update it in mySQL
+		// edit the Product Admin Fee and update it in mySQL
 		$product->setProductPrice($this->VALID_PRODUCTPRICE2);
 		$product->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProduct = Product::getProductByProductPrice($this->getPDO(), $product->getProductPrice());
+		$pdoProduct = Product::getProductByProductId($this->getPDO(), $product->getProductId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("product"));
-		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
-		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
 		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
 		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE2);
@@ -360,7 +318,7 @@ class ProductTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("product");
 
 		// create a new Product and insert into mySQL
-		$product = new Product(null, $this->account->getAccountId, $this->product->getProductId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
 		// edit the Product Shipping and update it in mySQL
@@ -368,10 +326,10 @@ class ProductTest extends CartridgeCodersTest {
 		$product->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProduct = Product::getProductByProductShipping($this->getPDO(), $product->getProductShipping());
+		$pdoProduct = Product::getProductByProductId($this->getPDO(), $product->getProductId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("product"));
-		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
-		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
 		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
 		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
@@ -388,7 +346,7 @@ class ProductTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("product");
 
 		// create a new Product and insert into mySQL
-		$product = new Product(null, $this->account->getAccountId, $this->product->getProductId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
 		// edit the Product Sold and update it in mySQL
@@ -396,10 +354,10 @@ class ProductTest extends CartridgeCodersTest {
 		$product->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProduct = Product::getProductByProductSold($this->getPDO(), $product->getProductSold());
+		$pdoProduct = Product::getProductByProductId($this->getPDO(), $product->getProductId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("product"));
-		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
-		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
 		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
 		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
@@ -416,7 +374,7 @@ class ProductTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("product");
 
 		// create a new Product and insert into mySQL
-		$product = new Product(null, $this->account->getAccountId, $this->product->getProductId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
 		// edit the Product Title and update it in mySQL
@@ -424,10 +382,10 @@ class ProductTest extends CartridgeCodersTest {
 		$product->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProduct = Product::getProductByProductSold($this->getPDO(), $product->getProductSold());
+		$pdoProduct = Product::getProductByProductId($this->getPDO(), $product->getProductId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("product"));
-		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
-		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
 		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
 		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
@@ -443,7 +401,7 @@ class ProductTest extends CartridgeCodersTest {
 	 **/
 	public function testUpdateInvalidProduct() {
 		// create a Product with a non null product id and watch it fail
-		$product = new Product(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->update($this->getPDO());
 	}
 
@@ -455,7 +413,7 @@ class ProductTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("product");
 
 		// create a new Product and insert into mySQL
-		$product = new Product(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
 		// delete the Product from mySQL
@@ -475,7 +433,7 @@ class ProductTest extends CartridgeCodersTest {
 	 **/
 	public function testDeleteInvalidProduct() {
 		// create a Product and try to delete it without actually inserting it
-		$product = new Product(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->delete($this->getPDO());
 	}
 
@@ -491,19 +449,19 @@ class ProductTest extends CartridgeCodersTest {
 	/**
 	 * test grabbing a Product with Account Id that does not exist
 	 **/
-	public function testGetProductByInvalidAccountId() {
+	/**public function testGetProductByInvalidAccountId() {
 		// grab an account id that exceeds the maximum allowable account id
-		$product = Product::getProductByAccountId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
-		$this->assertNull($product);
+		$product = Product::getProductByProductAccountId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
+		$this->assertSame($product);
 	}
 
 	/**
 	 * test grabbing a Product with Image Id that does not exist
 	 **/
-	public function testGetInvalidProductByImageId() {
+	/**public function testGetInvalidProductByProductImageId() {
 		// grab an image id that exceeds the maximum allowable image id
-		$product = Product::getProductByImageId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
-		$this->assertNull($product);
+		$product = Product::getProductByProductImageId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
+		$this->assertSame($product);
 	}
 
 	/**
@@ -514,7 +472,7 @@ class ProductTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("product");
 
 		// create a new Product and insert into mySQL
-		$product = new Product(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -525,8 +483,8 @@ class ProductTest extends CartridgeCodersTest {
 
 		// grab the result from the array and validate it
 		$pdoProduct = $results[0];
-		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
-		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
 		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
 		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
@@ -543,7 +501,7 @@ class ProductTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("product");
 
 		// create a new Product and insert into mySQL
-		$product = new Product(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -554,8 +512,8 @@ class ProductTest extends CartridgeCodersTest {
 
 		// grab the result from the array and validate it
 		$pdoProduct = $results[0];
-		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
-		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
 		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
 		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
@@ -572,7 +530,7 @@ class ProductTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("product");
 
 		// create a new Product and insert into mySQL
-		$product = new Product(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -583,8 +541,8 @@ class ProductTest extends CartridgeCodersTest {
 
 		// grab the result from the array and validate it
 		$pdoProduct = $results[0];
-		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
-		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
 		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
 		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
@@ -601,7 +559,7 @@ class ProductTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("product");
 
 		// create a new Product and insert into mySQL
-		$product = new Product(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -612,8 +570,8 @@ class ProductTest extends CartridgeCodersTest {
 
 		// grab the result from the array and validate it
 		$pdoProduct = $results[0];
-		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
-		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
 		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
 		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
@@ -630,7 +588,7 @@ class ProductTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("product");
 
 		// create a new Product and insert into mySQL
-		$product = new Product(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -641,8 +599,8 @@ class ProductTest extends CartridgeCodersTest {
 
 		// grab the result from the array and validate it
 		$pdoProduct = $results[0];
-		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
-		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
 		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
 		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
@@ -659,7 +617,7 @@ class ProductTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("product");
 
 		// create a new Product and insert into mySQL
-		$product = new Product(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -670,8 +628,8 @@ class ProductTest extends CartridgeCodersTest {
 
 		// grab the result from the array and validate it
 		$pdoProduct = $results[0];
-		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
-		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
 		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
 		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
@@ -679,9 +637,11 @@ class ProductTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoProduct->getProductSold(), $this->VALID_PRODUCTSOLD);
 		$this->assertEquals($pdoProduct->getProductTitle(), $this->VALID_PRODUCTTITLE);
 	}
-
+/**
 	/**
 	 * test grabbing a Product by admin fee that does not exist
+	 *
+	 * @expectedException PDOException
 	 **/
 	public function testGetProductByInvalidProductAdminFee() {
 		// grab a product by searching for admin fee that does not exist
@@ -691,8 +651,10 @@ class ProductTest extends CartridgeCodersTest {
 
 	/**
 	 * test grabbing a Product by product description that does not exist
+	 *
+	 * @expectedException PDOException
 	 **/
-	public function testGetProductByInvalidProductDescription() {
+	/**public function testGetProductByInvalidProductDescription() {
 		// grab a product by searching for description that does not exist
 		$product = Product::getProductByProductDescription($this->getPDO(), "");
 		$this->assertCount(0, $product);
@@ -700,8 +662,10 @@ class ProductTest extends CartridgeCodersTest {
 
 	/**
 	 * test grabbing a Product by product price that does not exist
+	 *
+	 * @expectedException PDOException
 	 **/
-	public function testGetProductByInvalidProductPrice() {
+	/**public function testGetProductByInvalidProductPrice() {
 		// grab a product by searching for price that does not exist
 		$product = Product::getProductByProductPrice($this->getPDO(), -1);
 		$this->assertCount(0, $product);
@@ -709,8 +673,10 @@ class ProductTest extends CartridgeCodersTest {
 
 	/**
 	 * test grabbing a Product by product shipping that does not exist
+	 *
+	 * @expectedException PDOException
 	 **/
-	public function testGetProductByInvalidProductShipping() {
+	/**public function testGetProductByInvalidProductShipping() {
 		// grab a product by searching for shipping that does not exist
 		$product = Product::getProductByProductShipping($this->getPDO(), -1);
 		$this->assertCount(0, $product);
@@ -718,8 +684,10 @@ class ProductTest extends CartridgeCodersTest {
 
 	/**
 	 * test grabbing a Product by product sold that does not exist
+	 *
+	 * @expectedException PDOException
 	 **/
-	public function testGetProductByInvalidProductSold() {
+	/**public function testGetProductByInvalidProductSold() {
 		// grab a product by searching for sold that does not exist
 		$product = Product::getProductByProductSold($this->getPDO(), -1);
 		$this->assertCount(0, $product);
@@ -727,8 +695,10 @@ class ProductTest extends CartridgeCodersTest {
 
 	/**
 	 * test grabbing a Product by product title that does not exist
+	 *
+	 * @expectedException PDOException
 	 **/
-	public function testGetProductByInvalidProductTitle() {
+	/**public function testGetProductByInvalidProductTitle() {
 		// grab a product by searching for title that does not exist
 		$product = Product::getProductByProductTitle($this->getPDO(), "");
 		$this->assertCount(0, $product);
@@ -742,7 +712,7 @@ class ProductTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("product");
 
 		// create a new Product and insert into mySQL
-		$product = new Product(null, $this->account->getAccountId, $this->image->getImageId, $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
 		$product->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -753,8 +723,8 @@ class ProductTest extends CartridgeCodersTest {
 
 		// grab the result from the array and validate it
 		$pdoProduct = $results[0];
-		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId);
-		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId);
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
 		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
 		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
