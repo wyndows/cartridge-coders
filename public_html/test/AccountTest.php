@@ -99,6 +99,45 @@ class AccountTest extends CartridgeCodersTest {
 	 */
 	private $accountUserName;
 
+	// ----------------------------------------- mock data --------------------------------------------
+
+	/**
+	 * content of the ImageId
+	 * @var int $VALID_IMAGEID
+	 **/
+	protected $VALID_IMAGEID = 11;
+
+	/**
+	 * content of the Active
+	 * @var tinyint $VALID_ACTIVE
+	 **/
+	protected $VALID_ACTIVE = 1;
+
+	/**
+	 * content of the Admin
+	 * @var tinyint $VALID_ADMIN
+	 **/
+	protected $VALID_ADMIN = 1;
+
+	/**
+	 * content of the Name
+	 * @var string $VALID_NAME
+	 **/
+	protected $VALID_NAME = "this is a valid name";
+
+	/**
+	 * content of the PayPal Email
+	 * @var string $VALID_PPEMAIL
+	 **/
+	protected $VALID_PPEMAIL = "thisis@avalidpp.email";
+
+	/**
+	* content of the User Name
+	* @var string $VALID_USERNAME
+**/
+	protected $VALID_USERNAME = "this is a valid user name";
+
+
 
 // ------------------------------------------- AccountId -------------------------------------------
 
@@ -165,7 +204,7 @@ class AccountTest extends CartridgeCodersTest {
 		$account->delete($this->getPDO());
 
 		// grab the data from mySQL and enforce that the AccountId does not exist
-		$pdoAccount = Account::getAccountIdByAccountId($this->getPDO(), $account->getAccountId());
+		$pdoAccountId = Account::getAccountIdByAccountId($this->getPDO(), $account->getAccountId());
 		$this->assertNull($pdoAccountId);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("account"));
 	}
@@ -278,7 +317,7 @@ class AccountTest extends CartridgeCodersTest {
 		$account->delete($this->getPDO());
 
 		// grab the data from mySQL and enforce that the AccountImageId does not exist
-		$pdoAccount = Account::getAccountImageIdByAccountImageId($this->getPDO(), $account->getAccountImageId());
+		$pdoAccountImageId = Account::getAccountImageIdByAccountImageId($this->getPDO(), $account->getAccountImageId());
 		$this->assertNull($pdoAccountImageId);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("account"));
 	}
@@ -363,7 +402,7 @@ class AccountTest extends CartridgeCodersTest {
 		$account->delete($this->getPDO());
 
 		// grab the data from mySQL and enforce that the AccountActive does not exist
-		$pdoAccount = Account::getAccountActiveByAccountActive($this->getPDO(), $account->getAccountActive());
+		$pdoAccountActive = Account::getAccountActiveByAccountActive($this->getPDO(), $account->getAccountActive());
 		$this->assertNull($pdoAccountActive);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("account"));
 	}
@@ -448,7 +487,7 @@ class AccountTest extends CartridgeCodersTest {
 		$account->delete($this->getPDO());
 
 		// grab the data from mySQL and enforce that the AccountName does not exist
-		$pdoAccount = Account::getAccountNameByAccountName($this->getPDO(), $account->getAccountName());
+		$pdoAccountName = Account::getAccountNameByAccountName($this->getPDO(), $account->getAccountName());
 		$this->assertNull($pdoAccountName);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("account"));
 	}
@@ -533,7 +572,7 @@ class AccountTest extends CartridgeCodersTest {
 		$account->delete($this->getPDO());
 
 		// grab the data from mySQL and enforce that the AccountPpEmail does not exist
-		$pdoAccount = Account::getAccountPpEmailByAccountPpEmail($this->getPDO(), $account->getAccountPpEmail());
+		$pdoAccountPpEmail = Account::getAccountPpEmailByAccountPpEmail($this->getPDO(), $account->getAccountPpEmail());
 		$this->assertNull($pdoAccountPpEmail);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("account"));
 	}
@@ -618,7 +657,7 @@ class AccountTest extends CartridgeCodersTest {
 		$account->delete($this->getPDO());
 
 		// grab the data from mySQL and enforce that the AccountUserName does not exist
-		$pdoAccount = Account::getAccountUserNameByAccountUserName($this->getPDO(), $account->getAccountUserName());
+		$pdoAccountUserName = Account::getAccountUserNameByAccountUserName($this->getPDO(), $account->getAccountUserName());
 		$this->assertNull($pdoAccountUserName);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("account"));
 	}
