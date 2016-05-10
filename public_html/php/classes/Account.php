@@ -298,7 +298,7 @@ class Account implements \JsonSerializable {
 
 		//create query table
 		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES (:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
-		$statement = $pdo->prepare($query);
+		$statement = $pdo->prepare($query); 
 
 		// bind the member variables to the place holders on the template
 		$parameters = ["accountImageId" => $this->accountImageId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
