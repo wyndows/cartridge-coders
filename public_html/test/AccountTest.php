@@ -48,28 +48,57 @@ require_once("CartridgeCodersTest.php");
 require_once(dirname(__DIR__) . "../php/classes/autoload.php");
 
 /**
- * Unit testing for the Image class for Cartridge Coders
- * @see Image
+ * Unit testing for the account class for Cartridge Coders
+ * @see Account
  */
-class ImageTest extends CartridgeCodersTest {
+class AccountTest extends CartridgeCodersTest {
 
 	/**
-	 *content of the imageFileName
-	 * @var string $VALID_IMAGEFILENAME1
+	 *content of the accountId
+	 * @var int $accountId
 	 */
-	protected $VALID_IMAGEFILENAME1 = "pictureofsegacartridge";
+	private $accountId;
 
-	/**
-	 * content of the updated ImageFileName
-	 * @var string $VALID_IMAGEFILENAME2
-	 */
-	protected $VALID_IMAGEFILENAME2 = "pictureofnintendocartridge";
 
-	/**
-	 * content of the updated ImageType
-	 * @var string $VALID_IMAGETYPE
-	 */
-	protected $VALID_IMAGETYPE = "image/jpg";
+/**
+ *content of the accountImageId
+ * @var int $AccountImageId
+ */
+private $imageId;
+
+
+/**
+ *content of the accountActive
+ * @var tinyint $accountActive
+ */
+private $accountActive;
+
+/**
+ *content of the accountAdmin
+ * @var tinyint $accountAdmin
+ */
+private $accountAdmin;
+
+
+/**
+ *content of the accountName
+ * @var string $accountName
+ */
+private $accountName;
+
+/**
+ *content of the accountPpEmail
+ * @var string $accountPpEmail
+ */
+private $accountPpEmail;
+
+
+/**
+ *content of the accountUserName
+ * @var string $accountUserName
+ */
+private $accountUserName;
+
 
 
 
