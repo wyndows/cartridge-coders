@@ -64,15 +64,17 @@ class ProductPurchaseTest extends CartridgeCodersTest {
 		// run the default setUp() method first
 		parent::setUp();
 
-		// create and insert a account class
-		$this->account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), 33, "discription would be here", 44, 55, 0, "the title is here");
+
+
+		// create and insert a Account class
+		$this->account = new Account(null, $this->account->getAccountId(), $this->product->getProductId(), 33, "description would be here", 44, 55, 0, "the title is here");
 		$this->product->insert($this->getPDO());
-		
-		
-		
+
+
 		// create and insert a Product class
-		$this->product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), 33, "discription would be here", 44, 55, 0, "the title is here");
+		$this->product = new Product(null, $this->account->getAccountId(), $this->image->getProductId(), 33, "description would be here", 44, 55, 0, "the title is here");
 		$this->product->insert($this->getPDO());
+		
 
 		// create and insert Purchase class
 		$this->purchase = new Purchase(null, 21, "transaction0123456789numbers", "2016-05-09 17:00:00");
