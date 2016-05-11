@@ -53,6 +53,9 @@ class ProductPurchaseTest extends CartridgeCodersTest {
 	 */
 	protected $product = null;
 	protected $purchase = null;
+	protected $account = null;
+	protected $image = null;
+	
 
 	/**
 	 * create dependent objects before running each test
@@ -61,8 +64,14 @@ class ProductPurchaseTest extends CartridgeCodersTest {
 		// run the default setUp() method first
 		parent::setUp();
 
-		// creare and insert a Product class
-		$this->product = new Product(null, 11, 22, 33, "discription would be here", 44, 55, 0, "the title is here");
+		// create and insert a account class
+		$this->account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), 33, "discription would be here", 44, 55, 0, "the title is here");
+		$this->product->insert($this->getPDO());
+		
+		
+		
+		// create and insert a Product class
+		$this->product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), 33, "discription would be here", 44, 55, 0, "the title is here");
 		$this->product->insert($this->getPDO());
 
 		// create and insert Purchase class
