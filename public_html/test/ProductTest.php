@@ -28,6 +28,7 @@
  * 	getProductByProductId
  * 	getProductByProductAccountId
  * 	getProductByProductImageId
+ * 	getProductByProductAdminFee
  * 	getProductByProductDescription
  * 	getProductByProductPrice
  * 	getProductByProductSold
@@ -35,13 +36,10 @@
  * 	getAllProducts
  *
  * Testing will consist of the following:
- * 	test inserting a valid Product key and verify that the actual mySQL data matches
- * 	test inserting a valid Product Id and verify that the actual mySQL data matches
- * 	test inserting a valid Account Id and verify that the actual mySQL data matches
- * 	test inserting a valid Product Id and verify that the actual mySQL data matches
+ * 	test inserting a valid Product id and verify that the actual mySQL data matches
  * 	test inserting a Product that already exists
  * 	test inserting an invalid account id
- * 	test inserting an invalid product id
+ * 	test inserting an invalid image id
  * 	test inserting a Product, editing Product Admin Fee, and then updating it
  * 	test inserting a Product, editing Product Description, and then updating it
  * 	test inserting a Product, editing Product Price, and then updating it
@@ -51,21 +49,24 @@
  * 	test updating a Product that already exists
  * 	test creating a Product and then deleting it
  * 	test deleting a Product that does not exist
- * 	test grabbing a Product with Product Id that does not exist
- * 	test grabbing a Product with Account Id that does not exist
- * 	test grabbing a Product with Image Id that does not exist
+ * 	test grabbing a Product by product id
+ * 	test grabbing a Product by account id
+ * 	test grabbing a Product by image id
  * 	test grabbing a Product by admin fee
  * 	test grabbing a Product by product description
  * 	test grabbing a Product by product price
  * 	test grabbing a Product by product shipping
  * 	test grabbing a Product by product sold
  * 	test grabbing a Product by product title
- * 	test grabbing a Product by admin fee that does not exist
- * 	test grabbing a Product by product description that does not exist
- * 	test grabbing a Product by product price that does not exist
- * 	test grabbing a Product by product shipping that does not exist
- * 	test grabbing a Product by product sold that does not exist
- * 	test grabbing a Product by product title that does not exist
+ *   	test grabbing a Product with Product Id that does not exist
+ * 	test grabbing a Product with Account Id that does not exist
+ * 	test grabbing a Product with Image Id that does not exist
+ * 	test grabbing a Product with admin fee that does not exist
+ * 	test grabbing a Product with product description that does not exist
+ * 	test grabbing a Product with product price that does not exist
+ * 	test grabbing a Product with product shipping that does not exist
+ * 	test grabbing a Product with product sold that does not exist
+ * 	test grabbing a Product with product title that does not exist
  * 	test grabbing all Products
  *
  * @author Marlan Ball <wyndows@earthlink.net> based on code by Dylan McDonald <dmcdonald21@cnm.edu>
@@ -449,19 +450,143 @@ class ProductTest extends CartridgeCodersTest {
 	/**
 	 * test grabbing a Product with Account Id that does not exist
 	 **/
-	/**public function testGetProductByInvalidAccountId() {
+	public function testGetProductByInvalidAccountId() {
 		// grab an account id that exceeds the maximum allowable account id
 		$product = Product::getProductByProductAccountId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
-		$this->assertSame($product);
+		$this->assertCount(0, $product);
 	}
 
 	/**
 	 * test grabbing a Product with Image Id that does not exist
 	 **/
-	/**public function testGetInvalidProductByProductImageId() {
+	public function testGetInvalidProductByProductImageId() {
 		// grab an image id that exceeds the maximum allowable image id
 		$product = Product::getProductByProductImageId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
-		$this->assertSame($product);
+		$this->assertCount(0, $product);
+	}
+
+	/**
+	 * test grabbing a Product by admin fee that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testGetProductByInvalidProductAdminFee() {
+		// grab a product by searching for admin fee that does not exist
+		$product = Product::getProductByProductAdminFee($this->getPDO(), 1000.00);
+		$this->assertCount(0, $product);
+	}
+
+	/**
+	 * test grabbing a Product by product description that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testGetProductByInvalidProductDescription() {
+		// grab a product by searching for description that does not exist
+		$product = Product::getProductByProductDescription($this->getPDO(), "");
+		$this->assertCount(0, $product);
+	}
+
+	/**
+	 * test grabbing a Product by product price that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testGetProductByInvalidProductPrice() {
+		// grab a product by searching for price that does not exist
+		$product = Product::getProductByProductPrice($this->getPDO(), -1);
+		$this->assertCount(0, $product);
+	}
+
+	/**
+	 * test grabbing a Product by product shipping that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testGetProductByInvalidProductShipping() {
+		// grab a product by searching for shipping that does not exist
+		$product = Product::getProductByProductShipping($this->getPDO(), -1);
+		$this->assertCount(0, $product);
+	}
+
+	/**
+	 * test grabbing a Product by product sold that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testGetProductByInvalidProductSold() {
+		// grab a product by searching for sold that does not exist
+		$product = Product::getProductByProductSold($this->getPDO(), -1);
+		$this->assertCount(0, $product);
+	}
+
+	/**
+	 * test grabbing a Product by product title that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testGetProductByInvalidProductTitle() {
+		// grab a product by searching for title that does not exist
+		$product = Product::getProductByProductTitle($this->getPDO(), "");
+		$this->assertCount(0, $product);
+	}
+
+	/**
+	 * test grabbing a Product by product account id
+	 **/
+	public function testGetProductByValidProductAccountId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("product");
+
+		// create a new Product and insert into mySQL
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Product::getProductByProductAccountId($this->getPDO(), $product->getProductAccountId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("product"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\Product", $results);
+
+		// grab the result from the array and validate it
+		$pdoProduct = $results[0];
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
+		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
+		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
+		$this->assertEquals($pdoProduct->getProductShipping(), $this->VALID_PRODUCTSHIPPING);
+		$this->assertEquals($pdoProduct->getProductSold(), $this->VALID_PRODUCTSOLD);
+		$this->assertEquals($pdoProduct->getProductTitle(), $this->VALID_PRODUCTTITLE);
+	}
+
+	/**
+	 * test grabbing a Product by product image id
+	 **/
+	public function testGetProductByValidProductImageId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("product");
+
+		// create a new Product and insert into mySQL
+		$product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_PRODUCTADMINFEE, $this->VALID_PRODUCTDESCRIPTION, $this->VALID_PRODUCTPRICE, $this->VALID_PRODUCTSHIPPING, $this->VALID_PRODUCTSOLD, $this->VALID_PRODUCTTITLE);
+		$product->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Product::getProductByProductImageId($this->getPDO(), $product->getProductImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("product"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\Product", $results);
+
+		// grab the result from the array and validate it
+		$pdoProduct = $results[0];
+		$this->assertEquals($pdoProduct->getProductAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoProduct->getProductImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoProduct->getProductAdminFee(), $this->VALID_PRODUCTADMINFEE);
+		$this->assertEquals($pdoProduct->getProductDescription(), $this->VALID_PRODUCTDESCRIPTION);
+		$this->assertEquals($pdoProduct->getProductPrice(), $this->VALID_PRODUCTPRICE);
+		$this->assertEquals($pdoProduct->getProductShipping(), $this->VALID_PRODUCTSHIPPING);
+		$this->assertEquals($pdoProduct->getProductSold(), $this->VALID_PRODUCTSOLD);
+		$this->assertEquals($pdoProduct->getProductTitle(), $this->VALID_PRODUCTTITLE);
 	}
 
 	/**
@@ -636,72 +761,6 @@ class ProductTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoProduct->getProductShipping(), $this->VALID_PRODUCTSHIPPING);
 		$this->assertEquals($pdoProduct->getProductSold(), $this->VALID_PRODUCTSOLD);
 		$this->assertEquals($pdoProduct->getProductTitle(), $this->VALID_PRODUCTTITLE);
-	}
-/**
-	/**
-	 * test grabbing a Product by admin fee that does not exist
-	 *
-	 * @expectedException PDOException
-	 **/
-	public function testGetProductByInvalidProductAdminFee() {
-		// grab a product by searching for admin fee that does not exist
-		$product = Product::getProductByProductAdminFee($this->getPDO(), 100);
-		$this->assertCount(0, $product);
-	}
-
-	/**
-	 * test grabbing a Product by product description that does not exist
-	 *
-	 * @expectedException PDOException
-	 **/
-	/**public function testGetProductByInvalidProductDescription() {
-		// grab a product by searching for description that does not exist
-		$product = Product::getProductByProductDescription($this->getPDO(), "");
-		$this->assertCount(0, $product);
-	}
-
-	/**
-	 * test grabbing a Product by product price that does not exist
-	 *
-	 * @expectedException PDOException
-	 **/
-	/**public function testGetProductByInvalidProductPrice() {
-		// grab a product by searching for price that does not exist
-		$product = Product::getProductByProductPrice($this->getPDO(), -1);
-		$this->assertCount(0, $product);
-	}
-
-	/**
-	 * test grabbing a Product by product shipping that does not exist
-	 *
-	 * @expectedException PDOException
-	 **/
-	/**public function testGetProductByInvalidProductShipping() {
-		// grab a product by searching for shipping that does not exist
-		$product = Product::getProductByProductShipping($this->getPDO(), -1);
-		$this->assertCount(0, $product);
-	}
-
-	/**
-	 * test grabbing a Product by product sold that does not exist
-	 *
-	 * @expectedException PDOException
-	 **/
-	/**public function testGetProductByInvalidProductSold() {
-		// grab a product by searching for sold that does not exist
-		$product = Product::getProductByProductSold($this->getPDO(), -1);
-		$this->assertCount(0, $product);
-	}
-
-	/**
-	 * test grabbing a Product by product title that does not exist
-	 *
-	 * @expectedException PDOException
-	 **/
-	/**public function testGetProductByInvalidProductTitle() {
-		// grab a product by searching for title that does not exist
-		$product = Product::getProductByProductTitle($this->getPDO(), "");
-		$this->assertCount(0, $product);
 	}
 
 	/**
