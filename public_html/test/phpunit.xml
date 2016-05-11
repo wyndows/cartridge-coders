@@ -2,10 +2,11 @@
 	<testsuites>
 		<testsuite name="Cartridge Coders">
 			<!-- <file>CategoryTest.php</file> -->
-			<!-- <file>ImageTest.php</file> -->
+			<file>AccountTest.php</file>
+			<file>ImageTest.php</file>
 			<file>ProductCategoryTest.php</file>
 			<file>ProductTest.php</file>
-			<!--<file>ProductPurchaseTest.php</file>-->
+			<file>ProductPurchaseTest.php</file>
 		</testsuite>
 	</testsuites>
 	<filter>

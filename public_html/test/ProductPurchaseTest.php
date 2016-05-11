@@ -29,9 +29,11 @@
 
 namespace Edu\Cnm\CartridgeCoders\Test;
 
-use Edu\Cnm\CartridgeCoders\{
-	ProductPurchase, Product, Purchase
-};
+use Edu\Cnm\CartridgeCoders\Account;
+use Edu\Cnm\CartridgeCoders\Image;
+use Edu\Cnm\CartridgeCoders\Product;
+use Edu\Cnm\CartridgeCoders\Purchase;
+use Edu\Cnm\CartridgeCoders\ProductPurchase;
 
 
 // grab  the project test parameters
@@ -50,6 +52,8 @@ class ProductPurchaseTest extends CartridgeCodersTest {
 	 * creating mock objects for foreign keys
 	 * @var Product profile
 	 * @var Purchase profile
+	 * @var Image profile
+	 * @var Account profile
 	 */
 	protected $product = null;
 	protected $purchase = null;
@@ -65,19 +69,26 @@ class ProductPurchaseTest extends CartridgeCodersTest {
 		parent::setUp();
 
 
+		// create and insert an Image class
+		$this->image = new Image(null, "imagefilename", "image/jpg");
+		$this->image->insert($this->getPDO());
 
-		// create and insert a Account class
-		$this->account = new Account(null, $this->account->getAccountId(), $this->product->getProductId(), 33, "description would be here", 44, 55, 0, "the title is here");
-		$this->product->insert($this->getPDO());
+
+		// create and insert Purchase class
+		$this->purchase = new Purchase(null, 21, "transaction0123456789numbers", "2016-05-09 17:00:00");
+		$this->purchase->insert($this->getPDO());
 
 
 		// create and insert a Product class
 		$this->product = new Product(null, $this->account->getAccountId(), $this->image->getProductId(), 33, "description would be here", 44, 55, 0, "the title is here");
 		$this->product->insert($this->getPDO());
-		
 
-		// create and insert Purchase class
-		$this->purchase = new Purchase(null, 21, "transaction0123456789numbers", "2016-05-09 17:00:00");
+
+		// create and insert a Account class
+		$this->account = new Account(null, $this->account->getAccountId(), $this->product->getProductId(), 33, "description would be here", 44, 55, 0, "the title is here");
+		$this->account->insert($this->getPDO());
+
+
 	}
 
 	/**
