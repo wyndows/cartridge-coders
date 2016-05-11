@@ -118,13 +118,24 @@
 		}
 
 		/**
-		 * test updating a ProductCategory that already exists
+		 * test updating a ProductCategory
 		 *
 		 *
 		 **/
+		public function testUpdateValidProductCategory() {
+			// create a Product with a non null product id and watch it fail
+			$productCategory = new ProductCategory($this->category->getCategoryId(), $this->product->getProductId());
+			$productCategory->update($this->getPDO());
+		}
+
+		/**
+		 * test updating a ProductCategory
+		 *
+		 * @expectedException PDOException
+		 **/
 		public function testUpdateInvalidProductCategory() {
 			// create a Product with a non null product id and watch it fail
-			$productCategory = new ProductCategory(CartridgeCodersTest::INVALID_KEY, $this->product->getProductId());
+			$productCategory = new ProductCategory(CartridgeCodersTest::INVALID_KEY, CartridgeCodersTest::INVALID_KEY);
 			$productCategory->update($this->getPDO());
 		}
 

@@ -158,9 +158,14 @@ class ProductCategory implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 */
 	public function update(\PDO $pdo) {
-		// enforce the productCategoryCategoryId is not null (don't update the category data that hasn't been inserted yet
+		// enforce the productCategoryCategoryId is not null (don't update the category data that are null
 		if($this->productCategoryCategoryId === null || $this->productCategoryProductId === null) {
 			throw(new \PDOException("unable to update the productCategory data that doesn't exist"));
+		}
+
+		// see if the foreign keys are too large
+		if($this->productCategoryCategoryId > 4294967295 || $this->productCategoryProductId > 4294967295) {
+			throw(new \PDOException("foreign keys are too large"));
 		}
 
 		// create query template
