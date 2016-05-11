@@ -307,7 +307,65 @@ class Message implements \JsonSerializable {
 		//bind the member variable to the place holder in the template
 		$parameters = ["messageId" => $this->messageId];
 		$statement->execute($parameters);
-
-		
 	}
+	/**
+	 * updates this Message in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo) {
+		// enforce the messageId is not null (i.e., doon't update a message that hasn't been inserted)
+		if($this->messageId === null) {
+			throw(new\PDOException("unable to updatea message that does not exist"));
+		}
+		/**
+		 * gets the Message by content
+		 *
+		 *@param \PDO $pdo PDO connection object
+		 *@param string $messageContent message content to search for
+		 *@return \SplFixedArray SplFixedArray of messages found
+		 *@throws \PDOException when mySQL related error occur
+		 *@throws \TypeError when variable are not the correct data type
+		 **/
+		public static function getMessageByMessageContent(\PDO $pdo, string $messageContent) {
+			// sanitize the description before searching
+			$messageContent = trim($messageContent);
+			$messageContent = filter_var($messageContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			if(empty($messageContent) === true) {
+				throw(new \PDOException("message content is invalid"));
+			}
+
+			// create query template
+			$query = "SELECT messageId, senderId, productId, messageContent, recipientId, messageMailGunId, messageSubject FROM message WHERE messageContent LIKE :messageContent";
+			$statement = $pdo->prepare($query);
+
+			// bind the message content to the place holder in the template
+			$messagecontent = "%$messageContent%";
+			$parameters = array("messagecontent" => $messageContent);
+			$statement->execute($parameters);
+
+			// build an array of messages
+			$message = new \SPLFixedArray($statement->rowCount());
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			while(($row = $statment->fetch()) !== false) {
+				try {
+					$message = new Messaage($row["messageId"], $row["senderId"], $row["productId"], $row["messageContent"], $row["recipientId"], $row["messageMailGunId"], $row["messageSubject"]);
+					$messages[$message->key()] = $message;
+					$message->next();
+				} catch(\Exception $exception) {
+					// if the row couln't be converted, rethrow it
+					throw(new ]PDOExceptions($exception->getMesage(), 0, $exceptions));
+				}
+			}
+			return($messages);
+		}
+		/**
+		 * gets the Message by MessageSubject
+		 * @param \PDO $pdo PDO connection object
+		 * @param string $messageSubject message subject to search for
+		 * @return Message|null Message found or null if not found
+		 * @throws \PDOException when mySQl related erros occur 
+		 **/
 	} /* end Message Class */
