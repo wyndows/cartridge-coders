@@ -159,7 +159,7 @@ class ProductCategory implements \JsonSerializable {
 	 */
 	public function update(\PDO $pdo) {
 		// enforce the productCategoryCategoryId is not null (don't update the category data that hasn't been inserted yet
-		if($this->productCategoryCategoryId === null || $this->productCategoryProductId) {
+		if($this->productCategoryCategoryId === null || $this->productCategoryProductId === null) {
 			throw(new \PDOException("unable to update the productCategory data that doesn't exist"));
 		}
 
@@ -173,60 +173,27 @@ class ProductCategory implements \JsonSerializable {
 	}
 
 	/**
-	 * get the productCategory by productCategoryCategoryId
+	 * get the productCategory by productCategoryCategoryIdAndProductId
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $productCategoryCategoryId productCategoryCategoryId to search for
-	 * @return productCategoryCategoryId|null productCategoryCategoryId found or null if not found
+	 * @param int $productCategoryProductId productCategoryProductId to search for
+	 * @return productCategory productCategory found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 */
-	public static function getProductCategoryByProductCategoryCategoryId(\PDO $pdo, int $categoryId) {
+	public static function getProductCategoryByProductCategoryCategoryIdAndProductId(\PDO $pdo, int $productCategoryCategoryId, int $productCategoryProductId) {
 		// sanitize the productCategoryCategoryId before searching
 		if($productCategoryCategoryId <= 0) {
 			throw(new \PDOException("productCategoryCategoryId is not positive"));
 		}
-
-		// create query template
-		$query = "SELECT productCategoryCategoryId, productCategoryProductId FROM productCategory WHERE productCategoryCategoryId = :productCategoryCategoryId";
-		$statement = $pdo->prepare($query);
-
-		// bind the composite key to the place holder in the template
-		$parameters = array("productCategoryCategoryId" => $productCategoryCategoryId, "productCategoryProductId" => $productCategoryProductId);
-		$statement->execute($parameters);
-
-		// grab the category from mySQL
-		try {
-			$productCategory = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$productCategory = new ProductCategory($row["productCategoryCategoryId"], $row["productCategoryProductId"]);
-			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		return($productCategory);
-	}
-
-	/**
-	 * get the productCategory by productCategoryProductId
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param int $productCategoryCategoryId productCategoryCategoryId to search for
-	 * @return productCategoryProductId|null productCategoryProductId found or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 */
-	public static function getProductCategoryByProductCategoryProductId(\PDO $pdo, int $categoryId) {
 		// sanitize the productCategoryProductId before searching
 		if($productCategoryProductId <= 0) {
 			throw(new \PDOException("productCategoryProductId is not positive"));
 		}
 
 		// create query template
-		$query = "SELECT productCategoryCategoryId, productCategoryProductId FROM productCategory WHERE productCategoryProductId = :productCategoryProductId";
+		$query = "SELECT productCategoryCategoryId, productCategoryProductId FROM productCategory WHERE productCategoryCategoryId = :productCategoryCategoryId AND productCategoryProductId = :productCategoryProductId";
 		$statement = $pdo->prepare($query);
 
 		// bind the composite key to the place holder in the template
