@@ -14,7 +14,7 @@
 
 
 namespace Edu\Cnm\CartridgeCoders\Test;
-
+//NOTE change AccountId to Account (need the class not attribute) and add Image
 use Edu\Cnm\CartridgeCoders\{Message,Product,AccountId};
 
 // grab the project test parameters
@@ -26,7 +26,7 @@ require_once(dirname(__DIR__) . "/php/classes/autoload.php");
 /**
  * Full PHPUnit test for the Message class
  *
- * This is a complete PHPUnit test of the Message class. Hopefully it passes, we're going to test both valid and invalid inputes
+ * This is a complete PHPUnit test of the Message class. Hopefully it passes, we're going to test both valid and invalid inputs
  *
  * @see Message
  * @author Elliot Murrey <emurrey@cnm.edu>
@@ -52,6 +52,7 @@ class MessageTest extends CartridgeCodersTest {
 	 * @var Account sender
 	 **/
 	protected $account = null;
+//NOTE delete this second $account as it's not needed
 	/**
 	 * Account that is responding to said created message
 	 * @var Account recipient
@@ -69,7 +70,7 @@ class MessageTest extends CartridgeCodersTest {
 	public final function setUP() {
 		// run the default setUp() method first
 		parent::setUP();
-
+//NOTE delete this one and add one for Image as it's needed as a foreign key
 		// create and insert an account to write the test Message
 		$this->account = new Account(null, "10", "1", "0", "JamesDean", "JamesDean@gmail.com", "coolguy");
 		$this->account->insert($this->getPDO());
@@ -78,7 +79,7 @@ class MessageTest extends CartridgeCodersTest {
 		$this->account = new Account(null, "16", "1", "0", "JessicaJones", "JessicaJones@gmail.com", "hotgirl");
 		$this->account->insert($this->getPDO());
 
-		// create and insert a product into hte test Message
+		// create and insert a product into the test Message
 		$this->product = new Product(null, "2", "116", "2.22", "coolItem", "22.22", "3.00", "0", "LegendOfZelda");
 		$this->product->insert($this->getPdo());
 	}
@@ -113,8 +114,10 @@ class MessageTest extends CartridgeCodersTest {
 	public function testInsertInvalidMessage() {
 		//create a Message with a non null Message id and watch it fail
 		$message = new Message(CartridgeCodersTest::INVALID_KEY, $this->account->getAccountId(), $this->product->getProductId(), $this->account->getAccountId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
-		$messgage->insert($this->getPDO());
+		$message->insert($this->getPDO());
 	}
+
+//NOTE this is a duplicate of the 1st test I think so not needed
 	/**
 	 * test inserting a Message and regrabbing it from mySQL
 	 **/
@@ -143,6 +146,7 @@ class MessageTest extends CartridgeCodersTest {
 		$this->assertNull($Message);
 	}
 
+	//NOTE this one needs deleted
 	/**
 	 * test grabbing a Message by message Subject
 	 **/
@@ -169,7 +173,7 @@ class MessageTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoMessage->getMessageMailGunId(), $this->VALID_MESSAGEMAILGUNID());
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
-
+//NOTE this one needs deleted
 	/**
 	 * test grabbing a Message by message content
 	 **/
@@ -196,6 +200,8 @@ class MessageTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoMessage->getMessageMailGunId(), $this->VALID_MESSAGEMAILGUNID());
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 }
+
+	//NOTE delete
 	/**
 	 * test grabbing a messaage by content that does not exist
 	 **/
@@ -204,7 +210,7 @@ class MessageTest extends CartridgeCodersTest {
 		$message = Message::getMessageByMessageContent($this->getPDO(),"you've got nothing and now I have your nose");
 		$this->assertCount(0, $message);
 	}
-
+//NOTE delete
 	/**
 	 * test grabbing all Messages
 	 **/
