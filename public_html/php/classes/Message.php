@@ -343,8 +343,25 @@ class Message implements \JsonSerializable {
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $senderId sender id to search for
 	 * @param int $recipientId recipient id to search for
-	 * @return 
+	 * @return Message|null Message found or null if not fouund
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
 	 **/
+	public static function getMessageByPartyId(\PDO $pdo, int $partyId) {
+		// sanitize the partyId before searching
+		if($partyId <= 0) {
+			throw(new \PDOException("partyId is not positive "));
+		}
+
+		// create query template
+		$query = "SELECT messageId, senderId, productId, recipientId, messageContentId, messageMailGunId, messageSubject = :messageId";
+		$statement = $pdo->prepare($query);
+
+		// bind the message id to the place holder in the template
+		$parameters = array("messageId" => $messageId);
+		$statement->execute($arameters);
+		
+	}
 	/**
 	 * formats the state variables for JSON serialization
 	 *
