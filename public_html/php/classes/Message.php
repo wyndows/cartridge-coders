@@ -12,7 +12,7 @@ class Message implements \JsonSerializable {
 	private $messageId;
 	/**
 	 * id for the buyer
-	 * @var int $accountId
+	 * @var int $senderId
 	 **/
 	private $senderId;
 	/**
@@ -22,7 +22,7 @@ class Message implements \JsonSerializable {
 	private $productId;
 	/**
 	 * id of the seller
-	 * @var int $accountID
+	 * @var int $recipientId
 	 **/
 	private $recipientId;
 	/**
@@ -42,7 +42,7 @@ class Message implements \JsonSerializable {
 	private $messageSubject;
 
 	/**
-	 * contructor for the message
+	 * constructor for the message
 	 *
 	 * @param int $newMessageId new message id
 	 * @param int $newSenderId new sender id
@@ -54,7 +54,7 @@ class Message implements \JsonSerializable {
 	 * @throws UnexpectedValueException if any of the parameters are invalid
 	 * @throws TypeError if data violates type hints
 	 **/
-	public function __construct($newMessageId, $newSenderId, $newProductId, $newSenderId, $newMessageContent, $newMessageMailGunId, $newMessageSubject) {
+	public function __construct($newMessageId, $newSenderId, $newProductId, $newRecipientId, $newMessageContent, $newMessageMailGunId, $newMessageSubject) {
 		try {
 			$this->setMessageId($newMessageId);
 			$this->setSenderId($newSenderId);
@@ -301,8 +301,50 @@ class Message implements \JsonSerializable {
 		//update the null messageId with what mySQL just gave us
 		$this->messageId = intval($pdo->lastInsertId());
 	}
-	//partyId is SenderId or RecipientId
-	// get messageByMessageId, getMessageByPartyId,
+	/**
+	 * gets the Message by messageId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $messageId message id to search for
+	 * @return Message|null Message found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getMessageByMessageId(\PDO $pdo, int $messageId) {
+		// sanitize the messageId before searching
+		if($messageId <= 0) {
+			throw(new \PDOException("message id is not positive"));
+		}
+
+		// create query template
+		$query = "SELET messageId, senderId, messageProductId, recipientId, messageContent, messageMailGunId, messagesSubject";
+		$statement = $pdo->prepare($query);
+
+		// bind the message id to the place holder in the template
+		$parameters = array("messageId" => $messageId);
+		$statement->execute($parameters);
+
+		// grab the message from mySQL
+		try{
+			$message = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$message = new Message($row["messageId"], $row["senderId"], $row["productId"], $row["recipientId"], $row["messageContent"], $row["messageMailGunId"], $row["messageSubject"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($message);
+	}
+	/**
+	 * gets the Message by partyId
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $senderId sender id to search for
+	 * @param int $recipientId recipient id to search for
+	 * @return 
+	 **/
 	/**
 	 * formats the state variables for JSON serialization
 	 *
