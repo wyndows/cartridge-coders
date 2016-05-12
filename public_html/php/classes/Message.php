@@ -57,9 +57,9 @@ class Message implements \JsonSerializable {
 	public function __construct($newMessageId, $newSenderId, $newProductId, $newSenderId, $newMessageContent, $newMessageMailGunId, $newMessageSubject) {
 		try {
 			$this->setMessageId($newMessageId);
-			$this->setSenderId($newAccountId);
+			$this->setSenderId($newSenderId);
 			$this->setProductId($newProductId);
-			$this->setRecipientId($newAccountId);
+			$this->setRecipientId($newRecipientId);
 			$this->setMessageContent($newMessageContent);
 			$this->setMessageMailGunId($newMessageMailGunId);
 			$this->setMessageSubject($newMessageSubject);
