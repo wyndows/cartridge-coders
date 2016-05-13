@@ -341,13 +341,21 @@ class Message implements \JsonSerializable {
 	/**
 	 * gets the Message by partyId
 	 * @param \PDO $pdo PDO connection object
+	 * @param int $partyId id to use for both sender and recipient
 	 * @param int $senderId sender id to search for
 	 * @param int $recipientId recipient id to search for
-	 * @return Message|null Message found or null if not fouund
+	 * @return \SplFixedArray SplFixedArray of messages found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 	public static function getMessageByPartyId(\PDO $pdo, int $partyId) {
+
+		// assign messageSenderId to partyId
+		$senderId = &$partyId;
+
+		// assign recipientId to partyId
+		$recipientId = &$partyId;
+
 		// sanitize the partyId before searching
 		if($partyId <= 0) {
 			throw(new \PDOException("partyId is not positive "));
@@ -357,11 +365,25 @@ class Message implements \JsonSerializable {
 		$query = "SELECT messageId, senderId, productId, recipientId, messageContentId, messageMailGunId, messageSubject = :messageId";
 		$statement = $pdo->prepare($query);
 
-		// bind the message id to the place holder in the template
-		$parameters = array("messageId" => $messageId);
-		$statement->execute($arameters);
-		
-	}
+		// bind the party id to the place holder in the template
+		$parameters = array("senderId" => $senderId, "recipientId" => $recipientId);
+		$statement->execute($parameters);
+
+		// build an array of messages
+		$message = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$message = new Message($row["messageId"], $row["senderId"], $row["productId"], $row["recipientId"], $row["messageContent"], $row["messageMailGunId"], $row["messageSubject"]);
+				$messages[$messages->key()] = $message;
+				$messages->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($message);
+		}
 	/**
 	 * formats the state variables for JSON serialization
 	 *
@@ -370,5 +392,5 @@ class Message implements \JsonSerializable {
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
 		return($fields);
-	}
+
 }
