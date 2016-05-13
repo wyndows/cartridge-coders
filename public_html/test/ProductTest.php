@@ -4,76 +4,78 @@
  * Formulating plan for unit testing of Product class
  *
  * Class will consist of:
- * 	productId
- * 	productAccountId
- * 	productImageId
- * 	productAdminFee
- * 	productDescription
- * 	productPrice
- * 	productShipping
- * 	productSold
- * 	productTitle
+ *   productId
+ *   productAccountId
+ *   productImageId
+ *   productAdminFee
+ *   productDescription
+ *   productPrice
+ *   productShipping
+ *   productSold
+ *   productTitle
  *
  * Primary key will be:
- * 	productId
+ *   productId
  *
  * Foreign Keys:
- * 	productAccountId
- * 	productImageId
+ *   productAccountId
+ *   productImageId
  *
  * Testing will be on:
- * 	insertProduct
- * 	updateProduct
- * 	deleteProduct
- * 	getProductByProductId
- * 	getProductByProductAccountId
- * 	getProductByProductImageId
- * 	getProductByProductAdminFee
- * 	getProductByProductDescription
- * 	getProductByProductPrice
- * 	getProductByProductSold
- * 	getProductByProductTitle
- * 	getAllProducts
+ *   insertProduct
+ *   updateProduct
+ *   deleteProduct
+ *   getProductByProductId
+ *   getProductByProductAccountId
+ *   getProductByProductImageId
+ *   getProductByProductAdminFee
+ *   getProductByProductDescription
+ *   getProductByProductPrice
+ *   getProductByProductSold
+ *   getProductByProductTitle
+ *   getAllProducts
  *
  * Testing will consist of the following:
- * 	test inserting a valid Product id and verify that the actual mySQL data matches
- * 	test inserting a Product that already exists
- * 	test inserting an invalid account id
- * 	test inserting an invalid image id
- * 	test inserting a Product, editing Product Admin Fee, and then updating it
- * 	test inserting a Product, editing Product Description, and then updating it
- * 	test inserting a Product, editing Product Price, and then updating it
- * 	test inserting a Product, editing Product Shipping, and then updating it
- * 	test inserting a Product, editing Product Sold, and then updating it
- * 	test inserting a Product, editing Product Title, and then updating it
- * 	test updating a Product that already exists
- * 	test creating a Product and then deleting it
- * 	test deleting a Product that does not exist
- * 	test grabbing a Product by product id
- * 	test grabbing a Product by account id
- * 	test grabbing a Product by image id
- * 	test grabbing a Product by admin fee
- * 	test grabbing a Product by product description
- * 	test grabbing a Product by product price
- * 	test grabbing a Product by product shipping
- * 	test grabbing a Product by product sold
- * 	test grabbing a Product by product title
- *   	test grabbing a Product with Product Id that does not exist
- * 	test grabbing a Product with Account Id that does not exist
- * 	test grabbing a Product with Image Id that does not exist
- * 	test grabbing a Product with admin fee that does not exist
- * 	test grabbing a Product with product description that does not exist
- * 	test grabbing a Product with product price that does not exist
- * 	test grabbing a Product with product shipping that does not exist
- * 	test grabbing a Product with product sold that does not exist
- * 	test grabbing a Product with product title that does not exist
- * 	test grabbing all Products
+ *   test inserting a valid Product id and verify that the actual mySQL data matches
+ *   test inserting a Product that already exists
+ *   test inserting an invalid account id
+ *   test inserting an invalid image id
+ *   test inserting a Product, editing Product Admin Fee, and then updating it
+ *   test inserting a Product, editing Product Description, and then updating it
+ *   test inserting a Product, editing Product Price, and then updating it
+ *   test inserting a Product, editing Product Shipping, and then updating it
+ *   test inserting a Product, editing Product Sold, and then updating it
+ *   test inserting a Product, editing Product Title, and then updating it
+ *   test updating a Product that already exists
+ *   test creating a Product and then deleting it
+ *   test deleting a Product that does not exist
+ *   test grabbing a Product by product id
+ *   test grabbing a Product by account id
+ *   test grabbing a Product by image id
+ *   test grabbing a Product by admin fee
+ *   test grabbing a Product by product description
+ *   test grabbing a Product by product price
+ *   test grabbing a Product by product shipping
+ *   test grabbing a Product by product sold
+ *   test grabbing a Product by product title
+ *   test grabbing a Product with Product Id that does not exist
+ *   test grabbing a Product with Account Id that does not exist
+ *   test grabbing a Product with Image Id that does not exist
+ *   test grabbing a Product with admin fee that does not exist
+ *   test grabbing a Product with product description that does not exist
+ *   test grabbing a Product with product price that does not exist
+ *   test grabbing a Product with product shipping that does not exist
+ *   test grabbing a Product with product sold that does not exist
+ *   test grabbing a Product with product title that does not exist
+ *   test grabbing all Products
  *
  * @author Marlan Ball <wyndows@earthlink.net> based on code by Dylan McDonald <dmcdonald21@cnm.edu>
  */
 namespace Edu\Cnm\CartridgeCoders\Test;
 
-use Edu\Cnm\CartridgeCoders\{Product, Image, Account};
+use Edu\Cnm\CartridgeCoders\{
+	Product, Image, Account
+};
 
 // grab the project test parameters
 require_once("CartridgeCodersTest.php");
