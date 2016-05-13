@@ -10,7 +10,7 @@ require_once ("autoload.php");
  * @version 1.0.0
  */
 class Purchase implements \JsonSerializable {
-	// use ValidateDate;
+	 use ValidateDate;
 
 	/**
 	 * id for this purchase; this is the primary key
