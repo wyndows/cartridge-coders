@@ -69,24 +69,26 @@ class ProductPurchaseTest extends CartridgeCodersTest {
 		parent::setUp();
 
 
+
 		// create and insert an Image class
 		$this->image = new Image(null, "imagefilename", "image/jpg");
 		$this->image->insert($this->getPDO());
 
 
+		// create and insert a Account class
+		$this->account = new Account(null, $this->image->getImageId(), 1, 1, "firstlasst", "ppemail@here.come", "yourusername");
+		$this->account->insert($this->getPDO());
+
+
+
 		// create and insert Purchase class
-		$this->purchase = new Purchase(null, 21, "transaction0123456789numbers", "2016-05-09 17:00:00");
+		$this->purchase = new Purchase(null, $this->account->getAccountId(), "transaction0123456789numbers", "2016-05-09 17:00:00");
 		$this->purchase->insert($this->getPDO());
 
 
 		// create and insert a Product class
-		$this->product = new Product(null, $this->account->getAccountId(), $this->image->getProductId(), 33, "description would be here", 44, 55, 0, "the title is here");
+		$this->product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), 33, "description would be here", 44, 55, 0, "the title is here");
 		$this->product->insert($this->getPDO());
-
-
-		// create and insert a Account class
-		$this->account = new Account(null, $this->account->getAccountId(), $this->product->getProductId(), 33, "description would be here", 44, 55, 0, "the title is here");
-		$this->account->insert($this->getPDO());
 
 
 	}

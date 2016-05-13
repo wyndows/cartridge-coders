@@ -39,7 +39,7 @@ class Purchase implements \JsonSerializable {
 	 *
 	 * @param int|null $newPurchaseId id of this purchase or null if a new purchase
 	 * @param int $newPurchaseAccountId id of account holder making purchase
-	 * @param int $newPurchasePayPalTransactionId id of paypal transaction
+	 * @param string $newPurchasePayPalTransactionId id of paypal transaction
 	 * @param \DateTime|string|null $newPurchaseCreateDate date and time Purchase was made or null if set to current date and time
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g. strings too long, negative integers)
@@ -145,21 +145,21 @@ class Purchase implements \JsonSerializable {
 	 * @throws \RangeException if $newPurchasePayPalTransactionId is not positive
 	 * @throws \TypeError if $newPurchasePayPalTransactionId is not an integer
 	 */
-	public function setPurchasePayPalTransactionId(string $newPurchasePayPalTransactinoId) {
+	public function setPurchasePayPalTransactionId(string $newPurchasePayPalTransactionId) {
 		// verify the purchase paypal transaction id is secure
-		$newPurchasePayPalTransactinoId = trim($newPurchasePayPalTransactinoId);
-		$newPurchasePayPalTransactinoId = filter_var($newPurchasePayPalTransactinoId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newPurchasePayPalTransactinoId) === true) {
+		$newPurchasePayPalTransactionId = trim($newPurchasePayPalTransactionId);
+		$newPurchasePayPalTransactionId = filter_var($newPurchasePayPalTransactionId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newPurchasePayPalTransactionId) === true) {
 			throw(new \InvalidArgumentException("purchase paypal transaction id is empty or insecure"));
 		}
 
 		// verify the purchase paypal transaction id will fit in the database
-		if(strlen($newPurchasePayPalTransactinoId) > 28) {
+		if(strlen($newPurchasePayPalTransactionId) > 28) {
 			throw(new \RangeException("purchase paypal transaction id too large"));
 		}
 
 		// store the purchase paypal transaction id
-		$this->purchasePayPalTransactinoId = $newPurchasePayPalTransactinoId;
+		$this->purchasePayPalTransactionId = $newPurchasePayPalTransactionId;
 	}
 
 	/**
@@ -193,7 +193,7 @@ class Purchase implements \JsonSerializable {
 		} catch(\RangeException $range) {
 			throw(new \RangeException($range->getMessage(), 0, $range));
 		}
-		$this->purchseCreateDate = $newPurchaseCreateDate;
+		$this->purchaseCreateDate = $newPurchaseCreateDate;
 	}
 
 	/**
@@ -209,17 +209,18 @@ class Purchase implements \JsonSerializable {
 			throw(new \PDOException("not a new purchase"));
 		}
 
+//		var_dump($this->purchasePayPalTransactionId);
+
 		// create query template
 		$query = "INSERT INTO purchase(purchaseAccountId, purchasePayPalTransactionId, purchaseCreateDate) VALUES(:purchaseAccountId, :purchasePayPalTransactionId, :purchaseCreateDate)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["purchaseAccountId" => $this->purchaseAccountId, "purchasePayPalTransactionId" => $this->purchasePayPalTransactionId, "purchaseCreateDate" => $this->purchaseCreateDate];
+		$parameters = ["purchaseAccountId" => $this->purchaseAccountId, "purchasePayPalTransactionId" => $this->purchasePayPalTransactionId, "purchaseCreateDate" => $this->purchaseCreateDate->format("Y-m-d H:i:s")];
 		$statement->execute($parameters);
 
 		// update the null purchaseId with what mySQL just gave us
 		$this->purchaseId = intval($pdo->lastInsertId());
-
 	}
 
 	/**
