@@ -1,6 +1,6 @@
 <?php
-//NOTE you will need to add these two lines
-//namespace Edu\Cnm\CartridgeCoders;
+
+namespace Edu\Cnm\CartridgeCoders;
 //require_once ("autoload.php");
 /**
  * Message class for cartridge coders so accounts may message each other back and forth
@@ -53,10 +53,11 @@ class Message implements \JsonSerializable {
 	 * @param string $newMessageContent new message content
 	 * @param string $newMessageMailGunId new message mail gun Id
 	 * @param string $newMessageSubject new message subject
-	 * @throws UnexpectedValueException if any of the parameters are invalid
-	 * @throws TypeError if data violates type hints
+	 * @throws \UnexpectedValueException if any of the parameters are invalid
+	 * @throws \TypeError if data violates type hints
+	 * @throws \RangeException if not an int
 	 **/
-	public function __construct($newMessageId, $newSenderId, $newProductId, $newRecipientId, $newMessageContent, $newMessageMailGunId, $newMessageSubject) {
+	public function __construct(int $newMessageId = null, int $newSenderId, int $newProductId, int $newRecipientId, string  $newMessageContent, string $newMessageMailGunId, string $newMessageSubject) {
 		try {
 			$this->setMessageId($newMessageId);
 			$this->setSenderId($newSenderId);
@@ -89,13 +90,17 @@ class Message implements \JsonSerializable {
 	/**
 	 *mutator method for message id
 	 * @param int $newMessageId new value of message id
-	 * @throws RangeException if the $newMessageId is not positive
-	 * @throws unexpectedValueException if $newMessageId is not an integer
+	 * @throws \RangeException if the $newMessageId is not positive
+	 * @throws \UnexpectedValueException if $newMessageId is not an integer
 	 **/
 	public function setMessageId($newMessageId) {
+		if($newMessageId === null) {
+			$this->messageId = null;
+			return; 
+		}
 		$newMessageId = filter_var($newMessageId, FILTER_VALIDATE_INT);
 		if($newMessageId === false) {
-			throw(new UnexpectedValueException("MessageId is not a valid integer"));
+			throw(new \UnexpectedValueException("MessageId is not a valid integer"));
 		}
 		//confirm message is positive
 		if($newMessageId <= 0) {
@@ -123,11 +128,11 @@ class Message implements \JsonSerializable {
 	public function setSenderId($newSenderId) {
 		$newSenderId = filter_var($newSenderId, FILTER_VALIDATE_INT);
 		if($newSenderId === false) {
-			throw(new UnexpectedValueException("SenderId is not a valid integer"));
+			throw(new \UnexpectedValueException("SenderId is not a valid integer"));
 		}
 		//confirm sender id is positive
 		if($newSenderId <= 0) {
-			throw(new RangeException("sender id is not positive"));
+			throw(new \RangeException("sender id is not positive"));
 		}
 		//convert and store the account id
 		$this->senderId = intval($newSenderId);
@@ -151,11 +156,11 @@ class Message implements \JsonSerializable {
 	public function setProductId($newProductId) {
 		$newProductId = filter_var($newProductId, FILTER_VALIDATE_INT);
 		if($newProductId === false) {
-			throw(new UnexpectedValueException("ProductId is not a valid integer"));
+			throw(new \UnexpectedValueException("ProductId is not a valid integer"));
 		}
 		// confirm product id is positive
 		if($newProductId <= 0) {
-			throw(new RangeException("product id is not positive"));
+			throw(new \RangeException("product id is not positive"));
 		}
 		//convert and store the product id
 		$this->productId = intval($newProductId);
@@ -179,11 +184,11 @@ class Message implements \JsonSerializable {
 	public function setRecipientId($newRecipientId) {
 		$newRecipientId = filter_var($newRecipientId, FILTER_VALIDATE_INT);
 		if($newRecipientId === false) {
-			throw(new UnexpectedValueException("RecipientId is not a valid integer"));
+			throw(new \UnexpectedValueException("RecipientId is not a valid integer"));
 		}
 		//confirm sender id is positive
 		if($newRecipientId <= 0) {
-			throw(new RangeException("sender id is not positive"));
+			throw(new \RangeException("sender id is not positive"));
 		}
 		//convert and store the account id
 		$this->recipientId = intval($newRecipientId);
@@ -209,7 +214,7 @@ class Message implements \JsonSerializable {
 		//verify the message content is valid
 		$newMessageContent = filter_var($newMessageContent, FILTER_SANITIZE_STRING);
 		if($newMessageContent === false) {
-			throw(new UnexpectedValueException("message cotent is not a valid string"));
+			throw(new \UnexpectedValueException("message cotent is not a valid string"));
 		}
 		if($newMessageContent > 255) {
 			// confirm message content doesn't exceed 255
@@ -239,11 +244,11 @@ class Message implements \JsonSerializable {
 		//verify the message mail gun id is valid
 		$newMessageMailGunId = filter_var($newMessageMailGunId, FILTER_SANITIZE_STRING);
 		if($newMessageMailGunId === false) {
-			throw(new UnexpectedValueException("message mailgun id is not a valid string"));
+			throw(new \UnexpectedValueException("message mailgun id is not a valid string"));
 		}
 		// verify the messge mail gun id is less then 32
 		if($newMessageMailGunId > 32) {
-			throw(new RangeException("invalid mailgunId"));
+			throw(new \RangeException("invalid mailgunId"));
 		}
 		//store the message mailgun id
 		$this->messageMailGunId = $newMessageMailGunId;
@@ -269,11 +274,11 @@ class Message implements \JsonSerializable {
 		// verify the message subject is valid
 		$newMessageSubject = filter_var($newMessageSubject, FILTER_SANITIZE_STRING);
 		if($newMessageSubject === false) {
-			throw(new UnexpectedValueException("message subject is not a valid string"));
+			throw(new \UnexpectedValueException("message subject is not a valid string"));
 		}
 		// confirm message subject doesn't exceed 128
 		if($newMessageSubject > 128) {
-			throw(new RangeException("value exceeds message subject length"));
+			throw(new \RangeException("value exceeds message subject length"));
 		}
 		//store the message subject
 		$this->messageSubject = $newMessageSubject;
@@ -286,10 +291,10 @@ class Message implements \JsonSerializable {
 	 * @throw PDOexception when mySql errors occur
 	 * @throws TypeError if $pdo is not a PDO connection object
 	 **/
-	public function insert(PDO $pdo) {
+	public function insert(\PDO $pdo) {
 		// enforce message id is null - make sure we're inserting a new message
 		if($this->messageId !== null) {
-			throw(new PDOException("not new message"));
+			throw(new \PDOException("not new message"));
 		}
 
 		// create a query template
