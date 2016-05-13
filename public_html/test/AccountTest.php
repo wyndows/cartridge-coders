@@ -40,6 +40,7 @@
 namespace Edu\Cnm\CartridgeCoders\Test;
 
 use Edu\Cnm\CartridgeCoders\Account;
+use Edu\Cnm\CartridgeCoders\Image;
 
 // grab  the project test parameters
 require_once("CartridgeCodersTest.php");
@@ -62,20 +63,20 @@ class AccountTest extends CartridgeCodersTest {
 
 	/**
 	 *content of the accountImageId
-	 * @var int $AccountImageId
+	 * @var int $accountImageId
 	 */
 	private $imageId;
 
 
 	/**
 	 *content of the accountActive
-	 * @var tinyint $accountActive
+	 * @var int $accountActive
 	 */
 	private $accountActive;
 
 	/**
 	 *content of the accountAdmin
-	 * @var tinyint $accountAdmin
+	 * @var int $accountAdmin
 	 */
 	private $accountAdmin;
 
@@ -109,13 +110,13 @@ class AccountTest extends CartridgeCodersTest {
 
 	/**
 	 * content of the Active
-	 * @var tinyint $VALID_ACTIVE
+	 * @var int $VALID_ACTIVE
 	 **/
 	protected $VALID_ACTIVE = 1;
 
 	/**
 	 * content of the Admin
-	 * @var tinyint $VALID_ADMIN
+	 * @var int $VALID_ADMIN
 	 **/
 	protected $VALID_ADMIN = 1;
 
@@ -137,6 +138,19 @@ class AccountTest extends CartridgeCodersTest {
 **/
 	protected $VALID_USERNAME = "this is a valid user name";
 
+
+
+	protected $image=null;
+
+
+	// set dependent object
+	public final function setUp(){
+		// run default set up method first
+		parent::setUp();
+		// create and instert and Image for the test
+		$this->image = new Image(null, "filename", "image/jpg");
+		$this->image->insert($this->getPDO());
+	}
 
 
 // ------------------------------------------- AccountId -------------------------------------------
@@ -188,26 +202,26 @@ class AccountTest extends CartridgeCodersTest {
 	}
 
 
-	/**
-	 * test creating a AccountId and then deleting it
-	 **/
-	public function testDeleteAccountId() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("account");
-
-		// create a new AccountId and insert into mySQL
-		$account = new Account(null, $this->AccountId);
-		$account->insert($this->getPDO());
-
-		// delete the AccountId from mySQL
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
-		$account->delete($this->getPDO());
-
-		// grab the data from mySQL and enforce that the AccountId does not exist
-		$pdoAccountId = Account::getAccountIdByAccountId($this->getPDO(), $account->getAccountId());
-		$this->assertNull($pdoAccountId);
-		$this->assertEquals($numRows, $this->getConnection()->getRowCount("account"));
-	}
+//	/**
+//	 * test creating a account and then deleting it
+//	 **/
+//	public function testDeleteAccountId() {
+//		// count the number of rows and save it for later
+//		$numRows = $this->getConnection()->getRowCount("account");
+//
+//		// create a new AccountId and insert into mySQL
+//		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACTIVE, $this->VALID_ADMIN, $this->VALID_NAME, $this->VALID_PPEMAIL, $this->VALID_USERNAME);
+//		$account->insert($this->getPDO());
+//
+//		// delete the AccountId from mySQL
+//		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
+//		$account->delete($this->getPDO());
+//
+//		// grab the data from mySQL and enforce that the AccountId does not exist
+//		$pdoAccountId = Account::getAccountIdByAccountId($this->getPDO(), $account->getAccountId());
+//		$this->assertNull($pdoAccountId);
+//		$this->assertEquals($numRows, $this->getConnection()->getRowCount("account"));
+//	}
 
 	/**
 	 * gets the AccountId by account id
@@ -301,26 +315,26 @@ class AccountTest extends CartridgeCodersTest {
 	}
 
 
-	/**
-	 * test creating a AccountImageId and then deleting it
-	 **/
-	public function testDeleteAccountImageId() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("account");
-
-		// create a new AccountImageId and insert into mySQL
-		$account = new Account(null, $this->AccountImageId);
-		$account->insert($this->getPDO());
-
-		// delete the AccountImageId from mySQL
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
-		$account->delete($this->getPDO());
-
-		// grab the data from mySQL and enforce that the AccountImageId does not exist
-		$pdoAccountImageId = Account::getAccountImageIdByAccountImageId($this->getPDO(), $account->getAccountImageId());
-		$this->assertNull($pdoAccountImageId);
-		$this->assertEquals($numRows, $this->getConnection()->getRowCount("account"));
-	}
+//	/**
+//	 * test creating a AccountImageId and then deleting it
+//	 **/
+//	public function testDeleteAccountImageId() {
+//		// count the number of rows and save it for later
+//		$numRows = $this->getConnection()->getRowCount("account");
+//
+//		// create a new AccountImageId and insert into mySQL
+//		$account = new Account(null, $this->AccountImageId);
+//		$account->insert($this->getPDO());
+//
+//		// delete the AccountImageId from mySQL
+//		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
+//		$account->delete($this->getPDO());
+//
+//		// grab the data from mySQL and enforce that the AccountImageId does not exist
+//		$pdoAccountImageId = Account::getAccountImageIdByAccountImageId($this->getPDO(), $account->getAccountImageId());
+//		$this->assertNull($pdoAccountImageId);
+//		$this->assertEquals($numRows, $this->getConnection()->getRowCount("account"));
+//	}
 
 	/**
 	 * gets the AccountImageId by account image id
@@ -384,28 +398,28 @@ class AccountTest extends CartridgeCodersTest {
 		$parameters = ["accountId" => $this->accountId, "accountImageId" => $this->accountImageId, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
 		$statement->execute($parameters);
 	}
-
-
-	/**
-	 * test creating a AccountActive and then deleting it
-	 **/
-	public function testDeleteAccountActive() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("account");
-
-		// create a new AccountActive and insert into mySQL
-		$account = new Account(null, $this->AccountActive);
-		$account->insert($this->getPDO());
-
-		// delete the AccountActive from mySQL
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
-		$account->delete($this->getPDO());
-
-		// grab the data from mySQL and enforce that the AccountActive does not exist
-		$pdoAccountActive = Account::getAccountActiveByAccountActive($this->getPDO(), $account->getAccountActive());
-		$this->assertNull($pdoAccountActive);
-		$this->assertEquals($numRows, $this->getConnection()->getRowCount("account"));
-	}
+//
+//
+//	/**
+//	 * test creating a AccountActive and then deleting it
+//	 **/
+//	public function testDeleteAccountActive() {
+//		// count the number of rows and save it for later
+//		$numRows = $this->getConnection()->getRowCount("account");
+//
+//		// create a new AccountActive and insert into mySQL
+//		$account = new Account(null, $this->AccountActive);
+//		$account->insert($this->getPDO());
+//
+//		// delete the AccountActive from mySQL
+//		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
+//		$account->delete($this->getPDO());
+//
+//		// grab the data from mySQL and enforce that the AccountActive does not exist
+//		$pdoAccountActive = Account::getAccountActiveByAccountActive($this->getPDO(), $account->getAccountActive());
+//		$this->assertNull($pdoAccountActive);
+//		$this->assertEquals($numRows, $this->getConnection()->getRowCount("account"));
+//	}
 
 	/**
 	 * gets the AccountActive by account id
@@ -471,26 +485,26 @@ class AccountTest extends CartridgeCodersTest {
 	}
 
 
-	/**
-	 * test creating a AccountName and then deleting it
-	 **/
-	public function testDeleteAccountName() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("account");
-
-		// create a new AccountName and insert into mySQL
-		$account = new Account(null, $this->AccountName);
-		$account->insert($this->getPDO());
-
-		// delete the AccountName from mySQL
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
-		$account->delete($this->getPDO());
-
-		// grab the data from mySQL and enforce that the AccountName does not exist
-		$pdoAccountName = Account::getAccountNameByAccountName($this->getPDO(), $account->getAccountName());
-		$this->assertNull($pdoAccountName);
-		$this->assertEquals($numRows, $this->getConnection()->getRowCount("account"));
-	}
+//	/**
+//	 * test creating a AccountName and then deleting it
+//	 **/
+//	public function testDeleteAccountName() {
+//		// count the number of rows and save it for later
+//		$numRows = $this->getConnection()->getRowCount("account");
+//
+//		// create a new AccountName and insert into mySQL
+//		$account = new Account(null, $this->AccountName);
+//		$account->insert($this->getPDO());
+//
+//		// delete the AccountName from mySQL
+//		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
+//		$account->delete($this->getPDO());
+//
+//		// grab the data from mySQL and enforce that the AccountName does not exist
+//		$pdoAccountName = Account::getAccountNameByAccountName($this->getPDO(), $account->getAccountName());
+//		$this->assertNull($pdoAccountName);
+//		$this->assertEquals($numRows, $this->getConnection()->getRowCount("account"));
+//	}
 
 	/**
 	 * gets the AccountName by account id
@@ -556,26 +570,26 @@ class AccountTest extends CartridgeCodersTest {
 	}
 
 
-	/**
-	 * test creating a AccountPpEmail and then deleting it
-	 **/
-	public function testDeleteAccountPpEmail() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("account");
-
-		// create a new AccountPpEmail and insert into mySQL
-		$account = new Account(null, $this->AccountPpEmail);
-		$account->insert($this->getPDO());
-
-		// delete the AccountPpEmail from mySQL
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
-		$account->delete($this->getPDO());
-
-		// grab the data from mySQL and enforce that the AccountPpEmail does not exist
-		$pdoAccountPpEmail = Account::getAccountPpEmailByAccountPpEmail($this->getPDO(), $account->getAccountPpEmail());
-		$this->assertNull($pdoAccountPpEmail);
-		$this->assertEquals($numRows, $this->getConnection()->getRowCount("account"));
-	}
+//	/**
+//	 * test creating a AccountPpEmail and then deleting it
+//	 **/
+//	public function testDeleteAccountPpEmail() {
+//		// count the number of rows and save it for later
+//		$numRows = $this->getConnection()->getRowCount("account");
+//
+//		// create a new AccountPpEmail and insert into mySQL
+//		$account = new Account(null, $this->AccountPpEmail);
+//		$account->insert($this->getPDO());
+//
+//		// delete the AccountPpEmail from mySQL
+//		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
+//		$account->delete($this->getPDO());
+//
+//		// grab the data from mySQL and enforce that the AccountPpEmail does not exist
+//		$pdoAccountPpEmail = Account::getAccountPpEmailByAccountPpEmail($this->getPDO(), $account->getAccountPpEmail());
+//		$this->assertNull($pdoAccountPpEmail);
+//		$this->assertEquals($numRows, $this->getConnection()->getRowCount("account"));
+//	}
 
 	/**
 	 * gets the AccountPpEmail by account id
@@ -641,26 +655,26 @@ class AccountTest extends CartridgeCodersTest {
 	}
 
 
-	/**
-	 * test creating a AccountUserName and then deleting it
-	 **/
-	public function testDeleteAccountUserName() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("account");
-
-		// create a new AccountUserName and insert into mySQL
-		$account = new Account(null, $this->AccountUserName);
-		$account->insert($this->getPDO());
-
-		// delete the AccountUserName from mySQL
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
-		$account->delete($this->getPDO());
-
-		// grab the data from mySQL and enforce that the AccountUserName does not exist
-		$pdoAccountUserName = Account::getAccountUserNameByAccountUserName($this->getPDO(), $account->getAccountUserName());
-		$this->assertNull($pdoAccountUserName);
-		$this->assertEquals($numRows, $this->getConnection()->getRowCount("account"));
-	}
+//	/**
+//	 * test creating a AccountUserName and then deleting it
+//	 **/
+//	public function testDeleteAccountUserName() {
+//		// count the number of rows and save it for later
+//		$numRows = $this->getConnection()->getRowCount("account");
+//
+//		// create a new AccountUserName and insert into mySQL
+//		$account = new Account(null, $this->AccountUserName);
+//		$account->insert($this->getPDO());
+//
+//		// delete the AccountUserName from mySQL
+//		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
+//		$account->delete($this->getPDO());
+//
+//		// grab the data from mySQL and enforce that the AccountUserName does not exist
+//		$pdoAccountUserName = Account::getAccountUserNameByAccountUserName($this->getPDO(), $account->getAccountUserName());
+//		$this->assertNull($pdoAccountUserName);
+//		$this->assertEquals($numRows, $this->getConnection()->getRowCount("account"));
+//	}
 
 	/**
 	 * gets the AccountUserName by account id

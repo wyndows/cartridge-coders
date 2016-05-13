@@ -22,12 +22,12 @@ class Account implements \JsonSerializable {
 
 	/**
 	 * id for account active
-	 * @var int $accountActive
+	 * @var tinyint $accountActive
 	 */
 	private $accountActive;
 
 	/** id for account admin
-	 * @var int $accountAdmin
+	 * @var tinyint $accountAdmin
 	 */
 	private $accountAdmin;
 
