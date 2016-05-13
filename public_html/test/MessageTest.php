@@ -14,7 +14,6 @@
 
 
 namespace Edu\Cnm\CartridgeCoders\Test;
-//NOTE change AccountId to Account (need the class not attribute) and add Image
 use Edu\Cnm\CartridgeCoders\{Message,Product,Account,Image};
 
 // grab the project test parameters
@@ -115,28 +114,28 @@ class MessageTest extends CartridgeCodersTest {
 	 **/
 	public function testInsertInvalidMessage() {
 		//create a Message with a non null Message id and watch it fail
-		$message = new Message(CartridgeCodersTest::INVALID_KEY, $this->account->getAccountId(), $this->product->getProductId(), $this->account->getAccountId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(CartridgeCodersTest::INVALID_KEY, $this->senderId->getAccountId(), $this->product->getProductId(), $this->recipientId->getAccountId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 	}
 
-//NOTE this is a duplicate of the 1st test I think so not needed
+//NOTE this is a duplicate of the 1st test I think so not needed EE NOTE question about this one?
 	/**
 	 * test inserting a Message and regrabbing it from mySQL
 	 **/
 	public function testGetValidMessageByMessageId() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("messasge")
+		$numRows = $this->getConnection()->getRowCount("messasge");
 
 			//create a new Message and insert to into mySQL
-		$message= new Message(null, $this->account->getSenderId(), $this->product->getProductId(), $this->recipientId->getAccountId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message= new Message(null, $this->senderId->getAccountId(), $this->product->getProductId(), $this->recipientId->getAccountId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 
 		//grab the data from mySQl and enforce the fields match our expectations
-		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $Message->getMessageId());
+		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
-		$this->assertEquals($pdoMessage->getSenderId(), $this->account->getAccountID());
+		$this->assertEquals($pdoMessage->getSenderId(), $this->senderId->getAccountId());
 		$this->assertEquals($pdoMessage->getProductId(), $this->product->getProductId());
-		$this->assertEquals($pdoMessage->getRecipientId(), $this->account->getAaccountId());
+		$this->assertEquals($pdoMessage->getRecipientId(), $this->recipientId->getAacountId());
 		$this->assertEquals($pdoMessage->getMessageContecnt(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageMailGunId(), $this->VALID_MESSAGEMAILGUNID());
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
@@ -149,6 +148,33 @@ class MessageTest extends CartridgeCodersTest {
 		//grab an account id that exceeds the maximum allowable account id
 		$message = Message::getMessageByMessageId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
 		$this->assertNull($message);
+	}
+
+	/**
+	 * test getting message by party id id
+	 **/
+	public function testGetValidMessageByPartyId(){
+		// count the number of rows and save it for later
+		$nubRows = $this->getConnection()->getRowCount("message");
+
+		// create a new message and insert to into mySQL
+		$message = new Message(null, $this->senderId->getAccountId(), $this->product->getProductId(), $this->recipientId->getAccountId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Message::getMessageByPartyId($this->getPDO(), $message->getMessageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\CNM\\CartridgeCoders\\Message", $results);
+
+		// grab the result from the array and validate it
+		$pdoMessage = $results[0];
+		$this->assertEquals($pdoMessage->getSenderId(), $this->senderId->getAccountId());
+		$this->assertEquals($pdoMessage->getProductId(), $this->product->getProductId());
+		$this->assertEquals($pdoMessage->getRecipientId(), $this->recipientId->getAccountId());
+		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
+		$this->assertEquals($pdoMessage->getMessageMailGunId(), $this->VALID_MESSAGEMAILGUNID());
+		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT());
 	}
 
 }
