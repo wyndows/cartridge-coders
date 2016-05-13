@@ -145,14 +145,21 @@ class Purchase implements \JsonSerializable {
 	 * @throws \RangeException if $newPurchasePayPalTransactionId is not positive
 	 * @throws \TypeError if $newPurchasePayPalTransactionId is not an integer
 	 */
-	public function setPurchasePayPalTransactionId(int $newPurchasePayPalTransactionId) {
-		// verify the purchase paypal transaction id is positive
-		if($newPurchasePayPalTransactionId <= 0) {
-			throw(new \RangeException("purchasePayPalTransactionId is not positive"));
+	public function setPurchasePayPalTransactionId(string $newPurchasePayPalTransactinoId) {
+		// verify the purchase paypal transaction id is secure
+		$newPurchasePayPalTransactinoId = trim($newPurchasePayPalTransactinoId);
+		$newPurchasePayPalTransactinoId = filter_var($newPurchasePayPalTransactinoId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newPurchasePayPalTransactinoId) === true) {
+			throw(new \InvalidArgumentException("purchase paypal transaction id is empty or insecure"));
 		}
 
-		// convert and store the image id
-		$this->purchasePayPalTransactionId = $newPurchasePayPalTransactionId;
+		// verify the purchase paypal transaction id will fit in the database
+		if(strlen($newPurchasePayPalTransactinoId) > 28) {
+			throw(new \RangeException("purchase paypal transaction id too large"));
+		}
+
+		// store the purchase paypal transaction id
+		$this->purchasePayPalTransactinoId = $newPurchasePayPalTransactinoId;
 	}
 
 	/**
