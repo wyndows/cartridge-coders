@@ -73,7 +73,7 @@ class MessageTest extends CartridgeCodersTest {
 		// create and insert an account to write the test Message
 		$this->image = new Image(null, "fileName", "image/jpg");
 		$this->image->insert($this->getPDO());
-// EE note ask about needing both of these to test some of the functions
+
 		// create and insert an account to write the test Message
 		$this->senderId = new Account(null, "10", "1", "0", "JamesDean", "JamesDean@gmail.com", "coolguy");
 		$this->senderId->insert($this->getPDO());
@@ -120,7 +120,7 @@ class MessageTest extends CartridgeCodersTest {
 		$message->insert($this->getPDO());
 	}
 
-//NOTE this is a duplicate of the 1st test I think so not needed EE NOTE question about this one?
+
 	/**
 	 * test inserting a Message and regrabbing it from mySQL
 	 **/

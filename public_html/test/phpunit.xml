@@ -7,6 +7,7 @@
 			<file>ProductCategoryTest.php</file>
 			<file>ProductTest.php</file>
 			<file>ProductPurchaseTest.php</file>
+			<!--<file>MessageTest.php</file>-->
 		</testsuite>
 	</testsuites>
 	<filter>
