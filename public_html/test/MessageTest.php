@@ -8,7 +8,9 @@
  * inserting a valid Message and verify that the mySQL data matches
  * inserting an invalid message and watching it fail
  * test grabbing a message by message id
- * test getting message by message id 
+ * test inserting a message and regrabbing it 
+ * test searching for message by party id 
+ * test serching for message by invalid party
  *
  **/
 
@@ -151,7 +153,7 @@ class MessageTest extends CartridgeCodersTest {
 	}
 
 	/**
-	 * test getting message by party id id
+	 * test getting message by party id
 	 **/
 	public function testGetValidMessageByPartyId(){
 		// count the number of rows and save it for later
@@ -176,5 +178,12 @@ class MessageTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoMessage->getMessageMailGunId(), $this->VALID_MESSAGEMAILGUNID());
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT());
 	}
-
+	/**
+	 * test grabbing a Message by party id that does not exist
+	 **/
+	public function testGetInvalidMessageByPartyId() {
+		// grab a message by search for party id that does not exist
+		$message = Message::getMessageByPartyId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
+		$this->assertNull($message);
+	}
 }
