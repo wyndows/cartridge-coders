@@ -1,7 +1,9 @@
 <?php
-
+//NOTE you will need to add these two lines
+//namespace Edu\Cnm\CartridgeCoders;
+//require_once ("autoload.php");
 /**
- * Message class for cartridge coders so accounts may message eachother back and forth
+ * Message class for cartridge coders so accounts may message each other back and forth
  * @author Elliot Murrey  <emurrey@cnm.edu> based on code from Dylan McDonald <dmcdonald21@cnm.edu>
  **/
 class Message implements \JsonSerializable {
@@ -301,6 +303,7 @@ class Message implements \JsonSerializable {
 		//update the null messageId with what mySQL just gave us
 		$this->messageId = intval($pdo->lastInsertId());
 	}
+
 	/**
 	 * gets the Message by messageId
 	 *
@@ -325,7 +328,7 @@ class Message implements \JsonSerializable {
 		$statement->execute($parameters);
 
 		// grab the message from mySQL
-		try{
+		try {
 			$message = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
@@ -336,8 +339,9 @@ class Message implements \JsonSerializable {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($message);
+		return ($message);
 	}
+
 	/**
 	 * gets the Message by partyId
 	 * @param \PDO $pdo PDO connection object
@@ -382,8 +386,9 @@ class Message implements \JsonSerializable {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($message);
-		}
+		return ($message);
+	}
+
 	/**
 	 * formats the state variables for JSON serialization
 	 *
@@ -391,6 +396,8 @@ class Message implements \JsonSerializable {
 	 */
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
-		return($fields);
+		return ($fields);
+
+	}
 
 }
