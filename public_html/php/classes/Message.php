@@ -42,6 +42,11 @@ class Message implements \JsonSerializable {
 	 * #var string $messageSubject
 	 **/
 	private $messageSubject;
+	/**
+	 * party id is the senderId or the recipientId
+	 * @var int $messagePartyId
+	 **/
+	private $messagePartyId;
 
 	/**
 	 * constructor for the message
@@ -285,6 +290,34 @@ class Message implements \JsonSerializable {
 	}
 
 	/**
+	 * accessor method for sender id
+	 *
+	 * @return int value of sender id
+	 **/
+	public function getMessagePartyId() {
+		return ($this->messagePartyId);
+	}
+
+	/**
+	 * mutator method for message sender id
+	 * @param int $newMessageSenderId new value of sender id
+	 * @throws \UnexpectedValueException if $newSenderId is not a integer
+	 * @throws \RangeException if $newSenderId is not positive
+	 **/
+	public function setMessagePartyId($newMessagePartyId) {
+		$newMessagePartyId = filter_var($newMessagePartyId, FILTER_VALIDATE_INT);
+		if($newMessagePartyId === false) {
+			throw(new \UnexpectedValueException("SenderId is not a valid integer"));
+		}
+		//confirm sender id is positive
+		if($newMessagePartyId <= 0) {
+			throw(new \RangeException("sender id is not positive"));
+		}
+		//convert and store the account id
+		$this->messagePartyId = intval($newMessagePartyId);
+	}
+
+	/**
 	 * insert message into mySQL
 	 *
 	 * @param \PDO $pdo - PDO connection object
@@ -338,7 +371,7 @@ class Message implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$message = new Message($row["messageId"], $row["senderId"], $row["productId"], $row["recipientId"], $row["messageContent"], $row["messageMailGunId"], $row["messageSubject"]);
+				$message = new Message($row["messageId"], $row["messageSenderId"], $row["messageProductId"], $row["messageRecipientId"], $row["messageContent"], $row["messageMailGunId"], $row["messageSubject"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
@@ -371,11 +404,11 @@ class Message implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT messageId, senderId, productId, recipientId, messageContentId, messageMailGunId, messageSubject = :messageId";
+		$query = "SELECT messageId, messageSenderId, messageProductId, messageRecipientId, messageContent, messageMailGunId, messageSubject FROM message WHERE messageSenderId = :messageSenderId OR messageRecipientId = :messageRecipientId";
 		$statement = $pdo->prepare($query);
 
 		// bind the party id to the place holder in the template
-		$parameters = array("senderId" => $senderId, "recipientId" => $recipientId);
+		$parameters = array("messageSenderId" => $senderId, "messageRecipientId" => $recipientId);
 		$statement->execute($parameters);
 
 		// build an array of messages
@@ -383,7 +416,7 @@ class Message implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$message = new Message($row["messageId"], $row["senderId"], $row["productId"], $row["recipientId"], $row["messageContent"], $row["messageMailGunId"], $row["messageSubject"]);
+				$message = new Message($row["messageId"], $row["messageSenderId"], $row["messageProductId"], $row["messageRecipientId"], $row["messageContent"], $row["messageMailGunId"], $row["messageSubject"]);
 				$messages[$messages->key()] = $message;
 				$messages->next();
 			} catch(\Exception $exception) {
