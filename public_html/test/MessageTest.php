@@ -118,6 +118,7 @@ class MessageTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoMessage->getMessageMailGunId(), $this->VALID_MESSAGEMAILGUNID);
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
+	
 	/**
 	 *test inserting a Message that already exists
 	 *

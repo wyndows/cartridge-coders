@@ -98,6 +98,7 @@ class FeedbackTest extends CartridgeCodersTest {
 
 		// create a new Feedback and insert to into mySQL
 		$feedback = new Feedback(null, $this->feedbackSenderId->getAccountId(), $this->feedbackProductId->getProductId(), $this->feedbackRecipientId->getAccountId(), $this->VALID_FEEDBACKCONTENT, $this->VALID_FEEDBACKRATING);
+		$feedback->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match out expectations
 		$pdoFeedback = Feedback::getFeedbackByFeedbackId($this->getPDO(), $feedback->getFeedbackId());
@@ -107,5 +108,24 @@ class FeedbackTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoFeedback->getFeedbackRecipientid(), $this->feedbackRecipientId->getAccountId());
 		$this->assertEquals($pdoFeedback->getFeedbackContent(), $this->VALID_FEEDBACKCONTENT);
 		$this->assertEquals($pdoFeedback->getFeedbackRating(), $this->VALID_FEEDBACKRATING);
+	}
+
+	/**
+	 * test inserting Feedback that already exists
+	 *
+	 * @exectedException \PDOException
+	 **/
+	public function testInsertInvalidFeedback() {
+		// create a Feedback with a non null Feedback id and watch it fail
+		$feedback = new Feedback(CartridgeCodersTest::INVALID_KEY, $this->feedbackSenderId->getAccountId(), $this->feedbackProductId->getProductId(), $this->feedbackRecipientId->getAccountId(), $this->VALID_FEEDBACKCONTENT, $this->VALID_FEEDBACKRATING);
+		$feedback->insert($this->getPDO());
+	}
+
+	/**
+	 * tst inserting Feedback, editing it, and then updating it
+	 *
+	 **/
+	public function testUpdateValidFeedback() {
+		// count the number of 
 	}
 }
