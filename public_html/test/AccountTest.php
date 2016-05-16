@@ -88,7 +88,7 @@ require_once("../php/classes/autoload.php");
 class AccountTest extends CartridgeCodersTest {
 	/**
 	 * content of the Account
-	 * @var int $VALID_ACCOUNTACTIVE
+	 * @var tinyint $VALID_ACCOUNTACTIVE
 	 **/
 	protected $VALID_ACCOUNTACTIVE = 1;
 	/**
@@ -159,7 +159,7 @@ class AccountTest extends CartridgeCodersTest {
 		parent::setUp();
 
 		// create and insert an Image to own the test account
-		$this->image = new Image(null, "filename", "image/jpg");
+		$this->image = new Image(null, "fileName", "image/jpg");
 		$this->image->insert($this->getPDO());
 
 	}
@@ -225,12 +225,11 @@ class AccountTest extends CartridgeCodersTest {
 
 		// edit the Account Active and update it in mySQL
 		$account->setAccountActive($this->VALID_ACCOUNTACTIVE2);
-		$account->update($this->getPDO());
+		$account->updateValidAccountActive($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoAccount = Account::getAccountByAccountId($this->getPDO(), $account->getAccountId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
-
 		$this->assertEquals($pdoAccount->getAccountImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoAccount->getAccountActive(), $this->VALID_ACCOUNTACTIVE2);
 		$this->assertEquals($pdoAccount->getAccountAdmin(), $this->VALID_ACCOUNTADMIN);

@@ -311,14 +311,66 @@ class Account implements \JsonSerializable {
 		$this->accountId = intval($pdo->lastInsertId());
 	}
 
+
+
 	/**
-	 * updates this account in mySQL
+	 * UpdateValidAccountActive
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL errors occure
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 */
-	public function update(\PDO $pdo) {
+	public function updateValidAccountActive	(\PDO $pdo) {
+
+		// enforce the accountId is not null (don't update whats not there)
+		if($this->accountId === null) {
+			throw(new \PDOException("unable to update accout id that does not exist"));
+		}
+
+		// create query template
+		$query = "UPDATE account SET accountActive  = :accountActive WHERE accountId = :accountId";
+
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders
+		$parameters = ["accountId" => $this->accountId, "accountImageId" => $this->accountImageId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+		$statement->execute($parameters);
+	}
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * UpdateValidAAccountAdmin
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL errors occure
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function updateValidAccountAdmin	(\PDO $pdo) {
 
 		// enforce the accountId is not null (don't update whats not there)
 		if($this->accountId === null) {
@@ -331,9 +383,126 @@ class Account implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders
-		$parameters = ["accountId" => $this->accountId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+		$parameters = ["accountId" => $this->accountId, "accountImageId" => $this->accountImageId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
 		$statement->execute($parameters);
 	}
+
+
+	/**
+	 * UpdateValidAAccountName
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL errors occure
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function updateValidAccountName	(\PDO $pdo) {
+
+		// enforce the accountId is not null (don't update whats not there)
+		if($this->accountId === null) {
+			throw(new \PDOException("unable to update accout id that does not exist"));
+		}
+
+		// create query template
+		$query = "UPDATE account SET accountId = :accountId WHERE accountId = :accountId";
+
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders
+		$parameters = ["accountId" => $this->accountId, "accountImageId" => $this->accountImageId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+		$statement->execute($parameters);
+	}
+
+
+
+
+	/**
+	 * UpdateValidAAccountPpEmail
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL errors occure
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function updateValidAccountPpEmail	(\PDO $pdo) {
+
+		// enforce the accountId is not null (don't update whats not there)
+		if($this->accountId === null) {
+			throw(new \PDOException("unable to update accout id that does not exist"));
+		}
+
+		// create query template
+		$query = "UPDATE account SET accountId = :accountId WHERE accountId = :accountId";
+
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders
+		$parameters = ["accountId" => $this->accountId, "accountImageId" => $this->accountImageId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+		$statement->execute($parameters);
+	}
+
+
+
+
+
+
+
+
+	/**
+	 * UpdateValidAAccountUserName
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL errors occure
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function updateValidAccountUserName	(\PDO $pdo) {
+
+		// enforce the accountId is not null (don't update whats not there)
+		if($this->accountId === null) {
+			throw(new \PDOException("unable to update accout id that does not exist"));
+		}
+
+		// create query template
+		$query = "UPDATE account SET accountId = :accountId WHERE accountId = :accountId";
+
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders
+		$parameters = ["accountId" => $this->accountId, "accountImageId" => $this->accountImageId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+		$statement->execute($parameters);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	/**
