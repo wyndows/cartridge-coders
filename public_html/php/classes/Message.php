@@ -47,9 +47,9 @@ class Message implements \JsonSerializable {
 	 * constructor for the message
 	 *
 	 * @param int $newMessageId new message id
-	 * @param int $newSenderId new sender id
+	 * @param int $newMessageSenderId new sender id
 	 * @param int $newProductId new product id
-	 * @param int $newRecipientId new recipient id
+	 * @param int $newMessageRecipientId new recipient id
 	 * @param string $newMessageContent new message content
 	 * @param string $newMessageMailGunId new message mail gun Id
 	 * @param string $newMessageSubject new message subject
@@ -115,15 +115,15 @@ class Message implements \JsonSerializable {
 	 *
 	 * @return int value of sender id
 	 **/
-	public function getSenderId() {
-		return ($this->senderId);
+	public function getMessageSenderId() {
+		return ($this->messageSenderId);
 	}
 
 	/**
 	 * mutator method for message sender id
-	 * @param int $newSenderId new value of sender id
-	 * @throws unexpectedValueException if $newSenderId is not a integer
-	 * @throws RangeException if $newSenderId is not positive
+	 * @param int $newMessageSenderId new value of sender id
+	 * @throws \UnexpectedValueException if $newSenderId is not a integer
+	 * @throws \RangeException if $newSenderId is not positive
 	 **/
 	public function setMessageSenderId($newMessageSenderId) {
 		$newMessageSenderId = filter_var($newMessageSenderId, FILTER_VALIDATE_INT);
@@ -150,8 +150,8 @@ class Message implements \JsonSerializable {
 	/**
 	 * mutator method for product id
 	 * @param int $newProductId new value of product id
-	 * @throws unexpectedValueException if $newProductId is not a valid integer
-	 * @throws RangeException if the $newProductId is not positive
+	 * @throws \UnexpectedValueException if $newProductId is not a valid integer
+	 * @throws \RangeException if the $newProductId is not positive
 	 **/
 	public function setProductId($newProductId) {
 		$newProductId = filter_var($newProductId, FILTER_VALIDATE_INT);
@@ -178,10 +178,10 @@ class Message implements \JsonSerializable {
 	/**
 	 * mutator method for message recipient id
 	 * @param int $newRecipientId new value of recipient id
-	 * @throws unexpectedValueException if $newRecipientId is not a integer
-	 * @throws RangeException if the $newRecipientId is not positive
+	 * @throws \UnexpectedValueException if $newRecipientId is not a integer
+	 * @throws\RangeException if the $newRecipientId is not positive
 	 **/
-	public function setRecipientId($newRecipientId) {
+	public function setMessageRecipientId($newRecipientId) {
 		$newRecipientId = filter_var($newRecipientId, FILTER_VALIDATE_INT);
 		if($newRecipientId === false) {
 			throw(new \UnexpectedValueException("RecipientId is not a valid integer"));
@@ -191,7 +191,7 @@ class Message implements \JsonSerializable {
 			throw(new \RangeException("sender id is not positive"));
 		}
 		//convert and store the account id
-		$this->recipientId = intval($newRecipientId);
+		$this->messageRecipientId = intval($newRecipientId);
 	}
 
 	/**
@@ -207,8 +207,8 @@ class Message implements \JsonSerializable {
 	 * mutator method for message content
 	 *
 	 * @param string $newMessageContent new value of message content
-	 * @throws UnexpectedValueException if $newMessageContent is not valid
-	 * @throws RangeException if the $newMessageContent exceeds var 255 is not positive
+	 * @throws \UnexpectedValueException if $newMessageContent is not valid
+	 * @throws \RangeException if the $newMessageContent exceeds var 255 is not positive
 	 **/
 	public function setMessageContent($newMessageContent) {
 		//verify the message content is valid
@@ -237,14 +237,14 @@ class Message implements \JsonSerializable {
 	 * mutator method for message mailgun id
 	 *
 	 * @param string $newMessageMailGunId new value of message mailgun id
-	 * @throws UnexpectedValueException if $newMessageMailGunId is not valid
-	 * @throws RangeException if mail gun id exceeds 32
+	 * @throws \UnexpectedValueException if $newMessageMailGunId is not valid
+	 * @throws \RangeException if mail gun id exceeds 32
 	 **/
 	public function setMessageMailGunId($newMessageMailGunId) {
 		//verify the message mail gun id is valid
 		$newMessageMailGunId = filter_var($newMessageMailGunId, FILTER_SANITIZE_STRING);
 		if($newMessageMailGunId === false) {
-			throw(new \UnexpectedValueException("message mailgun id is not a valid string"));
+			throw(new \UnexpectedValueException("message mailgunid is not a valid string"));
 		}
 		// verify the messge mail gun id is less then 32
 		if($newMessageMailGunId > 32) {
@@ -267,8 +267,8 @@ class Message implements \JsonSerializable {
 	 * mutator method for message subject
 	 *
 	 * @param string $newMessageSubject new value of message subject
-	 * @throws UnexpectedValueException if $newMessageSubject is not valid
-	 * @throws RangeException if $newMessageSubject is more than 128
+	 * @throws \UnexpectedValueException if $newMessageSubject is not valid
+	 * @throws \RangeException if $newMessageSubject is more than 128
 	 **/
 	public function setMessageSubject($newMessageSubject) {
 		// verify the message subject is valid
@@ -287,9 +287,9 @@ class Message implements \JsonSerializable {
 	/**
 	 * insert message into mySQL
 	 *
-	 * @param PDO $pdo - PDO connection object
+	 * @param \PDO $pdo - PDO connection object
 	 * @throw PDOexception when mySql errors occur
-	 * @throws TypeError if $pdo is not a PDO connection object
+	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function insert(\PDO $pdo) {
 		// enforce message id is null - make sure we're inserting a new message
@@ -302,7 +302,7 @@ class Message implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the member variable to the place holders in the template
-		$parameters = ["messageSenderId" => $this->messageSenderId, "productId" => $this->productId, "messageRecipientId" => $this->recipient, "messageContent" => $this->messageContent, "messageMailGunId" => $this->messageMailGunId, "messageSubject" => $this->messageSubject];
+		$parameters = ["messageSenderId" => $this->messageSenderId, "productId" => $this->productId, "messageRecipientId" => $this->messageRecipientId, "messageContent" => $this->messageContent, "messageMailGunId" => $this->messageMailGunId, "messageSubject" => $this->messageSubject];
 		$statement->execute($parameters);
 
 		//update the null messageId with what mySQL just gave us
@@ -325,7 +325,7 @@ class Message implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELET messageId, sender, messageProductId, recipient, messageContent, messageMailGunId, messagesSubject";
+		$query = "SELECT messageId, sender, messageProductId, recipient, messageContent, messageMailGunId, messagesSubject";
 		$statement = $pdo->prepare($query);
 
 		// bind the message id to the place holder in the template
@@ -351,8 +351,8 @@ class Message implements \JsonSerializable {
 	 * gets the Message by partyId
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $partyId id to use for both sender and recipient
-	 * @param int $senderId sender id to search for
-	 * @param int $recipientId recipient id to search for
+	 * @param int $messageSenderId sender id to search for
+	 * @param int $messageRecipientId recipient id to search for
 	 * @return \SplFixedArray SplFixedArray of messages found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
