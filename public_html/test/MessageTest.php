@@ -173,7 +173,7 @@ class MessageTest extends CartridgeCodersTest {
 		$message = new Message(null, $this->messageSenderId->getAccountId(), $this->product->getProductId(), $this->messageRecipientId->getAccountId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = (Message::getMessageByPartyId($this->getPDO(), $message->getMessageSenderId()) || Message::getMessageByPartyId($this->getPDO(), $message->getMessageRecipientId());
+		$results = Message::getMessageByPartyId($this->getPDO(), $message->getMessageSenderId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\CNM\\CartridgeCoders\\Message", $results);
