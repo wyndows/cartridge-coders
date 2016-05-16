@@ -196,3 +196,5 @@ class MessageTest extends CartridgeCodersTest {
 		$this->assertCount(0, $message);
 	}
 }
+
+?>
