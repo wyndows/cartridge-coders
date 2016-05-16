@@ -80,7 +80,6 @@ require_once("CartridgeCodersTest.php");
 require_once("../php/classes/autoload.php");
 
 
-
 /**
  * Unit testing for the Account class for Cartridge Coders
  *
@@ -139,10 +138,10 @@ class AccountTest extends CartridgeCodersTest {
 	protected $VALID_ACCOUNTUSERNAME2 = "myusername2";
 
 	/**
-* content of the Account
-* @var tinyint $imgeId
-**/
-	protected $imageId = null;
+	 * content of the Account
+	 * @var tinyint $accountImageId
+	 **/
+	protected $accountImageId = null;
 
 	/**
 	 * Account
@@ -180,7 +179,7 @@ class AccountTest extends CartridgeCodersTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoAccount = Account::getAccountByAccountId($this->getPDO(), $account->getAccountId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
-		$this->assertEquals($pdoAccount->getAccountId(), $this->account->getAccountId());
+
 		$this->assertEquals($pdoAccount->getAccountImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoAccount->getAccountActive(), $this->VALID_ACCOUNTACTIVE);
 		$this->assertEquals($pdoAccount->getAccountAdmin(), $this->VALID_ACCOUNTADMIN);
@@ -188,8 +187,6 @@ class AccountTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoAccount->getAccountPpEmail(), $this->VALID_ACCOUNTPPEMAIL);
 		$this->assertEquals($pdoAccount->getAccountUserName(), $this->VALID_ACCOUNTUSERNAME);
 	}
-
-
 
 
 	/**
@@ -233,7 +230,7 @@ class AccountTest extends CartridgeCodersTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoAccount = Account::getAccountByAccountId($this->getPDO(), $account->getAccountId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
-		$this->assertEquals($pdoAccount->getAccountId(), $this->account->getAccountId());
+
 		$this->assertEquals($pdoAccount->getAccountImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoAccount->getAccountActive(), $this->VALID_ACCOUNTACTIVE2);
 		$this->assertEquals($pdoAccount->getAccountAdmin(), $this->VALID_ACCOUNTADMIN);
@@ -516,22 +513,22 @@ class AccountTest extends CartridgeCodersTest {
 		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->insert($this->getPDO());
 
-			// grab the data from mySQL and enforce the fields match our expectations
-			$results = Account::getAccountByAccountImageId($this->getPDO(), $account->getAccountImageId());
-			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
-			$this->assertCount(1, $results);
-			$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\Account", $results);
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Account::getAccountByAccountImageId($this->getPDO(), $account->getAccountImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\Account", $results);
 
-			// grab the result from the array and validate it
-			$pdoAccount = $results[0];
-			$this->assertEquals($pdoAccount->getAccountId(), $this->account->getAccountId());
-			$this->assertEquals($pdoAccount->getAccountImageId(), $this->image->getImageId());
-			$this->assertEquals($pdoAccount->getAccountActive(), $this->VALID_ACCOUNTACTIVE);
-			$this->assertEquals($pdoAccount->getAccountAdmin(), $this->VALID_ACCOUNTADMIN);
-			$this->assertEquals($pdoAccount->getAccountName(), $this->VALID_ACCOUNTNAME);
-			$this->assertEquals($pdoAccount->getAccountPpEmail(), $this->VALID_ACCOUNTPPEMAIL);
-			$this->assertEquals($pdoAccount->getAccountUserName(), $this->VALID_ACCOUNTUSERNAME);
-		}
+		// grab the result from the array and validate it
+		$pdoAccount = $results[0];
+		$this->assertEquals($pdoAccount->getAccountId(), $this->account->getAccountId());
+		$this->assertEquals($pdoAccount->getAccountImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoAccount->getAccountActive(), $this->VALID_ACCOUNTACTIVE);
+		$this->assertEquals($pdoAccount->getAccountAdmin(), $this->VALID_ACCOUNTADMIN);
+		$this->assertEquals($pdoAccount->getAccountName(), $this->VALID_ACCOUNTNAME);
+		$this->assertEquals($pdoAccount->getAccountPpEmail(), $this->VALID_ACCOUNTPPEMAIL);
+		$this->assertEquals($pdoAccount->getAccountUserName(), $this->VALID_ACCOUNTUSERNAME);
+	}
 
 	/**
 	 * test grabbing a Account by account active

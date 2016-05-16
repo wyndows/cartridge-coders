@@ -1,6 +1,9 @@
 <?php
 namespace Edu\Cnm\CartridgeCoders;
 
+require_once ("autoload.php");
+
+
 /**
  * class for Account
  * @author Donald DeLeeuw <donald.deleeuw> based on code by Dylan McDonald <dmcdonad21@cnm.edu>
@@ -155,7 +158,7 @@ class Account implements \JsonSerializable {
 	 **/
 	public function setAccountActive(int $newAccountActive) {
 		// verify account active flag is positive
-		if($newAccountActive <= 0) {
+		if($newAccountActive != 0 AND $newAccountActive != 1) {
 			throw(new \RangeException("account active flag is not positive"));
 		}
 		// convert and store account active flag
@@ -323,7 +326,7 @@ class Account implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "UPDATE account SET accountId = :accountImageId WHERE accountId = :accountId";
+		$query = "UPDATE account SET accountId = :accountId WHERE accountId = :accountId";
 
 		$statement = $pdo->prepare($query);
 
@@ -470,7 +473,7 @@ class Account implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT accountId, accountImageid, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountId = :accountId";
+		$query = "SELECT accountId, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountId = :accountId";
 		$statement = $pdo->prepare($query);
 
 		// bind the account id to the place holder in the template
