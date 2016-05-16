@@ -284,35 +284,7 @@ class Message implements \JsonSerializable {
 		//store the message subject
 		$this->messageSubject = $newMessageSubject;
 	}
-
-	/**
-	 * accessor method for sender id
-	 *
-	 * @return int value of sender id
-	 **/
-	public function getMessagePartyId() {
-		return ($this->messagePartyId);
-	}
-
-	/**
-	 * mutator method for message sender id
-	 * @param int $newMessageSenderId new value of sender id
-	 * @throws \UnexpectedValueException if $newSenderId is not a integer
-	 * @throws \RangeException if $newSenderId is not positive
-	 **/
-	public function setMessagePartyId($newMessagePartyId) {
-		$newMessagePartyId = filter_var($newMessagePartyId, FILTER_VALIDATE_INT);
-		if($newMessagePartyId === false) {
-			throw(new \UnexpectedValueException("SenderId is not a valid integer"));
-		}
-		//confirm sender id is positive
-		if($newMessagePartyId <= 0) {
-			throw(new \RangeException("sender id is not positive"));
-		}
-		//convert and store the account id
-		$this->messagePartyId = intval($newMessagePartyId);
-	}
-
+	
 	/**
 	 * insert message into mySQL
 	 *
@@ -387,28 +359,21 @@ class Message implements \JsonSerializable {
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 	public static function getMessageByPartyId(\PDO $pdo, int $partyId) {
-
-		// assign messageSenderId to partyId
-		$senderId = &$partyId;
-
-		// assign recipientId to partyId
-		$recipientId = &$partyId;
-
 		// sanitize the partyId before searching
 		if($partyId <= 0) {
 			throw(new \PDOException("partyId is not positive "));
 		}
 
 		// create query template
-		$query = "SELECT messageId, messageSenderId, messageProductId, messageRecipientId, messageContent, messageMailGunId, messageSubject FROM message WHERE messageSenderId = :messageSenderId OR messageRecipientId = :messageRecipientId";
+		$query = "SELECT messageId, messageSenderId, messageProductId, messageRecipientId, messageContent, messageMailGunId, messageSubject FROM message WHERE messageSenderId = :partyId OR messageRecipientId = :partyId";
 		$statement = $pdo->prepare($query);
 
 		// bind the party id to the place holder in the template
-		$parameters = array("messageSenderId" => $senderId, "messageRecipientId" => $recipientId);
+		$parameters = array("partyId" => $partyId);
 		$statement->execute($parameters);
 
 		// build an array of messages
-		$message = new \SplFixedArray($statement->rowCount());
+		$messages = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
@@ -420,7 +385,7 @@ class Message implements \JsonSerializable {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($message);
+		return ($messages);
 	}
 
 	/**

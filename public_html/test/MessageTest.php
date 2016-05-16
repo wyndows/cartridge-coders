@@ -181,7 +181,7 @@ class MessageTest extends CartridgeCodersTest {
 		// grab the result from the array and validate it
 		$pdoMessage = $results[0];
 		$this->assertEquals($pdoMessage->getMessageSenderId(), $this->messageSenderId->getAccountId());
-		$this->assertEquals($pdoMessage->getMessageProductId(), $this->product->getProductId());
+		$this->assertEquals($pdoMessage->getProductId(), $this->product->getProductId());
 		$this->assertEquals($pdoMessage->getMessageRecipientId(), $this->messageRecipientId->getAccountId());
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageMailGunId(), $this->VALID_MESSAGEMAILGUNID);
