@@ -4,7 +4,7 @@
  *
  * Message class will contain messageId, messageSenderId, messageProductId, messageSellerId, messageContent, messageMailGunId, and messageSubjectId
  *
- * tesing will be attempted on the following.
+ * testing will be attempted on the following.
  * inserting a valid Message and verify that the mySQL data matches
  * inserting an invalid message and watching it fail
  * test grabbing a message by message id
