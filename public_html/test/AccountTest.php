@@ -79,6 +79,8 @@ require_once("CartridgeCodersTest.php");
 // grab the class under scrutiny
 require_once("../php/classes/autoload.php");
 
+
+
 /**
  * Unit testing for the Account class for Cartridge Coders
  *
@@ -87,7 +89,7 @@ require_once("../php/classes/autoload.php");
 class AccountTest extends CartridgeCodersTest {
 	/**
 	 * content of the Account
-	 * @var tinyint $VALID_ACCOUNTACTIVE
+	 * @var int $VALID_ACCOUNTACTIVE
 	 **/
 	protected $VALID_ACCOUNTACTIVE = 1;
 	/**
@@ -142,6 +144,13 @@ class AccountTest extends CartridgeCodersTest {
 **/
 	protected $imageId = null;
 
+	/**
+	 * Account
+	 * @var int $accountId
+	 **/
+
+	protected $accountId = null;
+
 
 	/**
 	 * create dependent objects before running each test
@@ -165,7 +174,7 @@ class AccountTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("account");
 
 		// create a new account and insert into mySQL
-		$account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
+		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -179,6 +188,9 @@ class AccountTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoAccount->getAccountPpEmail(), $this->VALID_ACCOUNTPPEMAIL);
 		$this->assertEquals($pdoAccount->getAccountUserName(), $this->VALID_ACCOUNTUSERNAME);
 	}
+
+
+
 
 	/**
 	 * test inserting a Account that already exists
@@ -211,7 +223,7 @@ class AccountTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("account");
 
 		// create a new Account and insert into mySQL
-		$account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
+		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->insert($this->getPDO());
 
 		// edit the Account Active and update it in mySQL
@@ -238,7 +250,7 @@ class AccountTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("account");
 
 		// create a new Account and insert into mySQL
-		$account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
+		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->insert($this->getPDO());
 
 		// edit the Account Admin and update it in mySQL
@@ -266,7 +278,7 @@ class AccountTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("account");
 
 		// create a new Account and insert into mySQL
-		$account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
+		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->insert($this->getPDO());
 
 		// edit the Account Name and update it in mySQL
@@ -293,7 +305,7 @@ class AccountTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("account");
 
 		// create a new Account and insert into mySQL
-		$account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
+		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->insert($this->getPDO());
 
 		// edit the Account PpEmail and update it in mySQL
@@ -320,7 +332,7 @@ class AccountTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("account");
 
 		// create a new Account and insert into mySQL
-		$account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
+		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->insert($this->getPDO());
 
 		// edit the Account User Name and update it in mySQL
@@ -346,7 +358,7 @@ class AccountTest extends CartridgeCodersTest {
 	 **/
 	public function testUpdateInvalidAccount() {
 		// create a Account with a non null image id and watch it fail
-		$account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
+		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->update($this->getPDO());
 	}
 
@@ -359,7 +371,7 @@ class AccountTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("account");
 
 		// create a new Account and insert into mySQL
-		$account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
+		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->insert($this->getPDO());
 
 		// delete the Account from mySQL
@@ -379,7 +391,7 @@ class AccountTest extends CartridgeCodersTest {
 	 **/
 	public function testDeleteInvalidAccount() {
 		// create a Account and try to delete it without actually inserting it
-		$account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
+		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->delete($this->getPDO());
 	}
 
@@ -473,7 +485,7 @@ class AccountTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("account");
 
 		// create a new Account and insert into mySQL
-		$account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
+		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -501,7 +513,7 @@ class AccountTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("account");
 
 		// create a new Account and insert into mySQL
-		$account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
+		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->insert($this->getPDO());
 
 			// grab the data from mySQL and enforce the fields match our expectations
@@ -529,7 +541,7 @@ class AccountTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("account");
 
 		// create a new Account and insert into mySQL
-		$account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
+		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -557,7 +569,7 @@ class AccountTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("account");
 
 		// create a new Account and insert into mySQL
-		$account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
+		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -585,7 +597,7 @@ class AccountTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("account");
 
 		// create a new Account and insert into mySQL
-		$account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
+		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -613,7 +625,7 @@ class AccountTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("account");
 
 		// create a new Account and insert into mySQL
-		$account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
+		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -641,7 +653,7 @@ class AccountTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("account");
 
 		// create a new Account and insert into mySQL
-		$account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
+		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -670,7 +682,7 @@ class AccountTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("account");
 
 		// create a new Account and insert into mySQL
-		$account = new Account(null, $this->account->getAccountId(), $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
+		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations

@@ -450,6 +450,54 @@ class Account implements \JsonSerializable {
 		return ($accountId);
 	}
 
+
+
+
+
+	/**
+	 * get the account by accountId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $accountId account id to search for
+	 * @return Account|null product found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+	public static function getAccountByAccountId(\PDO $pdo, int $accountId) {
+		// sanitize the accountId before searching
+		if($accountId <= 0) {
+			throw(new \PDOException("account id is not account"));
+		}
+
+		// create query template
+		$query = "SELECT accountId, accountImageid, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountId = :accountId";
+		$statement = $pdo->prepare($query);
+
+		// bind the account id to the place holder in the template
+		$parameters = array("accountId" => $accountId);
+		$statement->execute($parameters);
+
+		// grab the account from mySQL
+		try {
+			$account = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$account = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($account);
+	}
+
+
+
+
+
+
+
 	/**
 	 * Gets all the account image id
 	 * @param \PDO $pdo PDO connection object
