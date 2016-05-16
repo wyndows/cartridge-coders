@@ -72,12 +72,12 @@ class MessageTest extends CartridgeCodersTest {
 	 * account for the sender and messageRecipientId ids
 	 * @var Account accountId
 	 **/
-	protected $account = null
+	protected $account = null;
 
 	/**
 	 * create dependent objects before running each test
 	 **/
-	public final function setUP() {
+	public final function setUp() {
 		// run the default setUp() method first
 		parent::setUp();
 		// create and insert an account to write the test Message

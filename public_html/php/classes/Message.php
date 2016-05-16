@@ -302,7 +302,7 @@ class Message implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the member variable to the place holders in the template
-		$parameters = ["messageSenderId" => $this->messageSenderId, "productId" => $this->productId, "messageRecipientId" => $this->messageRecipientId, "messageContent" => $this->messageContent, "messageMailGunId" => $this->messageMailGunId, "messageSubject" => $this->messageSubject];
+		$parameters = ["messageSenderId" => $this->messageSenderId, "messageProductId" => $this->productId, "messageRecipientId" => $this->messageRecipientId, "messageContent" => $this->messageContent, "messageMailGunId" => $this->messageMailGunId, "messageSubject" => $this->messageSubject];
 		$statement->execute($parameters);
 
 		//update the null messageId with what mySQL just gave us
@@ -325,7 +325,7 @@ class Message implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT messageId, sender, messageProductId, recipient, messageContent, messageMailGunId, messagesSubject";
+		$query = "SELECT messageId, messageSenderId, messageProductId, messageRecipientId, messageContent, messageMailGunId, messageSubject FROM message WHERE messageId = :messageId";
 		$statement = $pdo->prepare($query);
 
 		// bind the message id to the place holder in the template
