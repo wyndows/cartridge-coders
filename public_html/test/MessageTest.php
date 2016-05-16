@@ -88,7 +88,7 @@ class MessageTest extends CartridgeCodersTest {
 		$this->messageSenderId = new Account(null, $this->image->getImageId(), "1", "0", "JamesDean", "JamesDean@gmail.com", "coolguy");
 		$this->messageSenderId->insert($this->getPDO());
 
-		// create and insert an Account to own this test Message
+		// create and insert an Account to receive this test Message
 		$this->messageRecipientId = new Account(null, $this->image->getImageId(), "1", "0", "JessicaJones", "JessicaJones@gmail.com", "hotgirl");
 		$this->messageRecipientId->insert($this->getPDO());
 
