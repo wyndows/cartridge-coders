@@ -42,11 +42,7 @@ class Message implements \JsonSerializable {
 	 * #var string $messageSubject
 	 **/
 	private $messageSubject;
-	/**
-	 * party id is the senderId or the recipientId
-	 * @var int $messagePartyId
-	 **/
-	private $messagePartyId;
+	
 
 	/**
 	 * constructor for the message
