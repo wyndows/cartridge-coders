@@ -52,44 +52,44 @@ class MessageTest extends CartridgeCodersTest {
 	 * Account that created this message this is for foreign key relations
 	 * @var Account sender
 	 **/
-	protected $sender = null;
+	protected $messageSenderId = null;
 	/**
 	 * Account that will recieve this message this is for foreign key relations
-	 * @var Account sender
+	 * @var Account receiver
 	 **/
-	protected $recipient = null;
+	protected $messageRecipientId = null;
 	/**
 	 * product that message is about
-	 * @var Product product
+	 * @var Product productId
 	 **/
-	protected $product = null;
+	protected $messageProductId = null;
 	/**
 	 * image for account
 	 * @var Image image
 	 **/
-	protected $image = null;
+	protected $imageId = null;
 
 	/**
 	 * create dependent objects before running each test
 	 **/
 	public final function setUP() {
 		// run the default setUp() method first
-		parent::setUP();
+		parent::setUp();
 		// create and insert an account to write the test Message
 		$this->image = new Image(null, "fileName", "image/jpg");
-		$this->image->insert($this->getPDO());
+		$this->imageId->insert($this->getPDO());
 
 		// create and insert an account to write the test Message
-		$this->sender = new Account(null, $this->image->getImageId(), "1", "0", "JamesDean", "JamesDean@gmail.com", "coolguy");
-		$this->sender->insert($this->getPDO());
+		$this->messageSenderId = new Account(null, $this->imageId->getImageId(), "1", "0", "JamesDean", "JamesDean@gmail.com", "coolguy");
+		$this->messageSenderId->insert($this->getPDO());
 
 		// create and insert an Account to own this test Message
-		$this->recipient = new Account(null, $this->image->getImageId(), "1", "0", "JessicaJones", "JessicaJones@gmail.com", "hotgirl");
-		$this->recipient->insert($this->getPDO());
+		$this->messageRecipientId = new Account(null, $this->imageId->getImageId(), "1", "0", "JessicaJones", "JessicaJones@gmail.com", "hotgirl");
+		$this->messageRecipientId->insert($this->getPDO());
 
 		// create and insert a product into the test Message
-		$this->product = new Product(null, $this->sender->getAccountId(), $this->image->getImageId(), "2.22", "coolItem", "22.22", "3.00", "0", "LegendOfZelda");
-		$this->product->insert($this->getPDO());
+		$this->messageProductId = new Product(null, $this->messageSenderId->getAccountId(), $this->imageId->getImageId(), "2.22", "coolItem", "22.22", "3.00", "0", "LegendOfZelda");
+		$this->messageProductId->insert($this->getPDO());
 	}
 
 	/**
@@ -100,7 +100,7 @@ class MessageTest extends CartridgeCodersTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		//create a new Message and insert to into mySQL
-		$message = new Message(null, $this->sender->getAccountId(), $this->product->getProductId(), $this->recipient->getAccountId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
+		$message = new Message(null, $this->messageSenderId->getAccountId(), $this->messageProductId->getProductId(), $this->messageRecipientId->getAccountId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -110,7 +110,7 @@ class MessageTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoMessage->getProductId(), $this->product->getProductId());
 		$this->assertEquals($pdoMessage->getAccountId(), $this->recipient->getAccountId());
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
-		$this->assertEquals($pdoMessage->getMessageMailGunId(), $this->VALID_MAILGUNID());
+		$this->assertEquals($pdoMessage->getMessageMailGunId(), $this->VALID_MESSAGEMAILGUNID());
 		$this->assertEquals($pdoMessage->getMessageSubject(), $this->VALID_MESSAGESUBJECT);
 	}
 	/**
@@ -131,7 +131,7 @@ class MessageTest extends CartridgeCodersTest {
 	 **/
 	public function testGetValidMessageByMessageId() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("messasge");
+		$numRows = $this->getConnection()->getRowCount("message");
 
 			//create a new Message and insert to into mySQL
 		$message= new Message(null, $this->sender->getAccountId(), $this->product->getProductId(), $this->recipient->getAccountId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
