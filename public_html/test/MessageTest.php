@@ -173,6 +173,7 @@ class MessageTest extends CartridgeCodersTest {
 		// create a new message and insert to into mySQL
 		$message = new Message(null, $this->messageSenderId->getAccountId(), $this->product->getProductId(), $this->messageRecipientId->getAccountId(), $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEMAILGUNID, $this->VALID_MESSAGESUBJECT);
 		$message->insert($this->getPDO());
+		
 		// grab the data from mySQL and enforce the fields match our expectations
 		$results = Message::getMessageByPartyId($this->getPDO(), $message->getMessageSenderId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));

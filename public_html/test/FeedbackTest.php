@@ -211,7 +211,37 @@ class FeedbackTest extends CartridgeCodersTest {
 		$this->assertNull($feedback);
 	}
 	/**
-	 * test getting feedback by feed
+	 * test getting feedback by partyId
 	 **/
+	public function testGetValidFeedbackByPartyId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("feedback");
 
+		// create a new feedback and insert to into mySQL
+		$feedback = new Feedback(null, $this->feedbackSenderId->getAccountId(), $this->feedbackProductId->getProductId(), $this->feedbackRecipientId->getAccountId(), $this->VALID_FEEDBACKCONTENT, $this->VALID_FEEDBACKRATING);
+		$feedback->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match out expectations
+		$results = Feedback::getFeedbackByParyId($this->getPDO(), $feedback->getFeedbackRecipientId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("feedback"));
+		$this->assertCount(1, results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\Feedback", $results);
+
+		// grab the result from the array and validate it
+		$pdoFeedback = $results[0];
+		$this->assertEquals($pdoFeedback->getFeedbackSenderId(), $this->feedbackSenderId->getAccountId());
+		$this->assertEquals($pdoFeedback->getFeedbackProductId(), $this->feedbackProductId->getProductId());
+		$this->assertEquals($pdoFeedback->getFeedbackRecipientId(), $this->feedbackRecipientId->getAccountId());
+		$this->assertEquals($pdoFeedback->getFeedbackContent(), $this->VALID_FEEDBACKCONTENT);
+		$this->assertEquals($pdoFeedback->getFeedbackRating(), $this->VALID_FEEDBACKRATING);
+	}
+	/**
+	 * test grabbing Feedback by party id that does not exist
+	 **/
+	public function testGetInvalidFeedbackByPartyId() {
+		// grab feedback by search for party id that does not exist
+		$feedback = Feedback::getMessageByPartyId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
+		$this->assertCount(0, $feedback);
+	}
 }
+?>
