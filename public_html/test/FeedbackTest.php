@@ -7,10 +7,12 @@
  * testing will be tried on the following
  * inserting a valid Feedback and verify that the mySQL data matches
  * inserting invalid feedback and watching if fail like donald trump
+ * test updating feedback
  * test grabbing feedback by feedbackId
  * test inserting feedback and re-grabbing it
  * test searching for feedback by party id
  * test searching for feedback on party id by invalid party id
+ * test grabbing feedback that doesn't exist 
  *
  **/
 
