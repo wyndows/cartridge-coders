@@ -1,7 +1,7 @@
 <?php
 
 namespace Edu\Cnm\CartridgeCoders;
-//require_once ("autoload.php");
+require_once ("autoload.php");
 /**
  * Message class for cartridge coders so accounts may message each other back and forth
  * @author Elliot Murrey  <emurrey@cnm.edu> based on code from Dylan McDonald <dmcdonald21@cnm.edu>
