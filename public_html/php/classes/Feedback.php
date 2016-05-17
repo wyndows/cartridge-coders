@@ -84,6 +84,37 @@ class Feedback implements \JsonSerializable {
 	 * @throws \RangeException if $newFeedbackSenderId is not positive
 	 **/
 	public function setFeedbackSenderId($newFeedbackSenderId) {
-		
+		$newFeedbackSenderId = filter_var($newFeedbackSenderId, FILTER_VALIDATE_INT);
+		if($newFeedbackSenderId === false) {
+			throw(new \UnexpectedValueException("SenderId is not a valid integer"));
+		}
+		// convert and store the Account id
+		$this->feedbackSenderId = intval($newFeedbackSenderId);
+	}
+
+	/**
+	 * accessor method for product id
+	 *
+	 * @return int value of product id
+	 **/
+	public function getFeedbackProductId() {
+		return ($this->feedbackProductId);
+	}
+
+	/**
+	 * mutator method for product id
+	 * @param int $newFeedbackProductId new value of product id 
+	 * @throws \UnexpectedValueException if $newFeedbackProductId is not a valid integer
+	 * @throws \RangeException if the $newFeedbackProductId is not positive
+	 **/
+	public function setFeedbackProductId($newFeedbackProductId) {
+		$newFeedbackProductId = filter_var($newFeedbackProductId, FILTER_VALIDATE_INT);
+		if($newProductId === false) {
+			throw(new \UnexpectedValueException("productId is not a valid integer"));
+		}
+		// confirm product id is positive
+		if($newFeedbackProductId <=0) {
+			throw(new \unexpectedValueException('roduct is is not positivve"))
+		}
 	}
 }
