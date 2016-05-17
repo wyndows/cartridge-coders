@@ -32,9 +32,14 @@ require_once(dirname(__DIR__) . "/php/classes/autoload.php");
 class FeedbackTest extends CartridgeCodersTest {
 	/**
 	 * content of the feedback
-	 * @var string $VALID_MESSAGECONTENT
+	 * @var string $VALID_FEEDBACKCONTENT
 	 **/
-	protected $VALID_FEEDBACKCONTENT = "yay lets go again";
+	protected $VALID_FEEDBACKCONTENT = "yay lets go";
+	/**
+	 * content of the updated feedback
+	 * @var String $VALID_FEEDBACKCONTENT2
+	 **/
+	protected $VALID_FEEDBACKCONTENT2 = "yay still passing in yo face donald trump";
 	/**
 	 * rating given by the person submitting the feedback
 	 * @var int $VALID_FEEDBACKRATING
@@ -126,6 +131,24 @@ class FeedbackTest extends CartridgeCodersTest {
 	 *
 	 **/
 	public function testUpdateValidFeedback() {
-		// count the number of 
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("feedback");
+
+		//create a new Feedback and insert to into mySQL
+		$feedback = new Feedback(null, $this->feedbackSenderId->getAccountId(), $this->feedbackProductId->getProductId(), $this->feedbackRecipientId->getAccountId(), $this->VALID_FEEDBACKCONTENT, $this->VALID_FEEDBACKRATING);
+		$feedback->insert($this->getPDO());
+
+		// edit the Feedback and update it in mySQL
+		$feedback->setFeedbackContent($this->VALID_FEEDBACKCONTENT2);
+		$feedback->updated($this->getPDO());
+
+		// grab the data from mySQl and enforce the fields match our expectations
+		$pdoFeedback = Feedback::getFeedbackByFeedbackId($this->getPDO(), $feedback->getFeedbackId());
+		$this->assertEquals($numRows + 1, $this->getConnectiong()->getRowCount("feedback"));
+		$this->assertEquals($pdoFeedback->getFeedbackSenderId(), $this->feedbackSenderId->getAccountId());
+		$this->assertEquals($pdoFeedback->getFeedbackProductId(), $this->feedbackProductId->getProductId());
+		$this->assertEquals($pdoFeedback->getFeedbackRecipientid(), $this->feedbackRecipientId->getAccountId());
+		$this->assertEquals($pdoFeedback->getFeedbackContent(), $this->VALID_FEEDBACKCONTENT2);
+		$this->assertEquals($pdoFeedback->getFeedbackRating(), $this->VALID_FEEDBACKRATING);
 	}
 }
