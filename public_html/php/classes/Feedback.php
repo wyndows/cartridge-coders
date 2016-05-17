@@ -109,12 +109,43 @@ class Feedback implements \JsonSerializable {
 	 **/
 	public function setFeedbackProductId($newFeedbackProductId) {
 		$newFeedbackProductId = filter_var($newFeedbackProductId, FILTER_VALIDATE_INT);
-		if($newProductId === false) {
+		if($newFeedbackProductId === false) {
 			throw(new \UnexpectedValueException("productId is not a valid integer"));
 		}
 		// confirm product id is positive
 		if($newFeedbackProductId <=0) {
-			throw(new \unexpectedValueException('roduct is is not positivve"))
+			throw(new \unexpectedValueException("product id is not positive"));
 		}
+		// covert and store the product id
+		$this->feedbackProductId = intval($newFeedbackProductId);
+	}
+
+	/**
+	 * accessor method for feedbackRecipientId
+	 *
+	 * @return int value of recipient id
+	 **/
+	public function getFeedbackRecipientId() {
+		return ($this->feedbackRecipientId);
+	}
+
+	/**
+	 * mutator method for feedbackRecipientId 
+	 * @param int $newFeedbackRecipientId new value of feedbackRecipientId
+	 * @throws \UnexpectedValueException if $newFeedbackRecipientId is not an integer
+	 * @throws \RangeException if the $newFeedbackRecipientId is not positive 
+	 **/
+	public function setFeedbackRecipientId($newFeedbackRecipientId) {
+		$newFeedbackRecipientId = filter_var($newFeedbackRecipientId, FILTER_VALIDATE_INT);
+		if($newFeedbackRecipientId === false) {
+			throw(new \UnexpectedValueException("Feedback RecipientId is not a valid integer"));
+		}
+		// confirm the feedbackRecipientId is positive
+		if($newFeedbackRecipientId <= 0) {
+			throw(new \RangeException("feedbackRecipientIdis not positive"));
+		}
+		// covert and store the account id
+		$this->feedbackRecipientId = intval($newFeedbackRecipientId);
+		
 	}
 }

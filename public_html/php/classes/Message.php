@@ -180,14 +180,14 @@ class Message implements \JsonSerializable {
 	 * mutator method for message recipient id
 	 * @param int $newRecipientId new value of recipient id
 	 * @throws \UnexpectedValueException if $newRecipientId is not a integer
-	 * @throws\RangeException if the $newRecipientId is not positive
+	 * @throws \RangeException if the $newRecipientId is not positive
 	 **/
 	public function setMessageRecipientId($newRecipientId) {
 		$newRecipientId = filter_var($newRecipientId, FILTER_VALIDATE_INT);
 		if($newRecipientId === false) {
 			throw(new \UnexpectedValueException("RecipientId is not a valid integer"));
 		}
-		//confirm sender id is positive
+		//confirm recipientId id is positive
 		if($newRecipientId <= 0) {
 			throw(new \RangeException("sender id is not positive"));
 		}
