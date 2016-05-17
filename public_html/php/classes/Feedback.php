@@ -171,7 +171,11 @@ class Feedback implements \JsonSerializable {
 		}
 		if($newFeedbackContent > 255) {
 			// confirm feedbackContent doesn't exceed 255
-			throw(new \RangeException("feedback is way to long ")
+			throw(new \RangeException("feedback is way to long "));
 		}
+		// store the feedbackContent
+		$this->feedbackContent = $newFeedbackContent;
 	}
+
+	/
 }
