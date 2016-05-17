@@ -127,7 +127,7 @@ class FeedbackTest extends CartridgeCodersTest {
 	}
 
 	/**
-	 * tst inserting Feedback, editing it, and then updating it
+	 * test inserting Feedback, editing it, and then updating it
 	 *
 	 **/
 	public function testUpdateValidFeedback() {
@@ -150,5 +150,16 @@ class FeedbackTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoFeedback->getFeedbackRecipientid(), $this->feedbackRecipientId->getAccountId());
 		$this->assertEquals($pdoFeedback->getFeedbackContent(), $this->VALID_FEEDBACKCONTENT2);
 		$this->assertEquals($pdoFeedback->getFeedbackRating(), $this->VALID_FEEDBACKRATING);
+	}
+	/**
+	 * test creating feedback then deleting it
+	 **/
+	public function testDeleteValidFeedback() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("feedback");
+
+		// create a new feedback and insert to into mySQL
+		$feedback = new Feedback(null, $this->feedbackSenderId->getAccountId(), $this->feedbackProductId->getProductId(), $this->feedbackRecipientId->getAccountId(), $this->VALID_FEEDBACKCONTENT, $this->VALID_FEEDBACKRATING);
+
 	}
 }
