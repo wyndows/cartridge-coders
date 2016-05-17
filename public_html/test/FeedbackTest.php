@@ -118,7 +118,7 @@ class FeedbackTest extends CartridgeCodersTest {
 	/**
 	 * test inserting Feedback that already exists
 	 *
-	 * @exectedException \PDOException
+	 * @expectedException \PDOException
 	 **/
 	public function testInsertInvalidFeedback() {
 		// create a Feedback with a non null Feedback id and watch it fail
@@ -160,6 +160,30 @@ class FeedbackTest extends CartridgeCodersTest {
 
 		// create a new feedback and insert to into mySQL
 		$feedback = new Feedback(null, $this->feedbackSenderId->getAccountId(), $this->feedbackProductId->getProductId(), $this->feedbackRecipientId->getAccountId(), $this->VALID_FEEDBACKCONTENT, $this->VALID_FEEDBACKRATING);
+		$feedback->insert($this->getPDO());
 
+		//delete the Tweet from mySQL
+		$this->assertEquals($numRows = 1, $this->getConnection()->getRowCount("feedback"));
+		$feedback->delete($this->getPDO());
+
+		// grab the data from mySQl and enforce the Feedback does not exist
+		$pdoFeedback = Feedback::getFeedbackByFeedbackId($this->getPDO(), $feedback->getFeedbackId());
+		$this->assertNull($pdoFeedback);
+		$this->assertEquals($numRows, $this->getConnection()-getRowCount("feedback")):
 	}
+
+	/**
+	 *test deleting feedback that does not exist
+	 *
+	 * @expectedException \PDOException
+	 **/
+	public function testDeleteInvalidFeedback() {
+		// create a Feedback and try to delete it without actually inserting it
+		$feedback = new Feedback(null, $this->$this->feedbackSenderId->getAccountId(), $this->feedbackProductId->getProductId(), $this->feedbackRecipientId->getAccountId(), $this->VALID_FEEDBACKCONTENT, $this->VALID_FEEDBACKRATING);
+		$feedback->delete($this->getPDO());
+	}
+	/**
+	 * test inserting Feedback and rebrabbing it from mySQL 
+	 **/
+
 }
