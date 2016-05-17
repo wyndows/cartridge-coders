@@ -285,7 +285,7 @@ class Account implements \JsonSerializable {
 	}
 
 
-	// ----------------------------------------   accountId ----------------------------------------------
+	// ----------------------------------------   INSERT/UPDATE/DELETE ------------------------------------------
 	/**
 	 * insert this account into mySQL
 	 *
@@ -314,13 +314,13 @@ class Account implements \JsonSerializable {
 
 
 	/**
-	 * UpdateValidAccountActive
+	 * Update
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL errors occure
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 */
-	public function updateValidAccountActive	(\PDO $pdo) {
+	public function update(\PDO $pdo) {
 
 		// enforce the accountId is not null (don't update whats not there)
 		if($this->accountId === null) {
@@ -328,82 +328,7 @@ class Account implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "UPDATE account SET accountActive  = :accountActive WHERE accountId = :accountId";
-
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders
-		$parameters = ["accountId" => $this->accountId, "accountImageId" => $this->accountImageId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
-		$statement->execute($parameters);
-	}
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/**
-	 * UpdateValidAAccountAdmin
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL errors occure
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	public function updateValidAccountAdmin	(\PDO $pdo) {
-
-		// enforce the accountId is not null (don't update whats not there)
-		if($this->accountId === null) {
-			throw(new \PDOException("unable to update accout id that does not exist"));
-		}
-
-		// create query template
-		$query = "UPDATE account SET accountId = :accountId WHERE accountId = :accountId";
-
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders
-		$parameters = ["accountId" => $this->accountId, "accountImageId" => $this->accountImageId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
-		$statement->execute($parameters);
-	}
-
-
-	/**
-	 * UpdateValidAAccountName
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL errors occure
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	public function updateValidAccountName	(\PDO $pdo) {
-
-		// enforce the accountId is not null (don't update whats not there)
-		if($this->accountId === null) {
-			throw(new \PDOException("unable to update accout id that does not exist"));
-		}
-
-		// create query template
-		$query = "UPDATE account SET accountId = :accountId WHERE accountId = :accountId";
+		$query = "UPDATE account SET accountImageId = :accountImageId, accountActive  = :accountActive, accountAdmin  = :accountAdmin, accountName  = :accountName, accountPpEmail  = :accountPpEmail, accountUserName  = :accountUserName    WHERE accountId = :accountId";
 
 		$statement = $pdo->prepare($query);
 
@@ -414,214 +339,39 @@ class Account implements \JsonSerializable {
 
 
 
-
 	/**
-	 * UpdateValidAAccountPpEmail
-	 *
-	 * @param \PDO $pdo PDO connection object
+	 * delete
+	 * * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL errors occure
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 */
-	public function updateValidAccountPpEmail	(\PDO $pdo) {
 
-		// enforce the accountId is not null (don't update whats not there)
+	public function delete(\PDO $pdo) {
+
+		// enforce the accountId is not null (don't delete whats not there)
 		if($this->accountId === null) {
-			throw(new \PDOException("unable to update accout id that does not exist"));
+			throw(new \PDOException("unable to delete accout id that does not exist"));
 		}
 
+
 		// create query template
-		$query = "UPDATE account SET accountId = :accountId WHERE accountId = :accountId";
+		$query = "DELETE FROM account WHERE accountId = :accountId";
 
 		$statement = $pdo->prepare($query);
+
 
 		// bind the member variables to the place holders
-		$parameters = ["accountId" => $this->accountId, "accountImageId" => $this->accountImageId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
-		$statement->execute($parameters);
-	}
-
-
-
-
-
-
-
-
-	/**
-	 * UpdateValidAAccountUserName
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL errors occure
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	public function updateValidAccountUserName	(\PDO $pdo) {
-
-		// enforce the accountId is not null (don't update whats not there)
-		if($this->accountId === null) {
-			throw(new \PDOException("unable to update accout id that does not exist"));
-		}
-
-		// create query template
-		$query = "UPDATE account SET accountId = :accountId WHERE accountId = :accountId";
-
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders
-		$parameters = ["accountId" => $this->accountId, "accountImageId" => $this->accountImageId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
-		$statement->execute($parameters);
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/**
-	 * getAllAccountIds
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @return \SplFixedArray SplFixedArray of account ids found or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getAllAccountIds(\PDO $pdo) {
-		// create query template
-		$query = "SELECT accountId, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
-		$statement = $pdo->prepare($query);
-		$statement->execute();
-
-		// build an array of account ids
-		$accountIds = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$accountId = new Image($row["accountId"], $row["imageFileName"], $row["imageType"]);
-				$accountIds[$accountIds->key()] = $accountId;
-				$accountIds->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return ($accountIds);
-	}
-
-// ------------------------------------------- AccountImageId   -------------------------------------------
-
-	/**
-	 * insert account image id into mySQL
-	 * @param \PDO $pdo - PDO connection object
-	 * @throws \PDOException when mySQL errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	public function insertAccountImageId(\PDO $pdo) {
-		// enforce account image id is null - make sure inserting new id vs an existing one
-		if($this->accountImageId !== null) {
-			throw(new \PDOException("not an account image id"));
-		}
-
-		//create query table
-		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES(:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders on the template
-		$parameters = ["accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+		$parameters = ["accountId" => $this->accountId];
 		$statement->execute($parameters);
 
-		//update the null accountImageId with what mySQL just gave us
-		$this->accountImageId = intval($pdo->lastInsertId());
-	}
-
-	/**
-	 * updates account image id in mySQL
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL errors occure
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	public function updateAccountImageId(\PDO $pdo) {
-
-		// enforce the accountImageId is not null (don't update whats not there)
-		if($this->accountImageId === null) {
-			throw(new \PDOException("unable to update image id that does not exist"));
-		}
-
-		// create query template
-		$query = "UPDATE account SET accountImageId = :accountImageId WHERE accountImageId = :accountImageId";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders
-		$parameters = ["accountId" => $this->accountId, "accountImageId" => $this->accountImageId, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
-		$statement->execute($parameters);
 	}
 
 
-	/**
-	 * gets the account image id by account id
-	 * @param \PDO $pdo PDO connection object
-	 * @param int $accountImageId - account image id search for
-	 * @param int $accountId - prim key
-	 * @return Image|null - id found or null if not
-	 * @throws \PDOException when mySQL related error occurs
-	 * @throws \TypeError when variables are not the correct data type
-	 */
+	// ----------------------------------------  END INSERT/UPDATE/DELETE ------------------------------------------
 
-	public static function getAccountImageIdByAccountId(\PDO $pdo, int $accountId) {
-		// sanitize the accountId before searching
-		if($accountId <= 0) {
-			throw(new \PDOException("account id is not positive"));
-		}
-		// create query template
-		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountId = :accountId";
-		$statement = $pdo->prepare($query);
+	
 
-		// bind the account id to the place holder in the template
-		$parameters = array("accountId" => $accountId);
-		$statement->execute($parameters);
-
-		// grab the id from mySQL
-		try {
-			$accountId = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$accountId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
-			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		return ($accountId);
-	}
-
+//---------------------------------------------------------------------- GET BYs -------------------------------
 
 
 
@@ -666,620 +416,1001 @@ class Account implements \JsonSerializable {
 
 
 
-
-
-
-
 	/**
-	 * Gets all the account image id
+	 * gets the account account by account image id
 	 * @param \PDO $pdo PDO connection object
-	 * @return \SplFixedArray SplFixedArray of account image id found or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getAllAccountImageIds(\PDO $pdo) {
-		// create query template
-		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
-		$statement = $pdo->prepare($query);
-		$statement->execute();
-
-		// build an array of account image id
-		$accountImageIds = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$accountImageId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
-				$accountImageIds[$accountImageIds->key()] = $accountImageId;
-				$accountImageIds->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return ($accountImageIds);
-	}
-
-
-	// -------------------------------------- accountAdmin --------------------------------------
-	/**
-	 * insert admin flag into mySQL
-	 * @param \PDO $pdo - PDO connection object
-	 * @throws \PDOException when mySQL errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	public function insertAdminFlag(\PDO $pdo) {
-		// enforce admin flag is null - make sure inserting new flag vs an existing one
-		if($this->accountAdmin !== null) {
-			throw(new \PDOException("not an admin flag"));
-		}
-
-		//create query table
-		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES(:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders on the template
-		$parameters = ["accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
-		$statement->execute($parameters);
-
-		//update the null accountAdmin with what mySQL just gave us
-		$this->accountAdmin = intval($pdo->lastInsertId());
-	}
-
-	/**
-	 * updates admin flag in mySQL
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL errors occure
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	public function updateAdminFlag(\PDO $pdo) {
-
-		// enforce the accountAdmin is not null (don't update whats not there)
-		if($this->accountAdmin === null) {
-			throw(new \PDOException("unable to update accout admin that does not exist"));
-		}
-
-		// create query template
-		$query = "UPDATE account SET accountAdmin = :accountAdmin WHERE accountAdmin = :accountAdmin";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders
-		$parameters = ["accountId" => $this->accountId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
-		$statement->execute($parameters);
-	}
-
-
-	/**
-	 * gets the admin flag by account id
-	 * @param \PDO $pdo PDO connection object
-	 * @param int $accountAdmin - adming flag search for
+	 * @param int $accountImageId - account image id search for
 	 * @param int $accountId - prim key
-	 * @return Image|null - flag found or null if not
+	 * @return Image|null - id found or null if not
 	 * @throws \PDOException when mySQL related error occurs
 	 * @throws \TypeError when variables are not the correct data type
 	 */
 
-	public static function getAccountAdminByAccountId(\PDO $pdo, int $accountId) {
+	public static function getAccountByAccountImageId(\PDO $pdo, int $accountImageId) {
 		// sanitize the accountId before searching
-		if($accountId <= 0) {
-			throw(new \PDOException("account id is not positive"));
+		if($accountImageId <= 0) {
+			throw(new \PDOException("account image id is not positive"));
 		}
 		// create query template
-		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountId = :accountId";
+		$query = "SELECT accountId, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountImageId = :accountImageId";
 		$statement = $pdo->prepare($query);
 
 		// bind the account id to the place holder in the template
-		$parameters = array("accountId" => $accountId);
+		$parameters = array("accountImageId" => $accountImageId);
 		$statement->execute($parameters);
 
-		// grab the flag from mySQL
-		try {
-			$accountId = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$accountId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
+		// build an array of accounts
+		$accounts = new \SplFixedArray(($statement->rowCount()));
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false){
+			try{
+				$account = new Account($row["accountId"], $row["accountImageId"],  $row["accountActive"],  $row["accountAdmin"],  $row["accountName"],  $row["accountPpEmail"],  $row["accountUserName"]);
+				$accounts[$accounts->key()] = $account;
+				$accounts->next();
 			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+			catch
+			(\Exception $exception){
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
 		}
-		return ($accountId);
+		return ($accounts);
 	}
 
+
+
+
+
+	public static function getAccountByValidAccountActive(\PDO $pdo, int $accountActive) {
+		// sanitize the accountId before searching
+		if($accountActive <= 0) {
+			throw(new \PDOException("account active is not positive"));
+		}
+		// create query template
+		$query = "SELECT accountId, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountActive = :accountActive";
+		$statement = $pdo->prepare($query);
+
+		// bind the account active to the place holder in the template
+		$parameters = array("accountActive" => $accountActive);
+		$statement->execute($parameters);
+
+		// build an array of accounts
+		$accounts = new \SplFixedArray(($statement->rowCount()));
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false){
+			try{
+				$account = new Account($row["accountId"], $row["accountImageId"],  $row["accountActive"],  $row["accountAdmin"],  $row["accountName"],  $row["accountPpEmail"],  $row["accountUserName"]);
+				$accounts[$accounts->key()] = $account;
+				$accounts->next();
+			}
+			catch
+			(\Exception $exception){
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($accounts);
+	}
+
+
+
+
+
+
+
+	public static function getAccountByValidAccountAdmin(\PDO $pdo, int $accountAdmin) {
+		// sanitize the accountId before searching
+		if($accountAdmin <= 0) {
+			throw(new \PDOException("account admin is not positive"));
+		}
+		// create query template
+		$query = "SELECT accountId, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountAdmin = :accountAdmin";
+		$statement = $pdo->prepare($query);
+
+		// bind the account active to the place holder in the template
+		$parameters = array("accountAdmin" => $accountAdmin);
+		$statement->execute($parameters);
+
+		// build an array of accounts
+		$accounts = new \SplFixedArray(($statement->rowCount()));
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false){
+			try{
+				$account = new Account($row["accountId"], $row["accountImageId"],  $row["accountActive"],  $row["accountAdmin"],  $row["accountName"],  $row["accountPpEmail"],  $row["accountUserName"]);
+				$accounts[$accounts->key()] = $account;
+				$accounts->next();
+			}
+			catch
+			(\Exception $exception){
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($accounts);
+	}
+
+
+
+
+
+
+	public static function getAccountByValidAccountName(\PDO $pdo, string $accountName) {
+		// sanitize the description before searching
+		$accountName = trim($accountName);
+		$accountName = filter_var($accountName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($accountName) === true) {
+			throw(new \PDOException("account name is invalid"));
+		}
+
+		// create query template
+		$query = "SELECT accountId, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountName = :accountName";
+		$statement = $pdo->prepare($query);
+
+		// bind the account name to the place holder in the template
+		$parameters = array("accountName" => $accountName);
+		$statement->execute($parameters);
+
+		// build an array of accounts
+		$accounts = new \SplFixedArray(($statement->rowCount()));
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false){
+			try{
+				$account = new Account($row["accountId"], $row["accountImageId"],  $row["accountActive"],  $row["accountAdmin"],  $row["accountName"],  $row["accountPpEmail"],  $row["accountUserName"]);
+				$accounts[$accounts->key()] = $account;
+				$accounts->next();
+			}
+			catch
+			(\Exception $exception){
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($accounts);
+	}
+
+
+
+
+
+	public static function getAccountByValidAccountPpEmail(\PDO $pdo, string $accountPpEmail) {
+		// sanitize the description before searching
+		$accountPpEmail = trim($accountPpEmail);
+		$accountPpEmail = filter_var($accountPpEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($accountPpEmail) === true) {
+			throw(new \PDOException("account pp email is invalid"));
+		}
+
+		// create query template
+		$query = "SELECT accountId, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountPpEmail = :accountPpEmail";
+		$statement = $pdo->prepare($query);
+
+		// bind the pp em to the place holder in the template
+		$parameters = array("accountPpEmail" => $accountPpEmail);
+		$statement->execute($parameters);
+
+		// build an array of accounts
+		$accounts = new \SplFixedArray(($statement->rowCount()));
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false){
+			try{
+				$account = new Account($row["accountId"], $row["accountImageId"],  $row["accountActive"],  $row["accountAdmin"],  $row["accountName"],  $row["accountPpEmail"],  $row["accountUserName"]);
+				$accounts[$accounts->key()] = $account;
+				$accounts->next();
+			}
+			catch
+			(\Exception $exception){
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($accounts);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+	public static function getAccountByValidAccountUserName(\PDO $pdo, string $accountUserName) {
+		// sanitize the description before searching
+		$accountUserName = trim($accountUserName);
+		$accountUserName = filter_var($accountUserName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($accountUserName) === true) {
+			throw(new \PDOException("account user name is invalid"));
+		}
+
+		// create query template
+		$query = "SELECT accountId, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountUserName = :accountUserName";
+		$statement = $pdo->prepare($query);
+
+		// bind the user name to the place holder in the template
+		$parameters = array("accountUserName" => $accountUserName);
+		$statement->execute($parameters);
+
+		// build an array of accounts
+		$accounts = new \SplFixedArray(($statement->rowCount()));
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false){
+			try{
+				$account = new Account($row["accountId"], $row["accountImageId"],  $row["accountActive"],  $row["accountAdmin"],  $row["accountName"],  $row["accountPpEmail"],  $row["accountUserName"]);
+				$accounts[$accounts->key()] = $account;
+				$accounts->next();
+			}
+			catch
+			(\Exception $exception){
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($accounts);
+	}
+
+
+//-------------------------------------------------------------- END GET BYs -------------------------------
+
+
+
+
+
+//
+//
+//	/**
+//	 * getAllAccountIds
+//	 *
+//	 * @param \PDO $pdo PDO connection object
+//	 * @return \SplFixedArray SplFixedArray of account ids found or null if not found
+//	 * @throws \PDOException when mySQL related errors occur
+//	 * @throws \TypeError when variables are not the correct data type
+//	 **/
+//	public static function getAllAccountIds(\PDO $pdo) {
+//		// create query template
+//		$query = "SELECT accountId, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
+//		$statement = $pdo->prepare($query);
+//		$statement->execute();
+//
+//		// build an array of account ids
+//		$accountIds = new \SplFixedArray($statement->rowCount());
+//		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//		while(($row = $statement->fetch()) !== false) {
+//			try {
+//				$accountId = new Image($row["accountId"], $row["imageFileName"], $row["imageType"]);
+//				$accountIds[$accountIds->key()] = $accountId;
+//				$accountIds->next();
+//			} catch(\Exception $exception) {
+//				// if the row couldn't be converted, rethrow it
+//				throw(new \PDOException($exception->getMessage(), 0, $exception));
+//			}
+//		}
+//		return ($accountIds);
+//	}
+//
+//
+//
+//	/**
+//	 * insert account image id into mySQL
+//	 * @param \PDO $pdo - PDO connection object
+//	 * @throws \PDOException when mySQL errors occur
+//	 * @throws \TypeError if $pdo is not a PDO connection object
+//	 */
+//	public function insertAccountImageId(\PDO $pdo) {
+//		// enforce account image id is null - make sure inserting new id vs an existing one
+//		if($this->accountImageId !== null) {
+//			throw(new \PDOException("not an account image id"));
+//		}
+//
+//		//create query table
+//		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES(:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the member variables to the place holders on the template
+//		$parameters = ["accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+//		$statement->execute($parameters);
+//
+//		//update the null accountImageId with what mySQL just gave us
+//		$this->accountImageId = intval($pdo->lastInsertId());
+//	}
+//
+//	/**
+//	 * updates account image id in mySQL
+//	 * @param \PDO $pdo PDO connection object
+//	 * @throws \PDOException when mySQL errors occure
+//	 * @throws \TypeError if $pdo is not a PDO connection object
+//	 */
+//	public function updateAccountImageId(\PDO $pdo) {
+//
+//		// enforce the accountImageId is not null (don't update whats not there)
+//		if($this->accountImageId === null) {
+//			throw(new \PDOException("unable to update image id that does not exist"));
+//		}
+//
+//		// create query template
+//		$query = "UPDATE account SET accountImageId = :accountImageId WHERE accountImageId = :accountImageId";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the member variables to the place holders
+//		$parameters = ["accountId" => $this->accountId, "accountImageId" => $this->accountImageId, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+//		$statement->execute($parameters);
+//	}
+//
+//
+//
+//
+//
+
+
+
+	// ------------------------------------------------------ GET ALL ---------------------------------
+
 	/**
-	 * Gets all teh admin flags
+	 * get all accounts
+	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @return \SplFixedArray SplFixedArray of admin flags found or null if not found
+	 * @return \SplFixedArray SplFixedArray of Products found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getAllAdminFlags(\PDO $pdo) {
+	public static function getAllValidAccounts(\PDO $pdo) {
 		// create query template
-		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
+		$query = "SELECT accountId, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
-		// build an array of admin flags
-		$accountIds = new \SplFixedArray($statement->rowCount());
+		// build an array of accounts
+		$accounts = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$accountId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
-				$accountIds[$accountIds->key()] = $accountId;
-				$accountIds->next();
+				$account = new Account($row["accountId"], $row["accountImageId"],  $row["accountActive"],  $row["accountAdmin"],  $row["accountName"],  $row["accountPpEmail"],  $row["accountUserName"]);
+				$accounts[$accounts->key()] = $account;
+				$accounts->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($accountIds);
+		return ($accounts);
 	}
 
 
-// ------------------------------------------- accountActive   -------------------------------------------
-
-	/**
-	 * insert account status into mySQL
-	 * @param \PDO $pdo - PDO connection object
-	 * @throws \PDOException when mySQL errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	public function insertAccountStatus(\PDO $pdo) {
-		// enforce account status is null - make sure inserting new flag vs an existing one
-		if($this->accountActive !== null) {
-			throw(new \PDOException("not an account status"));
-		}
-
-		//create query table
-		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES(:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders on the template
-		$parameters = ["accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
-		$statement->execute($parameters);
-
-		//update the null accountActive with what mySQL just gave us
-		$this->accountActive = intval($pdo->lastInsertId());
-	}
-
-	/**
-	 * updates account status in mySQL
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL errors occure
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	public function updateAccountStatus(\PDO $pdo) {
-
-		// enforce the accountActive is not null (don't update whats not there)
-		if($this->accountActive === null) {
-			throw(new \PDOException("unable to update accout admin that does not exist"));
-		}
-
-		// create query template
-		$query = "UPDATE account SET accountActive = :accountActive WHERE accountActive = :accountActive";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders
-		$parameters = ["accountId" => $this->accountId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
-		$statement->execute($parameters);
-	}
-
-
-	/**
-	 * gets the account status by account id
-	 * @param \PDO $pdo PDO connection object
-	 * @param int $accountActive - account status search for
-	 * @param int $accountId - prim key
-	 * @return Image|null - flag found or null if not
-	 * @throws \PDOException when mySQL related error occurs
-	 * @throws \TypeError when variables are not the correct data type
-	 */
-
-	public static function getAccountStatusByAccountId(\PDO $pdo, int $accountId) {
-		// sanitize the accountId before searching
-		if($accountId <= 0) {
-			throw(new \PDOException("account id is not positive"));
-		}
-		// create query template
-		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountId = :accountId";
-		$statement = $pdo->prepare($query);
-
-		// bind the account id to the place holder in the template
-		$parameters = array("accountId" => $accountId);
-		$statement->execute($parameters);
-
-		// grab the flag from mySQL
-		try {
-			$accountId = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$accountId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
-			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		return ($accountId);
-	}
-
-	/**
-	 * Gets all the account status
-	 * @param \PDO $pdo PDO connection object
-	 * @return \SplFixedArray SplFixedArray of account status found or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getAllAccountStatuses(\PDO $pdo) {
-		// create query template
-		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
-		$statement = $pdo->prepare($query);
-		$statement->execute();
-
-		// build an array of account status
-		$accountActives = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$accountActive = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
-				$accountActives[$accountActives->key()] = $accountActive;
-				$accountActives->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return ($accountActives);
-	}
-
-// ------------------------------------------- accountName   -------------------------------------------
-
-
-	/**
-	 * insert account name into mySQL
-	 * @param \PDO $pdo - PDO connection object
-	 * @throws \PDOException when mySQL errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	public function insertAccountName(\PDO $pdo) {
-		// enforce account name is null - make sure inserting new name vs an existing one
-		if($this->accountName !== null) {
-			throw(new \PDOException("not an account name"));
-		}
-
-		//create query table
-		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES(:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders on the template
-		$parameters = ["accountName" => $this->accountName, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
-		$statement->execute($parameters);
-
-		//update the null accountName with what mySQL just gave us
-		$this->accountName = intval($pdo->lastInsertId());
-	}
-
-	/**
-	 * updates account name in mySQL
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL errors occure
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	public function updateAccountName(\PDO $pdo) {
-
-		// enforce the accountName is not null (don't update whats not there)
-		if($this->accountName === null) {
-			throw(new \PDOException("unable to update accout name that does not exist"));
-		}
-
-		// create query template
-		$query = "UPDATE account SET accountName = :accountName WHERE accountName = :accountName";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders
-		$parameters = ["accountId" => $this->accountId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
-		$statement->execute($parameters);
-	}
-
-
-	/**
-	 * gets the account name by account id
-	 * @param \PDO $pdo PDO connection object
-	 * @param string $accountName - account name search for
-	 * @param int $accountId - prim key
-	 * @return string|null - name found or null if not
-	 * @throws \PDOException when mySQL related error occurs
-	 * @throws \TypeError when variables are not the correct data type
-	 */
-
-	public static function getAccountNameByAccountId(\PDO $pdo, int $accountId) {
-		// sanitize the accountId before searching
-		if($accountId <= 0) {
-			throw(new \PDOException("account id is not positive"));
-		}
-		// create query template
-		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountId = :accountId";
-		$statement = $pdo->prepare($query);
-
-		// bind the account id to the place holder in the template
-		$parameters = array("accountId" => $accountId);
-		$statement->execute($parameters);
-
-		// grab the name from mySQL
-		try {
-			$accountId = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$accountId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
-			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		return ($accountId);
-	}
-
-	/**
-	 * Gets all the account name
-	 * @param \PDO $pdo PDO connection object
-	 * @return \SplFixedArray SplFixedArray of account name found or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getAllAccountNames(\PDO $pdo) {
-		// create query template
-		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
-		$statement = $pdo->prepare($query);
-		$statement->execute();
-
-		// build an array of account name
-		$accountNames = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$accountName = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
-				$accountNames[$accountNames->key()] = $accountName;
-				$accountNames->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return ($accountNames);
-	}
-
-// ------------------------------------------- accountPpEmail   -------------------------------------------
-
-	/**
-	 * insert account pay pal email into mySQL
-	 * @param \PDO $pdo - PDO connection object
-	 * @throws \PDOException when mySQL errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	public function insertAccountPpEmail(\PDO $pdo) {
-		// enforce account pay pal email is null - make sure inserting new account pay pal email vs an existing one
-		if($this->accountPpEmail !== null) {
-			throw(new \PDOException("not an account pay pal email"));
-		}
-
-		//create query table
-		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES(:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders on the template
-		$parameters = ["accountPpEmail" => $this->accountPpEmail, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
-		$statement->execute($parameters);
-
-		//update the null accountPpEmail with what mySQL just gave us
-		$this->accountPpEmail = intval($pdo->lastInsertId());
-	}
-
-	/**
-	 * updates account pay pal email in mySQL
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL errors occure
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	public function updateAccountPpEmail(\PDO $pdo) {
-
-		// enforce the accountPpEmail is not null (don't update whats not there)
-		if($this->accountPpEmail === null) {
-			throw(new \PDOException("unable to update accout name that does not exist"));
-		}
-
-		// create query template
-		$query = "UPDATE account SET accountPpEmail = :accountPpEmail WHERE accountPpEmail = :accountPpEmail";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders
-		$parameters = ["accountId" => $this->accountId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
-		$statement->execute($parameters);
-	}
-
-
-	/**
-	 * gets the account pay pal email by account id
-	 * @param \PDO $pdo PDO connection object
-	 * @param string $accountPpEmail - account pay pal email search for
-	 * @param int $accountId - prim key
-	 * @return string|null - name found or null if not
-	 * @throws \PDOException when mySQL related error occurs
-	 * @throws \TypeError when variables are not the correct data type
-	 */
-
-	public static function getAccountPpEmailByAccountId(\PDO $pdo, int $accountId) {
-		// sanitize the accountId before searching
-		if($accountId <= 0) {
-			throw(new \PDOException("account id is not positive"));
-		}
-		// create query template
-		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountId = :accountId";
-		$statement = $pdo->prepare($query);
-
-		// bind the account id to the place holder in the template
-		$parameters = array("accountId" => $accountId);
-		$statement->execute($parameters);
-
-		// grab the name from mySQL
-		try {
-			$accountId = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$accountId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
-			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		return ($accountId);
-	}
-
-	/**
-	 * Gets all the account pay pal email
-	 * @param \PDO $pdo PDO connection object
-	 * @return \SplFixedArray SplFixedArray of account pay pal email found or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getAllAccountPpEmails(\PDO $pdo) {
-		// create query template
-		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
-		$statement = $pdo->prepare($query);
-		$statement->execute();
-
-		// build an array of account pay pal email
-		$accountPpEmails = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$accountPpEmail = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountPpEmail"], $row["accountPpEmail"], $row["accountUserName"]);
-				$accountPpEmails[$accountPpEmails->key()] = $accountPpEmail;
-				$accountPpEmails->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return ($accountPpEmails);
-	}
-
-// ------------------------------------------- accountAccountUserName   -------------------------------------------
-
-	/**
-	 * insert account user name into mySQL
-	 * @param \PDO $pdo - PDO connection object
-	 * @throws \PDOException when mySQL errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	public function insertAccountUserName(\PDO $pdo) {
-		// enforce account user name is null - make sure inserting new account user name vs an existing one
-		if($this->accountUserName !== null) {
-			throw(new \PDOException("not an account user name"));
-		}
-
-		//create query table
-		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES(:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders on the template
-		$parameters = ["accountPpEmail" => $this->accountPpEmail, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
-		$statement->execute($parameters);
-
-		//update the null accountUserName with what mySQL just gave us
-		$this->accountUserName = intval($pdo->lastInsertId());
-	}
-
-	/**
-	 * updates account user name in mySQL
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL errors occure
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	public function updateAccountUserName(\PDO $pdo) {
-
-		// enforce the accountUserName is not null (don't update whats not there)
-		if($this->accountUserName === null) {
-			throw(new \PDOException("unable to update accout name that does not exist"));
-		}
-
-		// create query template
-		$query = "UPDATE account SET accountUserName = :accountUserName WHERE accountUserName = :accountUserName";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders
-		$parameters = ["accountId" => $this->accountId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
-		$statement->execute($parameters);
-	}
-
-
-	/**
-	 * gets the account user name by account id
-	 * @param \PDO $pdo PDO connection object
-	 * @param string $accountUserName - account user name search for
-	 * @param int $accountId - prim key
-	 * @return string|null - name found or null if not
-	 * @throws \PDOException when mySQL related error occurs
-	 * @throws \TypeError when variables are not the correct data type
-	 */
-
-	public static function getAccountUserNameByAccountId(\PDO $pdo, int $accountId) {
-		// sanitize the accountId before searching
-		if($accountId <= 0) {
-			throw(new \PDOException("account id is not positive"));
-		}
-		// create query template
-		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountId = :accountId";
-		$statement = $pdo->prepare($query);
-
-		// bind the account id to the place holder in the template
-		$parameters = array("accountId" => $accountId);
-		$statement->execute($parameters);
-
-		// grab the name from mySQL
-		try {
-			$accountId = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$accountId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
-			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		return ($accountId);
-	}
-
-	/**
-	 * Gets all the account user name
-	 * @param \PDO $pdo PDO connection object
-	 * @return \SplFixedArray SplFixedArray of account user name found or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getAllAccountUserNames(\PDO $pdo) {
-		// create query template
-		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
-		$statement = $pdo->prepare($query);
-		$statement->execute();
-
-		// build an array of account user name
-		$accountUserNames = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$accountUserName = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountPpEmail"], $row["accountPpEmail"], $row["accountUserName"]);
-				$accountUserNames[$accountUserNames->key()] = $accountUserName;
-				$accountUserNames->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return ($accountUserNames);
-	}
+	// ------------------------------------------------------ END GET ALL ---------------------------------
+
+//5) Edu\Cnm\CartridgeCoders\Test\AccountTest::testGetAccountByValidAccountUserName
+//6) Edu\Cnm\CartridgeCoders\Test\AccountTest::testGetAllValidAccounts
+
+
+
+
+//
+//
+//
+//
+//	/**
+//	 * Gets all the account image id
+//	 * @param \PDO $pdo PDO connection object
+//	 * @return \SplFixedArray SplFixedArray of account image id found or null if not found
+//	 * @throws \PDOException when mySQL related errors occur
+//	 * @throws \TypeError when variables are not the correct data type
+//	 **/
+//	public static function getAllAccountImageIds(\PDO $pdo) {
+//		// create query template
+//		$query = "SELECT accountId, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
+//		$statement = $pdo->prepare($query);
+//		$statement->execute();
+//
+//		// build an array of account image id
+//		$accountImageIds = new \SplFixedArray($statement->rowCount());
+//		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//		while(($row = $statement->fetch()) !== false) {
+//			try {
+//				$accountImageId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
+//				$accountImageIds[$accountImageIds->key()] = $accountImageId;
+//				$accountImageIds->next();
+//			} catch(\Exception $exception) {
+//				// if the row couldn't be converted, rethrow it
+//				throw(new \PDOException($exception->getMessage(), 0, $exception));
+//			}
+//		}
+//		return ($accountImageIds);
+//	}
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//	// -------------------------------------- accountAdmin --------------------------------------
+//	/**
+//	 * insert admin flag into mySQL
+//	 * @param \PDO $pdo - PDO connection object
+//	 * @throws \PDOException when mySQL errors occur
+//	 * @throws \TypeError if $pdo is not a PDO connection object
+//	 */
+//	public function insertAdminFlag(\PDO $pdo) {
+//		// enforce admin flag is null - make sure inserting new flag vs an existing one
+//		if($this->accountAdmin !== null) {
+//			throw(new \PDOException("not an admin flag"));
+//		}
+//
+//		//create query table
+//		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES(:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the member variables to the place holders on the template
+//		$parameters = ["accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+//		$statement->execute($parameters);
+//
+//		//update the null accountAdmin with what mySQL just gave us
+//		$this->accountAdmin = intval($pdo->lastInsertId());
+//	}
+//
+//	/**
+//	 * updates admin flag in mySQL
+//	 * @param \PDO $pdo PDO connection object
+//	 * @throws \PDOException when mySQL errors occure
+//	 * @throws \TypeError if $pdo is not a PDO connection object
+//	 */
+//	public function updateAdminFlag(\PDO $pdo) {
+//
+//		// enforce the accountAdmin is not null (don't update whats not there)
+//		if($this->accountAdmin === null) {
+//			throw(new \PDOException("unable to update accout admin that does not exist"));
+//		}
+//
+//		// create query template
+//		$query = "UPDATE account SET accountAdmin = :accountAdmin WHERE accountAdmin = :accountAdmin";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the member variables to the place holders
+//		$parameters = ["accountId" => $this->accountId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+//		$statement->execute($parameters);
+//	}
+//
+//
+//	/**
+//	 * gets the admin flag by account id
+//	 * @param \PDO $pdo PDO connection object
+//	 * @param int $accountAdmin - adming flag search for
+//	 * @param int $accountId - prim key
+//	 * @return Image|null - flag found or null if not
+//	 * @throws \PDOException when mySQL related error occurs
+//	 * @throws \TypeError when variables are not the correct data type
+//	 */
+//
+//	public static function getAccountAdminByAccountId(\PDO $pdo, int $accountId) {
+//		// sanitize the accountId before searching
+//		if($accountId <= 0) {
+//			throw(new \PDOException("account id is not positive"));
+//		}
+//		// create query template
+//		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountId = :accountId";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the account id to the place holder in the template
+//		$parameters = array("accountId" => $accountId);
+//		$statement->execute($parameters);
+//
+//		// grab the flag from mySQL
+//		try {
+//			$accountId = null;
+//			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//			$row = $statement->fetch();
+//			if($row !== false) {
+//				$accountId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
+//			}
+//		} catch(\Exception $exception) {
+//			// if the row couldn't be converted, rethrow it
+//			throw(new \PDOException($exception->getMessage(), 0, $exception));
+//		}
+//		return ($accountId);
+//	}
+//
+//	/**
+//	 * Gets all teh admin flags
+//	 * @param \PDO $pdo PDO connection object
+//	 * @return \SplFixedArray SplFixedArray of admin flags found or null if not found
+//	 * @throws \PDOException when mySQL related errors occur
+//	 * @throws \TypeError when variables are not the correct data type
+//	 **/
+//	public static function getAllAdminFlags(\PDO $pdo) {
+//		// create query template
+//		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
+//		$statement = $pdo->prepare($query);
+//		$statement->execute();
+//
+//		// build an array of admin flags
+//		$accountIds = new \SplFixedArray($statement->rowCount());
+//		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//		while(($row = $statement->fetch()) !== false) {
+//			try {
+//				$accountId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
+//				$accountIds[$accountIds->key()] = $accountId;
+//				$accountIds->next();
+//			} catch(\Exception $exception) {
+//				// if the row couldn't be converted, rethrow it
+//				throw(new \PDOException($exception->getMessage(), 0, $exception));
+//			}
+//		}
+//		return ($accountIds);
+//	}
+//
+//
+//// ------------------------------------------- accountActive   -------------------------------------------
+//
+//	/**
+//	 * insert account status into mySQL
+//	 * @param \PDO $pdo - PDO connection object
+//	 * @throws \PDOException when mySQL errors occur
+//	 * @throws \TypeError if $pdo is not a PDO connection object
+//	 */
+//	public function insertAccountStatus(\PDO $pdo) {
+//		// enforce account status is null - make sure inserting new flag vs an existing one
+//		if($this->accountActive !== null) {
+//			throw(new \PDOException("not an account status"));
+//		}
+//
+//		//create query table
+//		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES(:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the member variables to the place holders on the template
+//		$parameters = ["accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+//		$statement->execute($parameters);
+//
+//		//update the null accountActive with what mySQL just gave us
+//		$this->accountActive = intval($pdo->lastInsertId());
+//	}
+//
+//	/**
+//	 * updates account status in mySQL
+//	 * @param \PDO $pdo PDO connection object
+//	 * @throws \PDOException when mySQL errors occure
+//	 * @throws \TypeError if $pdo is not a PDO connection object
+//	 */
+//	public function updateAccountStatus(\PDO $pdo) {
+//
+//		// enforce the accountActive is not null (don't update whats not there)
+//		if($this->accountActive === null) {
+//			throw(new \PDOException("unable to update accout admin that does not exist"));
+//		}
+//
+//		// create query template
+//		$query = "UPDATE account SET accountActive = :accountActive WHERE accountActive = :accountActive";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the member variables to the place holders
+//		$parameters = ["accountId" => $this->accountId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+//		$statement->execute($parameters);
+//	}
+//
+//
+//	/**
+//	 * gets the account status by account id
+//	 * @param \PDO $pdo PDO connection object
+//	 * @param int $accountActive - account status search for
+//	 * @param int $accountId - prim key
+//	 * @return Image|null - flag found or null if not
+//	 * @throws \PDOException when mySQL related error occurs
+//	 * @throws \TypeError when variables are not the correct data type
+//	 */
+//
+//	public static function getAccountStatusByAccountId(\PDO $pdo, int $accountId) {
+//		// sanitize the accountId before searching
+//		if($accountId <= 0) {
+//			throw(new \PDOException("account id is not positive"));
+//		}
+//		// create query template
+//		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountId = :accountId";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the account id to the place holder in the template
+//		$parameters = array("accountId" => $accountId);
+//		$statement->execute($parameters);
+//
+//		// grab the flag from mySQL
+//		try {
+//			$accountId = null;
+//			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//			$row = $statement->fetch();
+//			if($row !== false) {
+//				$accountId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
+//			}
+//		} catch(\Exception $exception) {
+//			// if the row couldn't be converted, rethrow it
+//			throw(new \PDOException($exception->getMessage(), 0, $exception));
+//		}
+//		return ($accountId);
+//	}
+//
+//	/**
+//	 * Gets all the account status
+//	 * @param \PDO $pdo PDO connection object
+//	 * @return \SplFixedArray SplFixedArray of account status found or null if not found
+//	 * @throws \PDOException when mySQL related errors occur
+//	 * @throws \TypeError when variables are not the correct data type
+//	 **/
+//	public static function getAllAccountStatuses(\PDO $pdo) {
+//		// create query template
+//		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
+//		$statement = $pdo->prepare($query);
+//		$statement->execute();
+//
+//		// build an array of account status
+//		$accountActives = new \SplFixedArray($statement->rowCount());
+//		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//		while(($row = $statement->fetch()) !== false) {
+//			try {
+//				$accountActive = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
+//				$accountActives[$accountActives->key()] = $accountActive;
+//				$accountActives->next();
+//			} catch(\Exception $exception) {
+//				// if the row couldn't be converted, rethrow it
+//				throw(new \PDOException($exception->getMessage(), 0, $exception));
+//			}
+//		}
+//		return ($accountActives);
+//	}
+//
+//// ------------------------------------------- accountName   -------------------------------------------
+//
+//
+//	/**
+//	 * insert account name into mySQL
+//	 * @param \PDO $pdo - PDO connection object
+//	 * @throws \PDOException when mySQL errors occur
+//	 * @throws \TypeError if $pdo is not a PDO connection object
+//	 */
+//	public function insertAccountName(\PDO $pdo) {
+//		// enforce account name is null - make sure inserting new name vs an existing one
+//		if($this->accountName !== null) {
+//			throw(new \PDOException("not an account name"));
+//		}
+//
+//		//create query table
+//		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES(:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the member variables to the place holders on the template
+//		$parameters = ["accountName" => $this->accountName, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+//		$statement->execute($parameters);
+//
+//		//update the null accountName with what mySQL just gave us
+//		$this->accountName = intval($pdo->lastInsertId());
+//	}
+//
+//	/**
+//	 * updates account name in mySQL
+//	 * @param \PDO $pdo PDO connection object
+//	 * @throws \PDOException when mySQL errors occure
+//	 * @throws \TypeError if $pdo is not a PDO connection object
+//	 */
+//	public function updateAccountName(\PDO $pdo) {
+//
+//		// enforce the accountName is not null (don't update whats not there)
+//		if($this->accountName === null) {
+//			throw(new \PDOException("unable to update accout name that does not exist"));
+//		}
+//
+//		// create query template
+//		$query = "UPDATE account SET accountName = :accountName WHERE accountName = :accountName";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the member variables to the place holders
+//		$parameters = ["accountId" => $this->accountId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+//		$statement->execute($parameters);
+//	}
+//
+//
+//	/**
+//	 * gets the account name by account id
+//	 * @param \PDO $pdo PDO connection object
+//	 * @param string $accountName - account name search for
+//	 * @param int $accountId - prim key
+//	 * @return string|null - name found or null if not
+//	 * @throws \PDOException when mySQL related error occurs
+//	 * @throws \TypeError when variables are not the correct data type
+//	 */
+//
+//	public static function getAccountNameByAccountId(\PDO $pdo, int $accountId) {
+//		// sanitize the accountId before searching
+//		if($accountId <= 0) {
+//			throw(new \PDOException("account id is not positive"));
+//		}
+//		// create query template
+//		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountId = :accountId";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the account id to the place holder in the template
+//		$parameters = array("accountId" => $accountId);
+//		$statement->execute($parameters);
+//
+//		// grab the name from mySQL
+//		try {
+//			$accountId = null;
+//			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//			$row = $statement->fetch();
+//			if($row !== false) {
+//				$accountId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
+//			}
+//		} catch(\Exception $exception) {
+//			// if the row couldn't be converted, rethrow it
+//			throw(new \PDOException($exception->getMessage(), 0, $exception));
+//		}
+//		return ($accountId);
+//	}
+//
+//	/**
+//	 * Gets all the account name
+//	 * @param \PDO $pdo PDO connection object
+//	 * @return \SplFixedArray SplFixedArray of account name found or null if not found
+//	 * @throws \PDOException when mySQL related errors occur
+//	 * @throws \TypeError when variables are not the correct data type
+//	 **/
+//	public static function getAllAccountNames(\PDO $pdo) {
+//		// create query template
+//		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
+//		$statement = $pdo->prepare($query);
+//		$statement->execute();
+//
+//		// build an array of account name
+//		$accountNames = new \SplFixedArray($statement->rowCount());
+//		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//		while(($row = $statement->fetch()) !== false) {
+//			try {
+//				$accountName = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
+//				$accountNames[$accountNames->key()] = $accountName;
+//				$accountNames->next();
+//			} catch(\Exception $exception) {
+//				// if the row couldn't be converted, rethrow it
+//				throw(new \PDOException($exception->getMessage(), 0, $exception));
+//			}
+//		}
+//		return ($accountNames);
+//	}
+//
+//// ------------------------------------------- accountPpEmail   -------------------------------------------
+//
+//	/**
+//	 * insert account pay pal email into mySQL
+//	 * @param \PDO $pdo - PDO connection object
+//	 * @throws \PDOException when mySQL errors occur
+//	 * @throws \TypeError if $pdo is not a PDO connection object
+//	 */
+//	public function insertAccountPpEmail(\PDO $pdo) {
+//		// enforce account pay pal email is null - make sure inserting new account pay pal email vs an existing one
+//		if($this->accountPpEmail !== null) {
+//			throw(new \PDOException("not an account pay pal email"));
+//		}
+//
+//		//create query table
+//		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES(:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the member variables to the place holders on the template
+//		$parameters = ["accountPpEmail" => $this->accountPpEmail, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+//		$statement->execute($parameters);
+//
+//		//update the null accountPpEmail with what mySQL just gave us
+//		$this->accountPpEmail = intval($pdo->lastInsertId());
+//	}
+//
+//	/**
+//	 * updates account pay pal email in mySQL
+//	 * @param \PDO $pdo PDO connection object
+//	 * @throws \PDOException when mySQL errors occure
+//	 * @throws \TypeError if $pdo is not a PDO connection object
+//	 */
+//	public function updateAccountPpEmail(\PDO $pdo) {
+//
+//		// enforce the accountPpEmail is not null (don't update whats not there)
+//		if($this->accountPpEmail === null) {
+//			throw(new \PDOException("unable to update accout name that does not exist"));
+//		}
+//
+//		// create query template
+//		$query = "UPDATE account SET accountPpEmail = :accountPpEmail WHERE accountPpEmail = :accountPpEmail";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the member variables to the place holders
+//		$parameters = ["accountId" => $this->accountId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+//		$statement->execute($parameters);
+//	}
+//
+//
+//	/**
+//	 * gets the account pay pal email by account id
+//	 * @param \PDO $pdo PDO connection object
+//	 * @param string $accountPpEmail - account pay pal email search for
+//	 * @param int $accountId - prim key
+//	 * @return string|null - name found or null if not
+//	 * @throws \PDOException when mySQL related error occurs
+//	 * @throws \TypeError when variables are not the correct data type
+//	 */
+//
+//	public static function getAccountPpEmailByAccountId(\PDO $pdo, int $accountId) {
+//		// sanitize the accountId before searching
+//		if($accountId <= 0) {
+//			throw(new \PDOException("account id is not positive"));
+//		}
+//		// create query template
+//		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountId = :accountId";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the account id to the place holder in the template
+//		$parameters = array("accountId" => $accountId);
+//		$statement->execute($parameters);
+//
+//		// grab the name from mySQL
+//		try {
+//			$accountId = null;
+//			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//			$row = $statement->fetch();
+//			if($row !== false) {
+//				$accountId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
+//			}
+//		} catch(\Exception $exception) {
+//			// if the row couldn't be converted, rethrow it
+//			throw(new \PDOException($exception->getMessage(), 0, $exception));
+//		}
+//		return ($accountId);
+//	}
+//
+//	/**
+//	 * Gets all the account pay pal email
+//	 * @param \PDO $pdo PDO connection object
+//	 * @return \SplFixedArray SplFixedArray of account pay pal email found or null if not found
+//	 * @throws \PDOException when mySQL related errors occur
+//	 * @throws \TypeError when variables are not the correct data type
+//	 **/
+//	public static function getAllAccountPpEmails(\PDO $pdo) {
+//		// create query template
+//		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
+//		$statement = $pdo->prepare($query);
+//		$statement->execute();
+//
+//		// build an array of account pay pal email
+//		$accountPpEmails = new \SplFixedArray($statement->rowCount());
+//		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//		while(($row = $statement->fetch()) !== false) {
+//			try {
+//				$accountPpEmail = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountPpEmail"], $row["accountPpEmail"], $row["accountUserName"]);
+//				$accountPpEmails[$accountPpEmails->key()] = $accountPpEmail;
+//				$accountPpEmails->next();
+//			} catch(\Exception $exception) {
+//				// if the row couldn't be converted, rethrow it
+//				throw(new \PDOException($exception->getMessage(), 0, $exception));
+//			}
+//		}
+//		return ($accountPpEmails);
+//	}
+//
+//// ------------------------------------------- accountAccountUserName   -------------------------------------------
+//
+//	/**
+//	 * insert account user name into mySQL
+//	 * @param \PDO $pdo - PDO connection object
+//	 * @throws \PDOException when mySQL errors occur
+//	 * @throws \TypeError if $pdo is not a PDO connection object
+//	 */
+//	public function insertAccountUserName(\PDO $pdo) {
+//		// enforce account user name is null - make sure inserting new account user name vs an existing one
+//		if($this->accountUserName !== null) {
+//			throw(new \PDOException("not an account user name"));
+//		}
+//
+//		//create query table
+//		$query = "INSERT INTO account(accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName) VALUES(:accountImageId, :accountActive, :accountAdmin, :accountName, :accountPpEmail, :accountUserName)";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the member variables to the place holders on the template
+//		$parameters = ["accountPpEmail" => $this->accountPpEmail, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+//		$statement->execute($parameters);
+//
+//		//update the null accountUserName with what mySQL just gave us
+//		$this->accountUserName = intval($pdo->lastInsertId());
+//	}
+//
+//	/**
+//	 * updates account user name in mySQL
+//	 * @param \PDO $pdo PDO connection object
+//	 * @throws \PDOException when mySQL errors occure
+//	 * @throws \TypeError if $pdo is not a PDO connection object
+//	 */
+//	public function updateAccountUserName(\PDO $pdo) {
+//
+//		// enforce the accountUserName is not null (don't update whats not there)
+//		if($this->accountUserName === null) {
+//			throw(new \PDOException("unable to update accout name that does not exist"));
+//		}
+//
+//		// create query template
+//		$query = "UPDATE account SET accountUserName = :accountUserName WHERE accountUserName = :accountUserName";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the member variables to the place holders
+//		$parameters = ["accountId" => $this->accountId, "accountActive" => $this->accountActive, "accountAdmin" => $this->accountAdmin, "accountName" => $this->accountName, "accountPpEmail" => $this->accountPpEmail, "accountUserName" => $this->accountUserName];
+//		$statement->execute($parameters);
+//	}
+//
+//
+//	/**
+//	 * gets the account user name by account id
+//	 * @param \PDO $pdo PDO connection object
+//	 * @param string $accountUserName - account user name search for
+//	 * @param int $accountId - prim key
+//	 * @return string|null - name found or null if not
+//	 * @throws \PDOException when mySQL related error occurs
+//	 * @throws \TypeError when variables are not the correct data type
+//	 */
+//
+//	public static function getAccountUserNameByAccountId(\PDO $pdo, int $accountId) {
+//		// sanitize the accountId before searching
+//		if($accountId <= 0) {
+//			throw(new \PDOException("account id is not positive"));
+//		}
+//		// create query template
+//		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account WHERE accountId = :accountId";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the account id to the place holder in the template
+//		$parameters = array("accountId" => $accountId);
+//		$statement->execute($parameters);
+//
+//		// grab the name from mySQL
+//		try {
+//			$accountId = null;
+//			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//			$row = $statement->fetch();
+//			if($row !== false) {
+//				$accountId = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountName"], $row["accountPpEmail"], $row["accountUserName"]);
+//			}
+//		} catch(\Exception $exception) {
+//			// if the row couldn't be converted, rethrow it
+//			throw(new \PDOException($exception->getMessage(), 0, $exception));
+//		}
+//		return ($accountId);
+//	}
+//
+//	/**
+//	 * Gets all the account user name
+//	 * @param \PDO $pdo PDO connection object
+//	 * @return \SplFixedArray SplFixedArray of account user name found or null if not found
+//	 * @throws \PDOException when mySQL related errors occur
+//	 * @throws \TypeError when variables are not the correct data type
+//	 **/
+//	public static function getAllAccountUserNames(\PDO $pdo) {
+//		// create query template
+//		$query = "SELECT accountAdmin, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
+//		$statement = $pdo->prepare($query);
+//		$statement->execute();
+//
+//		// build an array of account user name
+//		$accountUserNames = new \SplFixedArray($statement->rowCount());
+//		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//		while(($row = $statement->fetch()) !== false) {
+//			try {
+//				$accountUserName = new Account($row["accountId"], $row["accountImageId"], $row["accountActive"], $row["accountAdmin"], $row["accountPpEmail"], $row["accountPpEmail"], $row["accountUserName"]);
+//				$accountUserNames[$accountUserNames->key()] = $accountUserName;
+//				$accountUserNames->next();
+//			} catch(\Exception $exception) {
+//				// if the row couldn't be converted, rethrow it
+//				throw(new \PDOException($exception->getMessage(), 0, $exception));
+//			}
+//		}
+//		return ($accountUserNames);
+//	}
 
 
 	/**
