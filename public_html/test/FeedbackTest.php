@@ -203,7 +203,15 @@ class FeedbackTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoFeedback->getFeedbackRating(), $this->VALID_FEEDBACKRATING);
 	}
 	/**
-	 *
-	 */
+	 *test grabbing Feedback that does not exist
+	 **/
+	public function testGetInvalidFeedbackByFeedbackId() {
+		//grab a senderId that exceeds the maximum allowable sender id
+		$feedback = Feedback::getFeedbackByFeedbackId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
+		$this->assertNull($feedback);
+	}
+	/**
+	 * test getting feedback by feed
+	 **/
 
 }
