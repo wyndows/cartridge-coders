@@ -146,6 +146,32 @@ class Feedback implements \JsonSerializable {
 		}
 		// covert and store the account id
 		$this->feedbackRecipientId = intval($newFeedbackRecipientId);
-		
+	}
+	/**
+	 * accessor for feedbackContent
+	 *
+	 * @return string value of message content
+	 **/
+	public function getFeedbackContent() {
+		return ($this->feedbackContent);
+	}
+
+	/**
+	 * mutator method for feedbackContent
+	 *
+	 * @param string $newFeedbackContent new value of feedback content
+	 * @throws \UnexpectedValueException if $newMessageContent is not valid
+	 * @throws \RangeException if the $newMessageContent exceeds varv 255
+	 **/
+	public function setFeedbackContent($newFeedbackContent) {
+		// verify the message content is valid
+		$newFeedbackContent = filter_var($newFeedbackContent, FILTER_SANITIZE_STRING);
+		if($newFeedbackContent === false) {
+			throw(new \UnexpectedValueException("feedback content is not valid"));
+		}
+		if($newFeedbackContent > 255) {
+			// confirm feedbackContent doesn't exceed 255
+			throw(new \RangeException("feedback is way to long ")
+		}
 	}
 }
