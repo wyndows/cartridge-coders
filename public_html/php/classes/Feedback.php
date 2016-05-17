@@ -45,8 +45,45 @@ class Feedback implements \JsonSerializable {
 	public function getFeedbackId() {
 		return ($this->feedbackId);
 	}
+
 	/**
 	 * mutator method for feedbackId id
-	 * @param int $newF
+	 * @param int $newFeedbackId
+	 * @throws \RangeException if the $newFeedbackId is not positive
+	 * @throws \UnexpectedValueException if $newFeedbackId is not an integer
 	 **/
+	public function setFeedbackId($newFeedbackId) {
+		if($newFeedbackId === null) {
+			$this->feedbackId = null;
+			return;
+		}
+		$newFeedbackId = filter_var($newFeedbackId, FILTER_VALIDATE_INT);
+		if($newFeedbackId === false) {
+			throw(new \UnexpectedValueException("feedback id is not valid"));
+		}
+		// confirm feedback id is positive
+		if($newFeedbackId <= 0) {
+			throw(new \RangeException("no no no feedback id is not valid"));
+		}
+		// convert and store the feedback id
+		$this->feedbackId = intval($newFeedbackId);
+	}
+	/**
+	 * accessor method for feedbackSender id
+	 *
+	 * @return int value of feedbackSender id
+	 **/
+	public function getFeedbackSenderId() {
+		return ($this->feedbackSenderId);
+	}
+
+	/**
+	 * mutator method for feedbackSender id
+	 * @param int $newFeedbackSenderId new value of feedbackSender id
+	 * @throws \UnexpectedValueException if $newFeedbackSenderId is not an integer
+	 * @throws \RangeException if $newFeedbackSenderId is not positive
+	 **/
+	public function setFeedbackSenderId($newFeedbackSenderId) {
+		
+	}
 }
