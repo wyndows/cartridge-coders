@@ -179,11 +179,31 @@ class FeedbackTest extends CartridgeCodersTest {
 	 **/
 	public function testDeleteInvalidFeedback() {
 		// create a Feedback and try to delete it without actually inserting it
-		$feedback = new Feedback(null, $this->$this->feedbackSenderId->getAccountId(), $this->feedbackProductId->getProductId(), $this->feedbackRecipientId->getAccountId(), $this->VALID_FEEDBACKCONTENT, $this->VALID_FEEDBACKRATING);
+		$feedback = new Feedback(null, $this->feedbackSenderId->getAccountId(), $this->feedbackProductId->getProductId(), $this->feedbackRecipientId->getAccountId(), $this->VALID_FEEDBACKCONTENT, $this->VALID_FEEDBACKRATING);
 		$feedback->delete($this->getPDO());
 	}
 	/**
-	 * test inserting Feedback and rebrabbing it from mySQL 
+	 * test inserting Feedback and re grabbing it from mySQL
 	 **/
+	public function testGetValidFeedbackByFeedbackId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("feedback");
+
+		// create new Feedback and insert to into mySQL
+		$feedback = new Feedback(null, $this->feedbackSenderId->getAccountId(), $this->feedbackProductId->getProductId(), $this->feedbackRecipientId->getAccountId(), $this->VALID_FEEDBACKCONTENT, $this->VALID_FEEDBACKRATING);
+		$feedback->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectation
+		$pdoFeedback = Feedback::getFeedbackByFeedbackID($this->getPDO(), $feedback->getFeedbackId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCOunt("feedback"));
+		$this->assertEquals($pdoFeedback->getFeedbackSenderId(), $this->feedbackSenderId->getAccountId());
+		$this->assertEquals($pdoFeedback->getFeedbackProductId(), $this->feedbackProductId->getProductId());
+		$this->assertEquals($pdoFeedback->getFeedbackRecipientid(), $this->feedbackRecipientId->getAccountId());
+		$this->assertEquals($pdoFeedback->getFeedbackContent(), $this->VALID_FEEDBACKCONTENT);
+		$this->assertEquals($pdoFeedback->getFeedbackRating(), $this->VALID_FEEDBACKRATING);
+	}
+	/**
+	 *
+	 */
 
 }
