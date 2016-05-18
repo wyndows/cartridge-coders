@@ -38,7 +38,12 @@
 
 namespace Edu\Cnm\CartridgeCoders\Test;
 
-use Edu\Cnm\CartridgeCoders\{ProductPurchase, Product, Purchase, Image, Account};
+use Edu\Cnm\CartridgeCoders\ProductPurchase;
+use Edu\Cnm\CartridgeCoders\Product;
+use Edu\Cnm\CartridgeCoders\Purchase;
+use Edu\Cnm\CartridgeCoders\Account;
+use Edu\Cnm\CartridgeCoders\Image;
+
 
 // grab the project test parameters
 require_once("CartridgeCodersTest.php");
@@ -73,17 +78,23 @@ class ProductPurchaseTest extends CartridgeCodersTest {
 		// run the default setUp() method first
 		parent::setUp();
 
-		// create and insert a Purchase class
-		$this->purchase = new Purchase(null, "nintendo");
-		$this->purchase->insert($this->getPDO());
 
 		// create and insert an Image to own the test Product
 		$this->image = new Image(null, "filename", "image/jpg");
 		$this->image->insert($this->getPDO());
 
+
 		// create and insert an Account to own the test Product
 		$this->account = new Account(null, $this->image->getImageId(), 1, 0, "john", "john@john.com", "johndoe");
 		$this->account->insert($this->getPDO());
+
+
+		// create and insert a Purchase class
+		$this->purchase = new Purchase(null, $this->account->getAccountId(), "pptransactionid", "2016-05-05 09:30:30");
+		$this->purchase->insert($this->getPDO());
+
+
+
 
 		// create and insert a Product class
 		$this->product = new Product(null, $this->account->getAccountId(), $this->image->getImageId(), 2.00, "cartridge", 10.00, 5.99, 0, "cheap");
@@ -193,7 +204,7 @@ class ProductPurchaseTest extends CartridgeCodersTest {
 		$productPurchase->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = ProductPurchase::getAllProductCategories($this->getPDO());
+		$results = ProductPurchase::getAllProductPurchases($this->getPDO());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("productPurchase"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\ProductPurchase", $results);
