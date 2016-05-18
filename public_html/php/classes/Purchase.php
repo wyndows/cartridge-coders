@@ -390,8 +390,7 @@ class Purchase implements \JsonSerializable {
 		return($purchases);
 	}
 
-
-
+	
 	/**
 	 * formats the state variables for JSON serialization
 	 *
