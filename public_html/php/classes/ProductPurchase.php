@@ -103,6 +103,46 @@ class ProductPurchase implements \JsonSerializable {
 
 
 
+
+	/**
+	 * inserts productPurchase composite primary key information into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function insertValidProductPurchase(\PDO $pdo) {
+		// enforce the productPurchaseProductId or productPurchasePurchaseId is not null (i.e., don't insert a composite primary key with missing data
+		if($this->productPurchaseProductId === null || $this->productPurchasePurchaseId === null) {
+			throw(new \PDOException("not a valid composite key"));
+		}
+
+		// create query template
+		$query = "INSERT INTO productPurchase(productPurchaseProductId, productPurchasePurchaseId) VALUES(:productPurchaseProductId, :productPurchasePurchaseId)";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["productPurchaseProductId" => $this->productPurchaseProductId, "productPurchasePurchaseId" => $this->productPurchasePurchaseId];
+		$statement->execute($parameters);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
 	/**
 	 * formats the state variables for JSON serialization
 	 *
