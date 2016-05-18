@@ -26,6 +26,7 @@ class Feedback implements \JsonSerializable {
 	private $feedbackProductId;
 	/**
 	 * id for the person getting the feedback
+	 * @var int $feedbackRecipientId
 	 **/
 	private $feedbackRecipientId;
 	/**
@@ -35,6 +36,7 @@ class Feedback implements \JsonSerializable {
 	private $feedbackContent;
 	/**
 	 * rating of the recipient of the feedback
+	 * @var int $feedbackRating
 	 **/
 	private $feedbackRating;
 
@@ -46,11 +48,30 @@ class Feedback implements \JsonSerializable {
 	 * @param int $newFeedbackProductId new product id
 	 * @param int $newFeedbackRecipientId new feedback recipient
 	 * @param string $newFeedbackContent new feedback content
-	 * @param int $newFeedbackId new feedback id
+	 * @param int $newFeedbackRating new feedback id
 	 * @throws \UnexpectedValueException if any of hte parameters are invalid
 	 * @throws \RangeException if not an it
-	 * @throws \TypeError if data violates type hints 
+	 * @throws \TypeError if data violates type hints
 	 **/
+	public function __construct(int $newFeedbackId = null, int $newFeedbackSenderId, int $newFeedbackProductId, int $newFeedbackRecipientId, string $newFeedbackContent, int $newFeedbackRating) {
+		try {
+			$this->setFeedbackId($newFeedbackId);
+			$this->setFeedbackSenderId($newFeedbackSenderId);
+			$this->setFeedbackProductId($newFeedbackProductId);
+			$this->setFeedbackRecipientId($newFeedbackRecipientId);
+			$this->setFeedbackContent($newFeedbackContent);
+			$this->setFeedbackRating($newFeedbackRating);
+		} catch(\TypeError($typeError) {
+			//rethrow the exception to the caller
+			throw(new\TypeError($typeError->getFeedback(), 0, $typeError));
+		} catch(\UnexpectedValueException $exception) {
+			// rethrow to the caller
+			throw(new \UnexpectedValueException("unable to contruct Feedback",0, $exception));
+
+		}
+		)
+	}
+
 
 	/**
 	 * accessor method for feedback id
