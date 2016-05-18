@@ -307,5 +307,17 @@ class Feedback implements \JsonSerializable {
 		return ($feedback);
 	}
 
-	
+	/**
+	 * gets the Feedback by party
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $partyId id to use for both sender and recipient
+	 * @param int $feedbackSenderId sender id to search for
+	 * @param int $feedbackRecipientId recipient id to search for
+	 * @return \SLPFixedArray SplFixedArray of feedbacks found
+	 * @throws \PDOException when mySQl realted erorr occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getFeedbackByFeedbackId(\PDO $pdo, int $partyId) {
+		// sanitize 
+	}
 }
