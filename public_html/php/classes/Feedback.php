@@ -269,4 +269,43 @@ class Feedback implements \JsonSerializable {
 		// update teh null feedbackId with what mySQl jast gave us
 		$this->feedbackId = intval($pdo->lastInsertId());
 	}
+	/**
+	 * gets the feedback by feedback id
+	 *
+	 *@param \PDO $pdo PDO connection object
+	 *@param int $feedbackId feedback id to search for
+	 *@return Feedback|null Feedback found or null if not found
+	 *@throws \PDOException when mySQl related errors occur
+	 *@throws \TypeError when variables are not the correct data Type
+	 **/
+	public static function getFeedbackByFeedbackId(\PDO $pdo, int $feedbackId) {
+		// sanitize the feedback before searching
+		if($feedbackId <= 0) {
+			throw(new \PDOException("feedback id is not positive"));
+		}
+
+		// create query tmeplate
+		$query = "SELECT feedbackId, feedbackSenderId, feedbackProductId, feedbackRecipientId, feedbackContent, feedbackRating FROM feedback WHERE feedbackId = :feedbackId";
+		$statement = $pdo->prepare($query);
+
+		// bind the feedback id to the place holder in teh template
+		$parameters = array("feedbackId" => $feedbackId);
+		$statement->execute($parameters);
+
+		// grab the message from mySQL
+		try {
+			$feedback = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSCO);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$feedback = new Feedback($row["feedbackId"], $row["feedbackSenderId"], $row["feedbackProductId"], $row["feedbackRecipientId"], $row["feedbackContent"], $row["feedbackRating"]);
+			}
+		} catch(\exception $exception) {
+			// if the row coulldn't be converted, rethrow it
+			throw(new \PDOException($exception->getFeedback(), 0, $exception));
+		}
+		return ($feedback);
+	}
+
+	
 }
