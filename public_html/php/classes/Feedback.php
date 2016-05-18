@@ -244,4 +244,29 @@ class Feedback implements \JsonSerializable {
 		$this->feedbackRating = $newFeedbackRating;
 	}
 
+	/**
+	 * insert Feedback into mySQL
+	 *
+	 * @param \PDO $pdo - PDO connection object
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 * @throws \RangeException if $pdo is to high or too low
+	 */
+	public function insert(\PDO $pdo) {
+		// enforce feedback id is null - make sure we're inserting new Feedback
+		if($this->feedbackId !== null) {
+			throw(new \PDOException("not new Feedback"));
+		}
+
+		// create a query template
+		$query = "INSERT INTO feedback(feedbackSenderId, feedbackProductId, feedbackRecipientId, feedbackContent, feedbackRating) VALUES(:feedbackSender, :feedbackProductId, :feedbackRecipientId, :feedbackContetn, :feedbackRating)";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variable to the place holder int he template
+		$parameters = ["feedbackSenderId" => $this-$this->feedbackSenderId, "feedbackProductId" => $this->feedbackProductId, "feedbackRecipientId" => $this->feedbackRecipientId, "feedbackContent" => $this->feedbackContent, "feedbackRating" => $this->feedbackRating];
+		$statement->execute($parameters);
+
+		// update teh null feedbackId with what mySQl jast gave us
+		$this->feedbackId = intval($pdo->lastInsertId());
+	}
 }
