@@ -61,15 +61,16 @@ class Feedback implements \JsonSerializable {
 			$this->setFeedbackRecipientId($newFeedbackRecipientId);
 			$this->setFeedbackContent($newFeedbackContent);
 			$this->setFeedbackRating($newFeedbackRating);
-		} catch(\TypeError($typeError) {
+		} catch(\TypeError $typeError) {
 			//rethrow the exception to the caller
 			throw(new\TypeError($typeError->getFeedback(), 0, $typeError));
 		} catch(\UnexpectedValueException $exception) {
 			// rethrow to the caller
 			throw(new \UnexpectedValueException("unable to contruct Feedback",0, $exception));
-
+		} catch(\RangeException $range) {
+			// rethrow the exception tot he caller
+			throw(new \RangeException($range->getFeedback(), 0, $range));
 		}
-		)
 	}
 
 
