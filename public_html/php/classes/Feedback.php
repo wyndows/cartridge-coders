@@ -2,7 +2,6 @@
 
 namespace Edu\Cnm\CartridgeCoders;
 // require_once ("autoload.php);
-use MongoDB\Driver\Exception\UnexpectedValueException;
 
 /**
  * Feedback class for cartridge coders so account may submit feedback on one another
@@ -385,4 +384,42 @@ class Feedback implements \JsonSerializable {
 		}
 		return ($feedbacks);
 	}
+
+	/**
+	 * gets feedback by feedbackSenderId
+	 * @param \PDO $pdo connection object
+	 * @param int $feedbackRecipientId sender id to search for
+	 * @return \SplFixedArray SplFixedArray of feedback found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 *
+	 **/
+	public static function getFeedbackByFeedbackRecipientId(\PDO $pdo, int $feedbackRecipientId) {
+		// sanitize the feedbackSenderId before searching
+		if($feedbackRecipientId <=0) {
+			throw(new \PDOException("senderId is not positive"));
+		}
+
+		//create query template
+		$query = "SELECT feedbackId, feedbackSenderId, feedbackProductId, feedbackRecipientId, feedbackContent, feedbackRating FROM feedback WHERE feedbackSenderId = :feedbackSenderId";;
+		$statement = $pdo->prepare($query);
+
+		// bind the feedbackSender id to the place holder in the template
+		$parameters = array("feedbackRecipientId" => $feedbackRecipientId);
+		$statement->execute($parameters);
+
+		// build an array of feedbacks
+		$feedbacks = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$feedback = new Feedback($row["feedbackId"], $row["feedbackSenderId"], $row["feedbackProductId"], $row["feedbackRecipientId"], $row["feedbackContent"], $row["feedbackRating"]);
+				$feedbacks[$feedbacks->key()] = $feedback;
+				$feedbacks->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it k
+				throw(new \PDOException($exception->getFeedback(), 0, $exception));
+			}
+		}
+		return ($feedbacks);
 }
