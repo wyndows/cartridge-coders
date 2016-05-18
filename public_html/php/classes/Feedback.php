@@ -2,6 +2,7 @@
 
 namespace Edu\Cnm\CartridgeCoders;
 // require_once ("autoload.php);
+use MongoDB\Driver\Exception\UnexpectedValueException;
 
 /**
  * Feedback class for cartridge coders so account may submit feedback on one another
@@ -36,6 +37,20 @@ class Feedback implements \JsonSerializable {
 	 * rating of the recipient of the feedback
 	 **/
 	private $feedbackRating;
+
+	/**
+	 * constructor for the feedbackRating
+	 *
+	 * @param int $newFeedbackId new feedback id
+	 * @param int $newFeedbackSenderId new sender id
+	 * @param int $newFeedbackProductId new product id
+	 * @param int $newFeedbackRecipientId new feedback recipient
+	 * @param string $newFeedbackContent new feedback content
+	 * @param int $newFeedbackId new feedback id
+	 * @throws \UnexpectedValueException if any of hte parameters are invalid
+	 * @throws \RangeException if not an it
+	 * @throws \TypeError if data violates type hints 
+	 **/
 
 	/**
 	 * accessor method for feedback id
@@ -177,5 +192,34 @@ class Feedback implements \JsonSerializable {
 		$this->feedbackContent = $newFeedbackContent;
 	}
 
-	/
+	/**
+	 * accessor for feedbackRating
+	 *
+	 * @return int value of Feedback rating
+	 **/
+	public function getFeedbackRating() {
+		return ($this->feedbackContent);
+	}
+
+	/**
+	 * mutator method for feedback rating
+	 *
+	 * @param int $newFeedbackRating new value of feedback rating
+	 * @throws \UnexpectedValueException if $newFeedbackRating is not a valid int
+	 * @throws \RangeException if $newFeedbackRating is not positive
+	 * @throws \RangeException if $newFeedbackRating is about 5
+	 **/
+	public function setFeedbackRating(int $newFeedbackRating) {
+		// verify the feedbackRating is positve and not too high
+		if($newFeedbackRating < 1) {
+			throw(new \RangeException("please select a ratting between 1 and 5"));
+		}
+		if($newFeedbackRating > 5) {
+			throw(new \RangeException("please select a ratting between 1 and 5"));
+		}
+
+		// convert and store the feedback rating
+		$this->feedbackRating = $newFeedbackRating;
+	}
+
 }

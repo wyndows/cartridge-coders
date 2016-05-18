@@ -173,7 +173,7 @@ class Message implements \JsonSerializable {
 	 * @return int value of recipient id
 	 **/
 	public function getMessageRecipientId() {
-		return ($this->messageRecipientId);
+		return ($this->messageRecipientId);0
 	}
 
 	/**
@@ -226,7 +226,7 @@ class Message implements \JsonSerializable {
 	}
 
 	/**
-	 * accessor for mail gun id
+	 * accessor fo*8r mail gun id
 	 *
 	 * #return string value of message mailgun id
 	 **/
