@@ -507,7 +507,7 @@ class Product implements \JsonSerializable {
 		$query = "SELECT productId, productAccountId, productImageId, productAdminFee, productDescription, productPrice, productShipping, productSold, productTitle FROM product WHERE productAccountId = :productAccountId";
 		$statement = $pdo->prepare($query);
 
-		// bind the product accountid to the place holder in the template
+		// bind the product accountId to the place holder in the template
 		$parameters = array("productAccountId" => $productAccountId);
 		$statement->execute($parameters);
 

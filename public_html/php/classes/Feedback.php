@@ -300,7 +300,7 @@ class Feedback implements \JsonSerializable {
 			if($row !== false) {
 				$feedback = new Feedback($row["feedbackId"], $row["feedbackSenderId"], $row["feedbackProductId"], $row["feedbackRecipientId"], $row["feedbackContent"], $row["feedbackRating"]);
 			}
-		} catch(\exception $exception) {
+		} catch(\Exception $exception) {
 			// if the row coulldn't be converted, rethrow it
 			throw(new \PDOException($exception->getFeedback(), 0, $exception));
 		}
@@ -313,11 +313,76 @@ class Feedback implements \JsonSerializable {
 	 * @param int $partyId id to use for both sender and recipient
 	 * @param int $feedbackSenderId sender id to search for
 	 * @param int $feedbackRecipientId recipient id to search for
-	 * @return \SLPFixedArray SplFixedArray of feedbacks found
+	 * @return \SplFixedArray SplFixedArray of feedbacks found
 	 * @throws \PDOException when mySQl realted erorr occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getFeedbackByFeedbackId(\PDO $pdo, int $partyId) {
-		// sanitize 
+	public static function getFeedbackByPartyId(\PDO $pdo, int $partyId) {
+		// sanitize the partyId before searching
+		if($partyId <=0) {
+			throw(new \PDOException("partyId is not positive"));
+		}
+
+		//create query template
+		$query = "SELECT feedbackId, feedbackSenderId, feedbackProductId, feedbackRecipientId, feedbackContent, feedbackRating FROM feedback WHERE feedbackSenderId = :partyId OR feedbackRecipientId = :partyId";
+		$statement = $pdo->prepare($query);
+
+		// bind the party id to the place holder in the template
+		$parameters = array("partyId" => $partyId);
+		$statement->execute($parameters);
+
+		// build an array of feedbacks
+		$feedbacks = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$feedback = new Feedback($row["feedbackId"], $row["feedbackSenderId"], $row["feedbackProductId"], $row["feedbackRecipientId"], $row["feedbackContent"], $row["feedbackRating"]);
+				$feedbacks[$feedbacks->key()] = $feedback;
+				$feedbacks->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it k
+				throw(new \PDOException($exception->getFeedback(), 0, $exception));
+			}
+		}
+		return ($feedbacks);
+	}
+	
+	/**
+	 * gets feedback by feedbackSenderId
+	 * @param \PDO $pdo connection object
+	 * @param int $feedbackSenderId sender id to search for 
+	 * @return \SplFixedArray SplFixedArray of feedback found 
+	 * @throws \PDOException when mySQL related errors occur 
+	 * @throws \TypeError when variables are not the correct data type 
+	 * 
+	 **/
+	public static function getFeedbackByFeedbackSenderId(\PDO $pdo, int $feedbackSenderId) {
+		// sanitize the feedbackSenderId before searching
+		if($feedbackSenderId <=0) {
+			throw(new \PDOException("senderId is not positive"));
+		}
+
+		//create query template
+		$query = "SELECT feedbackId, feedbackSenderId, feedbackProductId, feedbackRecipientId, feedbackContent, feedbackRating FROM feedback WHERE feedbackSenderId = :feedbackSenderId";;
+		$statement = $pdo->prepare($query);
+
+		// bind the feedbackSender id to the place holder in the template
+		$parameters = array("feedbackSenderId" => $feedbackSenderId);
+		$statement->execute($parameters);
+
+		// build an array of feedbacks
+		$feedbacks = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$feedback = new Feedback($row["feedbackId"], $row["feedbackSenderId"], $row["feedbackProductId"], $row["feedbackRecipientId"], $row["feedbackContent"], $row["feedbackRating"]);
+				$feedbacks[$feedbacks->key()] = $feedback;
+				$feedbacks->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it k
+				throw(new \PDOException($exception->getFeedback(), 0, $exception));
+			}
+		}
+		return ($feedbacks);
 	}
 }
