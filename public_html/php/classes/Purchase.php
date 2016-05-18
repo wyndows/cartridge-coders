@@ -10,7 +10,8 @@ require_once ("autoload.php");
  * @version 1.0.0
  */
 class Purchase implements \JsonSerializable {
-	 use ValidateDate;
+
+	use ValidateDate;
 
 	/**
 	 * id for this purchase; this is the primary key
@@ -141,7 +142,7 @@ class Purchase implements \JsonSerializable {
 	/**
 	 * mutator method for purchase paypal transaction id
 	 *
-	 * @param int|null $newPurchasePayPalTransactionId new value of purchase paypal transaction id
+	 * @param string $newPurchasePayPalTransactionId new value of purchase paypal transaction id
 	 * @throws \RangeException if $newPurchasePayPalTransactionId is not positive
 	 * @throws \TypeError if $newPurchasePayPalTransactionId is not an integer
 	 */
@@ -216,12 +217,180 @@ class Purchase implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["purchaseAccountId" => $this->purchaseAccountId, "purchasePayPalTransactionId" => $this->purchasePayPalTransactionId, "purchaseCreateDate" => $this->purchaseCreateDate->format("Y-m-d H:i:s")];
+		$formattedDate = $this->purchaseCreateDate->format("Y-m-d H:i:s");
+		$parameters = ["purchaseAccountId" => $this->purchaseAccountId, "purchasePayPalTransactionId" => $this->purchasePayPalTransactionId, "purchaseCreateDate" => $formattedDate];
 		$statement->execute($parameters);
 
 		// update the null purchaseId with what mySQL just gave us
 		$this->purchaseId = intval($pdo->lastInsertId());
 	}
+
+	/**
+	 * updates the purchase data in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function update(\PDO $pdo) {
+		// enforce the purchaseId is not null (don't update the purchase data that hasn't been inserted yet
+		if($this->purchaseId === null) {
+			throw(new \PDOException("unable to update the purchase data that doesn't exist"));
+		}
+
+		// create query template
+		$query = "UPDATE purchase SET purchaseAccountId = :purchaseAccountId, purchasePayPalTransactionId = :purchasePayPalTransactionId, purchaseCreateDate = :purchaseCreateDate WHERE purchaseId = :purchaseId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["purchaseAccountId" => $this->purchaseAccountId, "purchasePayPalTransactionId" => $this->purchasePayPalTransactionId, "purchaseCreateDate" => $this->purchaseCreateDate, "purchaseId" => $this->purchaseId];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * deletes this purchase from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function delete(\PDO $pdo) {
+		// enforce the purchaseId is not null (don't delete a purchase that has just been inserted)
+		if($this->purchaseId === null) {
+			throw(new \PDOException("unable to delete a purchase that does not exist"));
+		}
+
+		// create query template
+		$query = "DELETE FROM purchase WHERE purchaseId = :purchaseId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holder in the template
+		$parameters = ["purchaseId" => $this->purchaseId];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * get the purchase by purchaseId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $purchaseId purchase id to search for
+	 * @return Purchase|null purchase found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+	public static function getPurchaseByPurchaseId(\PDO $pdo, int $purchaseId) {
+		// sanitize the purchaseId before searching
+		if($purchaseId <= 0) {
+			throw(new \PDOException("purchase id is not positive"));
+		}
+
+		// create query template
+		$query = "SELECT purchaseId, purchaseAccountId, purchasePayPalTransactionId, purchaseCreateDate FROM purchase WHERE purchaseId = :purchaseId";
+		$statement = $pdo->prepare($query);
+
+		// bind the purchase id to the place holder in the template
+		$parameters = array("purchaseId" => $purchaseId);
+		$statement->execute($parameters);
+
+		// grab the purchase from mySQL
+		try {
+			$purchase = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$purchase = new Purchase($row["purchaseId"], $row["purchaseAccountId"], $row["purchasePayPalTransactionId"], $row["purchaseCreateDate"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($purchase);
+	}
+
+	/**
+	 * get the purchase by purchaseAccountId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $purchaseAccountId purchase accountid to search for
+	 * @return \SplFixedArray SplFixedArray of purchase found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+	public static function getPurchaseByPurchaseAccountId(\PDO $pdo, int $purchaseAccountId) {
+		// sanitize the purchaseAccountId before searching
+		if($purchaseAccountId <= 0) {
+			throw(new \PDOException("purchase accountid is not positive"));
+		}
+
+		// create query template
+		$query = "SELECT purchaseId, purchaseAccountId, purchasePayPalTransactionId, purchaseCreateDate FROM purchase WHERE purchaseAccountId = :purchaseAccountId";
+		$statement = $pdo->prepare($query);
+
+		// bind the purchase accountid to the place holder in the template
+		$parameters = array("purchaseAccountId" => $purchaseAccountId);
+		$statement->execute($parameters);
+
+		// build an array of purchases
+		$purchases = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$purchase = new Purchase($row["purchaseId"], $row["purchaseAccountId"], $row["purchasePayPalTransactionId"], $row["purchaseCreateDate"]);
+				$purchases[$purchases->key()] = $purchase;
+				$purchases->next();
+			}
+			catch
+			(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($purchases);
+	}
+
+	/**
+	 * get the purchase by paypal transaction id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $purchasePayPalTransactionId purchase paypal transaction id to search for
+	 * @return \SplFixedArray SplFixedArray of purchase found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getPurchaseByPurchasePayPalTransactionId(\PDO $pdo, string $purchasePayPalTransactionId) {
+		// sanitize the paypal transaction id before searching
+		$purchasePayPalTransactionId = trim($purchasePayPalTransactionId);
+		$purchasePayPalTransactionId = filter_var($purchasePayPalTransactionId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($purchasePayPalTransactionId) === true) {
+			throw(new \PDOException("purchase paypal transaction id is invalid"));
+		}
+
+		// create query template
+		$query = "SELECT purchaseId, purchaseAccountId, purchasePayPalTransactionId, purchaseCreateDate FROM purchase WHERE purchasePayPalTransactionId LIKE :purchasePayPalTransactionId";
+		$statement = $pdo->prepare($query);
+
+		// bind the purchase paypal transaction id to the place holder in the template
+		$purchasePayPalTransactionId = "%$purchasePayPalTransactionId%";
+		$parameters = array("purchasePayPalTransactionId" => $purchasePayPalTransactionId);
+		$statement->execute($parameters);
+
+		// build an array of purchases
+		$purchases = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$purchase = new Purchase($row["purchaseId"], $row["purchaseAccountId"], $row["purchasePayPalTransactionId"], $row["purchaseCreateDate"]);
+				$purchases[$purchases->key()] = $purchase;
+				$purchases->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($purchases);
+	}
+
+
 
 	/**
 	 * formats the state variables for JSON serialization
