@@ -29,7 +29,7 @@ class PurchaseTest extends CartridgeCodersTest {
 	/**
 	 * content of updated Purchase
 	 * timestamp of Purchase
-	 * @var DateTime $VALID_PURCHASECREATEDATE
+	 * @var \DateTime $VALID_PURCHASECREATEDATE
 	 **/
 	protected $VALID_PURCHASECREATEDATE = null;
 	/**
