@@ -283,7 +283,19 @@ class Feedback implements \JsonSerializable {
 		if($this->feedbackId === null) {
 			throw(new \PDOException("unable to delete feedback that does not exist"));
 		}
+
+		// create query template
+		$query = "DELETE FROM feedback WHERE feedbackId = :feedbackId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holder in the tempalate
+		$parameters = ["feedbackId" => $this->feedbackId];
+		$statement->execute($parameters);
 	}
+
+	/**
+	 * 
+	 **/
 	/**
 	 * gets the feedback by feedback id
 	 *
@@ -439,5 +451,6 @@ class Feedback implements \JsonSerializable {
 		}
 		return ($feedbacks);
 	}
-	
+
+
 }
