@@ -1,9 +1,9 @@
 <?php
-namespace Edu\Cnm\CartridgeCoders\Test;
+namespace Edu\Cnm\CartridgeCoders\test;
 
-use Edu\Cnm\Cartridgecoders\{Purchase, Account};
+use Edu\Cnm\Cartridgecoders\{Purchase, Account, Image};
 
-//parts of this code have been modified from the original, created by Dylan Mcdonald and taken from https://bootcamp-coders.cnm.edu and from Marlan Ball
+//parts of this code have been modified from the original, created by Dylan Mcdonald and taken from https://bootcamp-coders.cnm.edu with assistance from Marlan Ball
 
 // grab the project test parameters
 require_once("CartridgeCodersTest.php");
@@ -19,20 +19,23 @@ require_once(dirname(__DIR__) . "/php/classes/autoload.php");
  *@see Purchase
  *@author Elliot Murrey <emurrey@cnm.edu
  **/
-class Purchase extends CartridgeCodersTest {
+class PurchaseTest extends CartridgeCodersTest {
 	/**
-	 * content of purchase
+	 * the payPall transactionId
+	 * @var string $VALID_PAYPALTRANSACTIONIDVALID
 	 **/
-	protected $VALID_PAYPALTRANSACTIONID = "phpUnit test passing";
+	protected $VALID_PAYPALTRANSACTIONID = "215454we52652665235";
 	/**
 	 * content of updated Purchase
-	 **/
-	
-	/**
 	 * timestamp of Purchase
 	 * @var DateTime $VALID_PURCHASECREATEDATE
 	 **/
 	protected $VALID_PURCHASECREATEDATE = null;
+	/**
+	 * image for account
+	 * @var Image image
+	 **/
+	protected $image = null;
 	/**
 	 * Account that created this Purchase; this is for foreign key relations
 	 * @var Account account
@@ -43,22 +46,25 @@ class Purchase extends CartridgeCodersTest {
 	 * create dependent objects before running each test
 	 **/
 	public final function setUp() {
-		//run the default setUp() method first
+		// run the default setUp() method first
 		parent::setUp();
+		// create and insert an account image to go with the accont
+		$this->image = new Image(null, "fileName", "image/jpg");
+		$this->image->insert($this->getPDO());
 
-		//create and insert a Account to own the test Purchase
-		$this->account = new Account(null, "25", "1", "jamesdean", "james@dean.com", "spar109");
+		// create and insert an account to own this purchase
+		$this->accountId = new Account(null, $this->image->getImageId(), "1", "0", "JamesDean", "JamesDean@gmail.com", "coolguy");
 		$this->account->insert($this->getPDO());
-
-		// calculate the date (just use the time the unit test ws created...)
-		$this->VALID_PURCHASECREATEDATE = new \DateTim();
 	}
 	/**
  	* test inserting a valid Purchase and verify that hte actual mySQL data matches
  	**/
-	public function testInsertValidPurchase(){
-		// cont the number of rows and save it for later
+	public function testInsertValidPurchase() {
+		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("purchase");
+
+		// create a new Purchase and insert to into mySQL
+		$purchase = new Purchase(null, $this->account->VALID_PAYPALTRANSACTIONID, $this->VALID_PURCHASECREATEDATE)
 
 		// grab the data from mySQL and enforce the fields match out expectations
 		$pdoPurchase = Purchase::getPurchaseByPurchaseId($this->getPDO(), $purchase->getPurchaseId());
