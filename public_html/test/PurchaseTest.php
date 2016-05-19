@@ -143,14 +143,8 @@ class PurchaseTest extends CartridgeCodersTest {
 		$purchase = new Purchase(null, $this->purchaseAccountId->getAccountId(), $this->VALID_PAYPALTRANSACTIONID, $this->VALID_PURCHASECREATEDATE);
 		$purchase->insert($this->getPDO());
 
-		//grab the data from mySQL and enforce the fields match our expectations
-		$results = Purchase::getPurchaseByPurchasePayPalTransactionId($this->getPDO(), $purchase->getPurchasePayPalTransactionId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("purchase"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\Purchase", $results);
-
 		// grab the data from mySQL and enforce the fields match out expectations
-		$pdoPurchase = Purchase::getPurchaseByPurchaseId($this->getPDO(), $purchase->getPurchaseId());
+		$pdoPurchase = Purchase::getPurchaseByPurchasePayPalTransactionId($this->getPDO(), $purchase->getPurchaseByPurchasePayPalTransactionId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("purchase"));
 		$this->assertEquals($pdoPurchase->getPurchaseAccountId(), $this->purchaseAccountId->getAccountId());
 		$this->assertEquals($pdoPurchase->getPurchasePayPalTransactionId(), $this->VALID_PAYPALTRANSACTIONID);
