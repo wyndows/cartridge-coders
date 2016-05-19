@@ -81,6 +81,13 @@ class PurchaseTest extends CartridgeCodersTest {
 	}
 
 	/**
+	 *  test isnerting a Purching, editing it, and then updating it
+	 **/
+	public function testUpdateValidPurchase() {
+		// 
+	}
+
+	/**
 	 * test inserting a Purchase that already exists
 	 *
 	 * @expectedException PDOException

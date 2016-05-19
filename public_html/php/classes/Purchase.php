@@ -30,8 +30,8 @@ class Purchase implements \JsonSerializable {
 	private $purchasePayPalTransactionId;
 	/**
 	 * the purchase creation date
-	 * @var string $purchaseCreateDate
-	 */
+	 * @var \DateTime $purchaseCreateDate
+	 **/
 	private $purchaseCreateDate;
 
 
