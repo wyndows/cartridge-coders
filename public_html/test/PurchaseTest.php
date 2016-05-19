@@ -1,7 +1,10 @@
 <?php
 namespace Edu\Cnm\CartridgeCoders\test;
 
-use Edu\Cnm\CartridgeCoders\{Purchase, Account,Image};
+use Edu\Cnm\CartridgeCoders\Purchase;
+use Edu\Cnm\CartridgeCoders\Account;
+use Edu\Cnm\CartridgeCoders\Image;
+
 
 // grab the project test parameters
 require_once("CartridgeCodersTest.php");
