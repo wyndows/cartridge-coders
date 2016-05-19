@@ -1,7 +1,7 @@
 <?php
 
 namespace Edu\Cnm\CartridgeCoders;
-// require_once ("autoload.php);
+require_once ("autoload.php");
 
 /**
  * Feedback class for cartridge coders so account may submit feedback on one another

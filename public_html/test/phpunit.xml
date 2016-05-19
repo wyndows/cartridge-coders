@@ -6,8 +6,9 @@
 			<!--<file>ImageTest.php</file>-->
 			<!--<file>ProductCategoryTest.php</file>-->
 			<!--<file>ProductTest.php</file>-->
-			<file>ProductPurchaseTest.php</file>
+			<!--<file>ProductPurchaseTest.php</file>-->
 			<!--<file>MessageTest.php</file>-->
+			<file>FeedbackTest.php</file>
 		</testsuite>
 	</testsuites>
 	<filter>
