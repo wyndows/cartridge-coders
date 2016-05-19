@@ -85,35 +85,16 @@ class PurchaseTest extends CartridgeCodersTest {
 	 *
 	 * @expectedException PDOException
 	 **/
-	/**public function testInsertInvalidPurchase() {
+	public function testInsertInvalidPurchase() {
 		//create a Purchase with a non null purchase Id and watch it fail
 		$purchase = new Purchase(CartridgeCodersTest::INVALID_KEY, $this->purchaseAccountId->getAccountId(), $this->VALID_PAYPALTRANSACTIONID, $this->VALID_PURCHASECREATEDATE);
 		$purchase->insert($this->getPDO());
 	}
 
-	/**
-	 * test inserting a valid Purchase and verify that hte actual mySQL data matches
-	 **/
-	/**public function testGetValidPurchaseByPurchaseId() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("purchase");
-
-		// create a new Purchase and insert to into mySQL
-		$purchase = new Purchase(null, $this->VALID_PAYPALTRANSACTIONID, $this->VALID_PURCHASECREATEDATE, $this->purchaseAccountId->getAccountId());
-		$purchase->insert($this->getPDO());
-
-		// grab the data from mySQL and enforce the fields match out expectations
-		$pdoPurchase = Purchase::getPurchaseByPurchaseId($this->getPDO(), $purchase->getPurchaseId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("purchase"));
-		$this->assertEquals($pdoPurchase->getPurchaseAccountId(), $this->purchaseAccountId->getAccountId());
-		$this->assertEquals($pdoPurchase->getPurchasePayPalTransactionId(), $this->VALID_PAYPALTRANSACTIONID);
-		$this->assertEquals($pdoPurchase->getPurchaseCreateDate(), $this->VALID_PURCHASECREATEDATE);
-	}
-
-	/**
+		/**
 	 * test grabbing a Purchase that does not exist
 	 **/
-	/**public function testGetInvalidPurchaseByPurchaseId() {
+	public function testGetInvalidPurchaseByPurchaseId() {
 		// grab a purchase id that exceeds the maximum allowable purchase id
 		$purchase = Purchase::getPurchaseByPurchaseId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
 		$this->assertNull($purchase);
@@ -122,12 +103,12 @@ class PurchaseTest extends CartridgeCodersTest {
 	/**
 	 * get purchase by account id
 	 **/
-	/**public function testGetPurchaseByPurchaseAccountId() {
+	public function testGetPurchaseByPurchaseAccountId() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("purchase");
 
 		// create a new Purchase and insert to into mySQL
-		$purchase = new Purchase(null, $this->VALID_PAYPALTRANSACTIONID, $this->VALID_PURCHASECREATEDATE, $this->purchaseAccountId->getAccountId());
+		$purchase = new Purchase(null, $this->purchaseAccountId->getAccountId(), $this->VALID_PAYPALTRANSACTIONID, $this->VALID_PURCHASECREATEDATE);
 		$purchase->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
@@ -147,16 +128,16 @@ class PurchaseTest extends CartridgeCodersTest {
 	/**
 	 * test get purchase by paypal transactionId
 	 **/
-	/**public function testGetPurchaseByPayPalTransactionId() {
+	public function testGetPurchaseByPayPalTransactionId() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("purchase");
 
 		// create a new Purchase and insert to into mySQL
-		$purchase = new Purchase(null, $this->VALID_PAYPALTRANSACTIONID, $this->VALID_PURCHASECREATEDATE, $this->purchaseAccountId->getAccountId());
+		$purchase = new Purchase(null, $this->purchaseAccountId->getAccountId(), $this->VALID_PAYPALTRANSACTIONID, $this->VALID_PURCHASECREATEDATE);
 		$purchase->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
-		$results = Purchase::getPurchaseByPurchaseAccountId($this->getPDO(), $purchase->getPurchasePayPalTransactionId());
+		$results = Purchase::getPurchasePayPalTransactionId($this->getPDO(), $purchase->getPurchasePayPalTransactionId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("purchase"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\Purchase", $results);
@@ -167,6 +148,6 @@ class PurchaseTest extends CartridgeCodersTest {
 		$this->assertEquals($pdoPurchase->getPurchaseAccountId(), $this->purchaseAccountId->getAccountId());
 		$this->assertEquals($pdoPurchase->getPurchasePayPalTransactionId(), $this->VALID_PAYPALTRANSACTIONID);
 		$this->assertEquals($pdoPurchase->getPurchaseCreateDate(), $this->VALID_PURCHASECREATEDATE);
-	}**/
+	}
 	}
 ?>
