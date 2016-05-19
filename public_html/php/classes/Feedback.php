@@ -444,7 +444,7 @@ class Feedback implements \JsonSerializable {
 	public static function getFeedbackByFeedbackRecipientId(\PDO $pdo, int $feedbackRecipientId) {
 		// sanitize the feedbackSenderId before searching
 		if($feedbackRecipientId <= 0) {
-			throw(new \PDOException("senderId is not positive"));
+			throw(new \PDOException("recipientId is not positive"));
 		}
 
 		//create query template
