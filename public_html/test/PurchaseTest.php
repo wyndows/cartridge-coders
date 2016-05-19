@@ -139,7 +139,7 @@ class PurchaseTest extends CartridgeCodersTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("purchase");
 
-		// create a new Purchase and insert to into mySQL
+		// create a new Purchase and insert to  into mySQL
 		$purchase = new Purchase(null, $this->purchaseAccountId->getAccountId(), $this->VALID_PAYPALTRANSACTIONID, $this->VALID_PURCHASECREATEDATE);
 		$purchase->insert($this->getPDO());
 
