@@ -314,6 +314,7 @@ class Feedback implements \JsonSerializable {
 		$parameters = ["feedbackSenderId" => $this->feedbackSenderId, "feedbackProductId" => $this->feedbackProductId, "feedbackRecipientId" => $this->feedbackRecipientId, "feedbackContent" => $this->feedbackContent, "feedbackRating" => $this->feedbackRating, "feedbackId" => $this->feedbackId];
 		$statement->execute($parameters);
 	}
+
 	/**
 	 * gets the feedback by feedback id
 	 *
@@ -471,12 +472,14 @@ class Feedback implements \JsonSerializable {
 	}
 
 
-/**
- * formats the state variables for JSON serialization
- *
- * @return array resulting state variables to serialize
- **/
-public function jsonSerialize() {
-	$fields = get_object_vars($this);
-	return($fields);
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		return ($fields);
+	}
 }
+?>
