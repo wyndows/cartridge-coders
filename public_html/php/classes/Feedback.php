@@ -294,8 +294,26 @@ class Feedback implements \JsonSerializable {
 	}
 
 	/**
-	 * 
+	 * updates this Feedback in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQl related error occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
+	public function update(\PDO $pdo) {
+		// enforce the feedback Id is not null (i.e, don't update feedback that hasn't been inserted yet
+		if($this->feedbackId === null) {
+			throw(new \PDOException("unable to update feedback that does not exist"));
+		}
+
+		// create query template
+		$query = "UPDATE feedback SET feedbackSenderId = :feedbackSenderId, feedbackProductId = :feedbackProductId, feedbackRecipientId = :feedbackRecipientId, feedbackContent = :feedbackcontent, feedbackRating = :feedbackRating WHERE feedbackId = :feedbackId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["feedbackSenderId" => $this->feedbackSenderId, "feedbackProductId" => $this->feedbackProductId, "feedbackRecipientId" => $this->feedbackRecipientId, "feedbackContent" => $this->feedbackContent, "feedbackRating" => $this->feedbackRating, "feedbackId" => $this->feedbackId];
+		$statement->execute($parameters);
+	}
 	/**
 	 * gets the feedback by feedback id
 	 *
@@ -453,4 +471,12 @@ class Feedback implements \JsonSerializable {
 	}
 
 
+/**
+ * formats the state variables for JSON serialization
+ *
+ * @return array resulting state variables to serialize
+ **/
+public function jsonSerialize() {
+	$fields = get_object_vars($this);
+	return($fields);
 }
