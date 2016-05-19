@@ -120,10 +120,9 @@ class Feedback implements \JsonSerializable {
 	 * @throws \UnexpectedValueException if $newFeedbackSenderId is not an integer
 	 * @throws \RangeException if $newFeedbackSenderId is not positive
 	 **/
-	public function setFeedbackSenderId($newFeedbackSenderId) {
-		$newFeedbackSenderId = filter_var($newFeedbackSenderId, FILTER_VALIDATE_INT);
-		if($newFeedbackSenderId === false) {
-			throw(new \UnexpectedValueException("SenderId is not a valid integer"));
+	public function setFeedbackSenderId(int $newFeedbackSenderId) {
+		if($newFeedbackSenderId <= 0) {
+			throw(new \RangeException("feedback recipient id is not positive"));
 		}
 		// convert and store the Account id
 		$this->feedbackSenderId = intval($newFeedbackSenderId);
@@ -172,11 +171,11 @@ class Feedback implements \JsonSerializable {
 	 * @throws \UnexpectedValueException if $newFeedbackRecipientId is not an integer
 	 * @throws \RangeException if the $newFeedbackRecipientId is not positive
 	 **/
-	public function setFeedbackRecipientId($newFeedbackRecipientId) {
-		$newFeedbackRecipientId = filter_var($newFeedbackRecipientId, FILTER_VALIDATE_INT);
-		if($newFeedbackRecipientId === false) {
-			throw(new \UnexpectedValueException("Feedback RecipientId is not a valid integer"));
+	public function setFeedbackRecipientId(int $newFeedbackRecipientId) {
+		if($newFeedbackRecipientId <= 0) {
+			throw(new \RangeException("feedback recipient id is not positive"));
 		}
+
 		// confirm the feedbackRecipientId is positive
 		if($newFeedbackRecipientId <= 0) {
 			throw(new \RangeException("feedbackRecipientIdis not positive"));
