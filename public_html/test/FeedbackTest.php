@@ -56,7 +56,7 @@ class FeedbackTest extends CartridgeCodersTest {
 	 * Account that submitted the feedback this is a foreign key relations
 	 * @var Account sender
 	 **/
-	protected $feedbackSenderId = null;
+		protected $feedbackSenderId = null;
 	/**
 	 * product that the feeback is about
 	 * @var Product productId
@@ -117,7 +117,7 @@ class FeedbackTest extends CartridgeCodersTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("feedback"));
 		$this->assertEquals($pdoFeedback->getFeedbackSenderId(), $this->feedbackSenderId->getAccountId());
 		$this->assertEquals($pdoFeedback->getFeedbackProductId(), $this->feedbackProductId->getProductId());
-		$this->assertEquals($pdoFeedback->getFeedbackRecipientid(), $this->feedbackRecipientId->getAccountId());
+		$this->assertEquals($pdoFeedback->getFeedbackRecipientId(), $this->feedbackRecipientId->getAccountId());
 		$this->assertEquals($pdoFeedback->getFeedbackContent(), $this->VALID_FEEDBACKCONTENT);
 		$this->assertEquals($pdoFeedback->getFeedbackRating(), $this->VALID_FEEDBACKRATING);
 	}
@@ -207,7 +207,7 @@ class FeedbackTest extends CartridgeCodersTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCOunt("feedback"));
 		$this->assertEquals($pdoFeedback->getFeedbackSenderId(), $this->feedbackSenderId->getAccountId());
 		$this->assertEquals($pdoFeedback->getFeedbackProductId(), $this->feedbackProductId->getProductId());
-		$this->assertEquals($pdoFeedback->getFeedbackRecipientid(), $this->feedbackRecipientId->getAccountId());
+		$this->assertEquals($pdoFeedback->getFeedbackRecipientId(), $this->feedbackRecipientId->getAccountId());
 		$this->assertEquals($pdoFeedback->getFeedbackContent(), $this->VALID_FEEDBACKCONTENT);
 		$this->assertEquals($pdoFeedback->getFeedbackRating(), $this->VALID_FEEDBACKRATING);
 	}

@@ -47,7 +47,7 @@ class Purchase implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 */
-	public function __construct(int $newPurchaseId = null, int $newPurchaseAccountId, string $newPurchasePayPalTransactionId, string $newPurchaseCreateDate) {
+	public function __construct(int $newPurchaseId = null, int $newPurchaseAccountId, string $newPurchasePayPalTransactionId, $newPurchaseCreateDate = null) {
 		try {
 			$this->setPurchaseId($newPurchaseId);
 			$this->setPurchaseAccountId($newPurchaseAccountId);
