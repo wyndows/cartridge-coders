@@ -232,7 +232,7 @@ class Purchase implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 */
-	public function update(\PDO $pdo) {
+	/**public function update(\PDO $pdo) {
 		// enforce the purchaseId is not null (don't update the purchase data that hasn't been inserted yet
 		if($this->purchaseId === null) {
 			throw(new \PDOException("unable to update the purchase data that doesn't exist"));
@@ -254,7 +254,7 @@ class Purchase implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 */
-	public function delete(\PDO $pdo) {
+	/**public function delete(\PDO $pdo) {
 		// enforce the purchaseId is not null (don't delete a purchase that has just been inserted)
 		if($this->purchaseId === null) {
 			throw(new \PDOException("unable to delete a purchase that does not exist"));

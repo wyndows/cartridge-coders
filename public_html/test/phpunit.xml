@@ -8,7 +8,7 @@
 			<!--<file>ProductTest.php</file>-->
 			<!--<file>ProductPurchaseTest.php</file>-->
 			<!--<file>MessageTest.php</file>-->
-			<!--<file>FeedbackTest.php</file>-->
+			<file>FeedbackTest.php</file>
 			<file>PurchaseTest.php</file>
 		</testsuite>
 	</testsuites>

@@ -137,7 +137,7 @@ class PurchaseTest extends CartridgeCodersTest {
 		$purchase->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
-		$results = Purchase::getPurchasePayPalTransactionId($this->getPDO(), $purchase->getPurchasePayPalTransactionId());
+		$results = Purchase::getPurchaseByPurchasePayPalTransactionId($this->getPDO(), $purchase->getPurchasePayPalTransactionId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("purchase"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\Purchase", $results);
