@@ -72,9 +72,9 @@ class PurchaseTest extends CartridgeCodersTest {
 
 		// grab the data from mySQL and enforce the fields match out expectations
 		$pdoPurchase = Purchase::getPurchaseByPurchaseId($this->getPDO(), $purchase->getPurchaseId());
-		$this->assertEquals($numbRows + 1, $this->getConnection()->getRowCount("purchase"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("purchase"));
 		$this->assertEquals($pdoPurchase->getPurchaseAccountId(), $this->purchaseAccountId->getAccountId());
-		$this->assertEquals($pdoPurchase->getPurchasePayPalTransactionId(), $this->VALID_PAYPALTRANSACTIONID));
+		$this->assertEquals($pdoPurchase->getPurchasePayPalTransactionId(), $this->VALID_PAYPALTRANSACTIONID);
 		$this->assertEquals($pdoPurchase->getPurchaseCreateDate(), $this->VALID_PURCHASECREATEDATE);
 	}
 
@@ -88,6 +88,7 @@ class PurchaseTest extends CartridgeCodersTest {
 		$purchase = new Purchase(CartridgeCodersTest::INVALID_KEY, $this->purchaseAccountId->getAccountId(), $this->VALID_PAYPALTRANSACTIONID, $this->VALID_PURCHASECREATEDATE);
 		$purchase->insert($this->getPDO());
 	}
+
 	/**
 	 * test inserting a valid Purchase and verify that hte actual mySQL data matches
 	 **/
@@ -101,8 +102,18 @@ class PurchaseTest extends CartridgeCodersTest {
 
 		// grab the data from mySQL and enforce the fields match out expectations
 		$pdoPurchase = Purchase::getPurchaseByPurchaseId($this->getPDO(), $purchase->getPurchaseId());
-		$this->assertEquals($numbRows + 1, $this->getConnection()->getRowCount("purchase"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("purchase"));
 		$this->assertEquals($pdoPurchase->getPurchaseAccountId(), $this->purchaseAccountId->getAccountId());
-		$this->assertEquals($pdoPurchase->getPurchasePayPalTransactionId(), $this->VALID_PAYPALTRANSACTIONID));
+		$this->assertEquals($pdoPurchase->getPurchasePayPalTransactionId(), $this->VALID_PAYPALTRANSACTIONID);
 		$this->assertEquals($pdoPurchase->getPurchaseCreateDate(), $this->VALID_PURCHASECREATEDATE);
+	}
+	/**
+	 * test grabbing a Purchase that does not exist
+	 **/
+	public function testGetInvalidPurchaseByPurchaseId() {
+		// grab a purchase id that exceeds the maximum allowable purchase id
+		$purchase = Purchase::getPurchaseByPurchaseId($this->getPDO(), CartridgeCodersTest::INVALID_KEY);
+		$this->assertNull($purchase);
+	}
 }
+?>
