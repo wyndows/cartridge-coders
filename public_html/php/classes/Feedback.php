@@ -65,7 +65,7 @@ class Feedback implements \JsonSerializable {
 			throw(new\TypeError($typeError->getFeedback(), 0, $typeError));
 		} catch(\UnexpectedValueException $exception) {
 			// rethrow to the caller
-			throw(new \UnexpectedValueException("unable to contruct Feedback",0, $exception));
+			throw(new \UnexpectedValueException("unable to contruct Feedback", 0, $exception));
 		} catch(\RangeException $range) {
 			// rethrow the exception tot he caller
 			throw(new \RangeException($range->getFeedback(), 0, $range));
@@ -104,6 +104,7 @@ class Feedback implements \JsonSerializable {
 		// convert and store the feedback id
 		$this->feedbackId = intval($newFeedbackId);
 	}
+
 	/**
 	 * accessor method for feedbackSender id
 	 *
@@ -139,7 +140,7 @@ class Feedback implements \JsonSerializable {
 
 	/**
 	 * mutator method for product id
-	 * @param int $newFeedbackProductId new value of product id 
+	 * @param int $newFeedbackProductId new value of product id
 	 * @throws \UnexpectedValueException if $newFeedbackProductId is not a valid integer
 	 * @throws \RangeException if the $newFeedbackProductId is not positive
 	 **/
@@ -149,8 +150,8 @@ class Feedback implements \JsonSerializable {
 			throw(new \UnexpectedValueException("productId is not a valid integer"));
 		}
 		// confirm product id is positive
-		if($newFeedbackProductId <=0) {
-			throw(new \unexpectedValueException("product id is not positive"));
+		if($newFeedbackProductId <= 0) {
+			throw(new \UnexpectedValueException("product id is not positive"));
 		}
 		// covert and store the product id
 		$this->feedbackProductId = intval($newFeedbackProductId);
@@ -166,10 +167,10 @@ class Feedback implements \JsonSerializable {
 	}
 
 	/**
-	 * mutator method for feedbackRecipientId 
+	 * mutator method for feedbackRecipientId
 	 * @param int $newFeedbackRecipientId new value of feedbackRecipientId
 	 * @throws \UnexpectedValueException if $newFeedbackRecipientId is not an integer
-	 * @throws \RangeException if the $newFeedbackRecipientId is not positive 
+	 * @throws \RangeException if the $newFeedbackRecipientId is not positive
 	 **/
 	public function setFeedbackRecipientId($newFeedbackRecipientId) {
 		$newFeedbackRecipientId = filter_var($newFeedbackRecipientId, FILTER_VALIDATE_INT);
@@ -183,6 +184,7 @@ class Feedback implements \JsonSerializable {
 		// covert and store the account id
 		$this->feedbackRecipientId = intval($newFeedbackRecipientId);
 	}
+
 	/**
 	 * accessor for feedbackContent
 	 *
@@ -262,20 +264,34 @@ class Feedback implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		//bind the member variable to the place holder int he template
-		$parameters = ["feedbackSenderId" => $this-$this->feedbackSenderId, "feedbackProductId" => $this->feedbackProductId, "feedbackRecipientId" => $this->feedbackRecipientId, "feedbackContent" => $this->feedbackContent, "feedbackRating" => $this->feedbackRating];
+		$parameters = ["feedbackSenderId" => $this - $this->feedbackSenderId, "feedbackProductId" => $this->feedbackProductId, "feedbackRecipientId" => $this->feedbackRecipientId, "feedbackContent" => $this->feedbackContent, "feedbackRating" => $this->feedbackRating];
 		$statement->execute($parameters);
 
 		// update teh null feedbackId with what mySQl jast gave us
 		$this->feedbackId = intval($pdo->lastInsertId());
 	}
+
+	/**
+	 * deletes the Feedback from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connectino object
+	 **/
+	public function delete(\PDO $pdo) {
+		// enforce the feedbackId is not null (i.e., don't delete a feedback that hasn't been inserted
+		if($this->feedbackId === null) {
+			throw(new \PDOException("unable to delete feedback that does not exist"));
+		}
+	}
 	/**
 	 * gets the feedback by feedback id
 	 *
-	 *@param \PDO $pdo PDO connection object
-	 *@param int $feedbackId feedback id to search for
-	 *@return Feedback|null Feedback found or null if not found
-	 *@throws \PDOException when mySQl related errors occur
-	 *@throws \TypeError when variables are not the correct data Type
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $feedbackId feedback id to search for
+	 * @return Feedback|null Feedback found or null if not found
+	 * @throws \PDOException when mySQl related errors occur
+	 * @throws \TypeError when variables are not the correct data Type
 	 **/
 	public static function getFeedbackByFeedbackId(\PDO $pdo, int $feedbackId) {
 		// sanitize the feedback before searching
@@ -294,7 +310,7 @@ class Feedback implements \JsonSerializable {
 		// grab the message from mySQL
 		try {
 			$feedback = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSCO);
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
 				$feedback = new Feedback($row["feedbackId"], $row["feedbackSenderId"], $row["feedbackProductId"], $row["feedbackRecipientId"], $row["feedbackContent"], $row["feedbackRating"]);
@@ -318,7 +334,7 @@ class Feedback implements \JsonSerializable {
 	 **/
 	public static function getFeedbackByPartyId(\PDO $pdo, int $partyId) {
 		// sanitize the partyId before searching
-		if($partyId <=0) {
+		if($partyId <= 0) {
 			throw(new \PDOException("partyId is not positive"));
 		}
 
@@ -345,19 +361,19 @@ class Feedback implements \JsonSerializable {
 		}
 		return ($feedbacks);
 	}
-	
+
 	/**
 	 * gets feedback by feedbackSenderId
 	 * @param \PDO $pdo connection object
-	 * @param int $feedbackSenderId sender id to search for 
-	 * @return \SplFixedArray SplFixedArray of feedback found 
-	 * @throws \PDOException when mySQL related errors occur 
-	 * @throws \TypeError when variables are not the correct data type 
-	 * 
+	 * @param int $feedbackSenderId sender id to search for
+	 * @return \SplFixedArray SplFixedArray of feedback found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 *
 	 **/
 	public static function getFeedbackByFeedbackSenderId(\PDO $pdo, int $feedbackSenderId) {
 		// sanitize the feedbackSenderId before searching
-		if($feedbackSenderId <=0) {
+		if($feedbackSenderId <= 0) {
 			throw(new \PDOException("senderId is not positive"));
 		}
 
@@ -396,7 +412,7 @@ class Feedback implements \JsonSerializable {
 	 **/
 	public static function getFeedbackByFeedbackRecipientId(\PDO $pdo, int $feedbackRecipientId) {
 		// sanitize the feedbackSenderId before searching
-		if($feedbackRecipientId <=0) {
+		if($feedbackRecipientId <= 0) {
 			throw(new \PDOException("senderId is not positive"));
 		}
 
@@ -422,4 +438,6 @@ class Feedback implements \JsonSerializable {
 			}
 		}
 		return ($feedbacks);
+	}
+	
 }
