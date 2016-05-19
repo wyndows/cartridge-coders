@@ -221,7 +221,7 @@ class Feedback implements \JsonSerializable {
 	 * @return int value of Feedback rating
 	 **/
 	public function getFeedbackRating() {
-		return ($this->feedbackContent);
+		return ($this->feedbackRating);
 	}
 
 	/**

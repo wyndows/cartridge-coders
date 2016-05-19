@@ -268,7 +268,7 @@ class FeedbackTest extends CartridgeCodersTest {
 		$feedback->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match out expectations
-		$results = Feedback::getFeedbackByFeedbackSenderId($this->getPDO(), $feedback->getFeedbackRecipientId());
+		$results = Feedback::getFeedbackByFeedbackSenderId($this->getPDO(), $feedback->getFeedbackSenderId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("feedback"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\Feedback", $results);

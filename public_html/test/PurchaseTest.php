@@ -1,7 +1,9 @@
 <?php
 namespace Edu\Cnm\CartridgeCoders\test;
 
-use Edu\Cnm\Cartridgecoders\{Purchase, Account, Image};
+use Edu\Cnm\Cartridgecoders\{
+	Purchase, Account, Image
+};
 
 //parts of this code have been modified from the original, created by Dylan Mcdonald and taken from https://bootcamp-coders.cnm.edu with assistance from Marlan Ball
 
@@ -16,8 +18,8 @@ require_once(dirname(__DIR__) . "/php/classes/autoload.php");
  *
  * This is a an attempt at TDD testing.
  *
- *@see Purchase
- *@author Elliot Murrey <emurrey@cnm.edu
+ * @see Purchase
+ * @author Elliot Murrey <emurrey@cnm.edu
  **/
 class PurchaseTest extends CartridgeCodersTest {
 	/**
@@ -40,7 +42,7 @@ class PurchaseTest extends CartridgeCodersTest {
 	 * Account that created this Purchase; this is for foreign key relations
 	 * @var Account account
 	 **/
-	protected $account = null;
+	protected $purchaseAccountId = null;
 
 	/**
 	 * create dependent objects before running each test
@@ -53,36 +55,54 @@ class PurchaseTest extends CartridgeCodersTest {
 		$this->image->insert($this->getPDO());
 
 		// create and insert an account to own this purchase
-		$this->accountId = new Account(null, $this->image->getImageId(), "1", "0", "JamesDean", "JamesDean@gmail.com", "coolguy");
-		$this->account->insert($this->getPDO());
+		$this->purchaseAccountId = new Account(null, $this->image->getImageId(), "1", "0", "JamesDean", "JamesDean@gmail.com", "coolguy");
+		$this->purchaseAccountId->insert($this->getPDO());
 	}
+
 	/**
- 	* test inserting a valid Purchase and verify that hte actual mySQL data matches
- 	**/
+	 * test inserting a valid Purchase and verify that hte actual mySQL data matches
+	 **/
 	public function testInsertValidPurchase() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("purchase");
 
 		// create a new Purchase and insert to into mySQL
-		$purchase = new Purchase(null, $this->account->VALID_PAYPALTRANSACTIONID, $this->VALID_PURCHASECREATEDATE)
+		$purchase = new Purchase(null, $this->VALID_PAYPALTRANSACTIONID, $this->VALID_PURCHASECREATEDATE, $this->purchaseAccountId->getAccountId());
+		$purchase->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match out expectations
 		$pdoPurchase = Purchase::getPurchaseByPurchaseId($this->getPDO(), $purchase->getPurchaseId());
 		$this->assertEquals($numbRows + 1, $this->getConnection()->getRowCount("purchase"));
-		$this->assertEquals($pdoPurchase->getAccountId(), $this->account->getAccountId());
-		$this->assertEquals($pdoPurchase->getPurchasePayPalTransactionId(),$this->purchasePayPalTransaction->getPurchasePayPalTransactionId());
-		$this->assertEquals($pdoPurchase->getPurchaseCreateDate(), $this->valid_PURCHASECREATEDATE);
-}
-/**
- * test inserting a Purchase that already exists
- *
- * @expectedException PDOException
- **/
-	public function testInsertInvalidPurchase() {
-		//count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount(Purchase);
+		$this->assertEquals($pdoPurchase->getPurchaseAccountId(), $this->purchaseAccountId->getAccountId());
+		$this->assertEquals($pdoPurchase->getPurchasePayPalTransactionId(), $this->VALID_PAYPALTRANSACTIONID));
+		$this->assertEquals($pdoPurchase->getPurchaseCreateDate(), $this->VALID_PURCHASECREATEDATE);
+	}
 
-		//create a new Purchase and insert to into mySQL
-		$
-}
+	/**
+	 * test inserting a Purchase that already exists
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testInsertInvalidPurchase() {
+		//create a Purchase with a non null purchase Id and watch it fail
+		$purchase = new Purchase(CartridgeCodersTest::INVALID_KEY, $this->purchaseAccountId->getAccountId(), $this->VALID_PAYPALTRANSACTIONID, $this->VALID_PURCHASECREATEDATE);
+		$purchase->insert($this->getPDO());
+	}
+	/**
+	 * test inserting a valid Purchase and verify that hte actual mySQL data matches
+	 **/
+	public function testGetValidPurchaseByPurchaseId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("purchase");
+
+		// create a new Purchase and insert to into mySQL
+		$purchase = new Purchase(null, $this->VALID_PAYPALTRANSACTIONID, $this->VALID_PURCHASECREATEDATE, $this->purchaseAccountId->getAccountId());
+		$purchase->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match out expectations
+		$pdoPurchase = Purchase::getPurchaseByPurchaseId($this->getPDO(), $purchase->getPurchaseId());
+		$this->assertEquals($numbRows + 1, $this->getConnection()->getRowCount("purchase"));
+		$this->assertEquals($pdoPurchase->getPurchaseAccountId(), $this->purchaseAccountId->getAccountId());
+		$this->assertEquals($pdoPurchase->getPurchasePayPalTransactionId(), $this->VALID_PAYPALTRANSACTIONID));
+		$this->assertEquals($pdoPurchase->getPurchaseCreateDate(), $this->VALID_PURCHASECREATEDATE);
 }
