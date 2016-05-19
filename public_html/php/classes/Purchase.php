@@ -224,50 +224,7 @@ class Purchase implements \JsonSerializable {
 		// update the null purchaseId with what mySQL just gave us
 		$this->purchaseId = intval($pdo->lastInsertId());
 	}
-// wondering if we need this
-	/**
-	 * updates the purchase data in mySQL
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	/**public function update(\PDO $pdo) {
-		// enforce the purchaseId is not null (don't update the purchase data that hasn't been inserted yet
-		if($this->purchaseId === null) {
-			throw(new \PDOException("unable to update the purchase data that doesn't exist"));
-		}
 
-		// create query template
-		$query = "UPDATE purchase SET purchaseAccountId = :purchaseAccountId, purchasePayPalTransactionId = :purchasePayPalTransactionId, purchaseCreateDate = :purchaseCreateDate WHERE purchaseId = :purchaseId";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders in the template
-		$parameters = ["purchaseAccountId" => $this->purchaseAccountId, "purchasePayPalTransactionId" => $this->purchasePayPalTransactionId, "purchaseCreateDate" => $this->purchaseCreateDate, "purchaseId" => $this->purchaseId];
-		$statement->execute($parameters);
-	}
-// wondering if we need this? 
-	/**
-	 * deletes this purchase from mySQL
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	/**public function delete(\PDO $pdo) {
-		// enforce the purchaseId is not null (don't delete a purchase that has just been inserted)
-		if($this->purchaseId === null) {
-			throw(new \PDOException("unable to delete a purchase that does not exist"));
-		}
-
-		// create query template
-		$query = "DELETE FROM purchase WHERE purchaseId = :purchaseId";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holder in the template
-		$parameters = ["purchaseId" => $this->purchaseId];
-		$statement->execute($parameters);
-	}
 
 	/**
 	 * get the purchase by purchaseId
@@ -366,28 +323,26 @@ class Purchase implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT purchaseId, purchaseAccountId, purchasePayPalTransactionId, purchaseCreateDate FROM purchase WHERE purchasePayPalTransactionId LIKE :purchasePayPalTransactionId";
+		$query = "SELECT purchaseId, purchaseAccountId, purchasePayPalTransactionId, purchaseCreateDate FROM purchase WHERE purchasePayPalTransactionId = :purchasePayPalTransactionId";
 		$statement = $pdo->prepare($query);
 
-		// bind the purchase paypal transaction id to the place holder in the template
-		$purchasePayPalTransactionId = "%$purchasePayPalTransactionId%";
+		// bind the paypal transaction id to the place holder in the template
 		$parameters = array("purchasePayPalTransactionId" => $purchasePayPalTransactionId);
 		$statement->execute($parameters);
 
-		// build an array of purchases
-		$purchases = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
+		// grab the purchase from mySQL
+		try {
+			$purchase = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
 				$purchase = new Purchase($row["purchaseId"], $row["purchaseAccountId"], $row["purchasePayPalTransactionId"], $row["purchaseCreateDate"]);
-				$purchases[$purchases->key()] = $purchase;
-				$purchases->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($purchases);
+		return ($purchase);
 	}
 
 	
@@ -398,6 +353,7 @@ class Purchase implements \JsonSerializable {
 	 */
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
+		$fields["purchaseCreateDate"] = intval($this->purchaseCreateDate->format("U")) * 1000;
 		return ($fields);
 	}
 }

@@ -88,7 +88,7 @@ class Feedback implements \JsonSerializable {
 	 * @throws \RangeException if the $newFeedbackId is not positive
 	 * @throws \UnexpectedValueException if $newFeedbackId is not an integer
 	 **/
-	public function setFeedbackId($newFeedbackId) {
+	public function setFeedbackId(int $newFeedbackId = null) {
 		if($newFeedbackId === null) {
 			$this->feedbackId = null;
 			return;
@@ -143,10 +143,9 @@ class Feedback implements \JsonSerializable {
 	 * @throws \UnexpectedValueException if $newFeedbackProductId is not a valid integer
 	 * @throws \RangeException if the $newFeedbackProductId is not positive
 	 **/
-	public function setFeedbackProductId($newFeedbackProductId) {
-		$newFeedbackProductId = filter_var($newFeedbackProductId, FILTER_VALIDATE_INT);
-		if($newFeedbackProductId === false) {
-			throw(new \UnexpectedValueException("productId is not a valid integer"));
+	public function setFeedbackProductId(int $newFeedbackProductId) {
+		if($newFeedbackProductId <= 0) {
+			throw(new \RangeException("feedback product id is not positive"));
 		}
 		// confirm product id is positive
 		if($newFeedbackProductId <= 0) {
@@ -200,7 +199,7 @@ class Feedback implements \JsonSerializable {
 	 * @throws \UnexpectedValueException if $newMessageContent is not valid
 	 * @throws \RangeException if the $newMessageContent exceeds varv 255
 	 **/
-	public function setFeedbackContent($newFeedbackContent) {
+	public function setFeedbackContent(string $newFeedbackContent) {
 		// verify the message content is valid
 		$newFeedbackContent = filter_var($newFeedbackContent, FILTER_SANITIZE_STRING);
 		if($newFeedbackContent === false) {
@@ -432,7 +431,7 @@ class Feedback implements \JsonSerializable {
 	}
 
 	/**
-	 * gets feedback by feedbackSenderId
+	 * gets feedback by feedbackRecipientId
 	 * @param \PDO $pdo connection object
 	 * @param int $feedbackRecipientId sender id to search for
 	 * @return \SplFixedArray SplFixedArray of feedback found
