@@ -55,8 +55,10 @@ class PurchaseTest extends CartridgeCodersTest {
 		$this->image->insert($this->getPDO());
 
 		// create and insert an account to own this purchase
-		$this->purchaseAccountId = new Account(null, $this->image->getImageId(), "1", "0", "JamesDean", "JamesDean@gmail.com", "jimmy");
+		$this->purchaseAccountId = new Account(null, $this->image->getImageId(), 1, 0, "JamesDean", "JamesDean@gmail.com", "jimmy");
 		$this->purchaseAccountId->insert($this->getPDO());
+		
+		$this->VALID_PURCHASECREATEDATE = new \DateTime();
 	}
 
 	/**
