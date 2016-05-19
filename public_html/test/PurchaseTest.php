@@ -1,11 +1,7 @@
 <?php
 namespace Edu\Cnm\CartridgeCoders\test;
 
-use Edu\Cnm\Cartridgecoders\{
-	Purchase, Account, Image
-};
-
-//parts of this code have been modified from the original, created by Dylan Mcdonald and taken from https://bootcamp-coders.cnm.edu with assistance from Marlan Ball
+use Edu\Cnm\CartridgeCoders\{Purchase, Account,Image};
 
 // grab the project test parameters
 require_once("CartridgeCodersTest.php");
@@ -19,7 +15,7 @@ require_once(dirname(__DIR__) . "/php/classes/autoload.php");
  * This is a an attempt at TDD testing.
  *
  * @see Purchase
- * @author Elliot Murrey <emurrey@cnm.edu
+ * @author Elliot Murrey <emurrey@cnm.edu /parts of this code have been modified from the original, created by Dylan Mcdonald and taken from https://bootcamp-coders.cnm.edu with assistance from Marlan Ball
  **/
 class PurchaseTest extends CartridgeCodersTest {
 	/**
@@ -50,7 +46,7 @@ class PurchaseTest extends CartridgeCodersTest {
 	public final function setUp() {
 		// run the default setUp() method first
 		parent::setUp();
-		// create and insert an account image to go with the accont
+		// create and insert an account image to go with the account
 		$this->image = new Image(null, "fileName", "image/jpg");
 		$this->image->insert($this->getPDO());
 

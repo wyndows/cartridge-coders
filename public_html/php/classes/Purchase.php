@@ -224,7 +224,7 @@ class Purchase implements \JsonSerializable {
 		// update the null purchaseId with what mySQL just gave us
 		$this->purchaseId = intval($pdo->lastInsertId());
 	}
-
+// wondering if we need this
 	/**
 	 * updates the purchase data in mySQL
 	 *
@@ -246,7 +246,7 @@ class Purchase implements \JsonSerializable {
 		$parameters = ["purchaseAccountId" => $this->purchaseAccountId, "purchasePayPalTransactionId" => $this->purchasePayPalTransactionId, "purchaseCreateDate" => $this->purchaseCreateDate, "purchaseId" => $this->purchaseId];
 		$statement->execute($parameters);
 	}
-
+// wondering if we need this? 
 	/**
 	 * deletes this purchase from mySQL
 	 *
