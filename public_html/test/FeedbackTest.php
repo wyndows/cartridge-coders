@@ -22,6 +22,9 @@
 namespace Edu\Cnm\CartridgeCoders\test;
 use Edu\Cnm\CartridgeCoders\{Feedback,Product,Account,Image};
 
+// grab the project test parameters
+require_once("CartridgeCodersTest.php");
+
 // grab the project from test parameters
 require_once(dirname(__DIR__) . "/php/classes/autoload.php");
 
@@ -38,7 +41,7 @@ class FeedbackTest extends CartridgeCodersTest {
 	 * content of the feedback
 	 * @var string $VALID_FEEDBACKCONTENT
 	 **/
-	protected $VALID_FEEDBACKCONTENT = "yay lets go";
+	protected $VALID_FEEDBACKCONTENT = "PHPUnit test Passing";
 	/**
 	 * content of the updated feedback
 	 * @var String $VALID_FEEDBACKCONTENT2
@@ -83,7 +86,7 @@ class FeedbackTest extends CartridgeCodersTest {
 		parent::setUp();
 		// create and insert an account image for the test Feedback
 		$this->image = new Image(null, "fileName", "image/jpg");
-		$this->insert($this->getPDO());
+		$this->image->insert($this->getPDO());
 
 		// create and insert an account to write the test Feedback
 		$this->feedbackSenderId = new Account(null, $this->image->getImageId(), "1", "0", "JamesDean", "JamesDean@gmail.com", "coolguy");
@@ -144,14 +147,14 @@ class FeedbackTest extends CartridgeCodersTest {
 
 		// edit the Feedback and update it in mySQL
 		$feedback->setFeedbackContent($this->VALID_FEEDBACKCONTENT2);
-		$feedback->updated($this->getPDO());
+		$feedback->update($this->getPDO());
 
 		// grab the data from mySQl and enforce the fields match our expectations
 		$pdoFeedback = Feedback::getFeedbackByFeedbackId($this->getPDO(), $feedback->getFeedbackId());
-		$this->assertEquals($numRows + 1, $this->getConnectiong()->getRowCount("feedback"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("feedback"));
 		$this->assertEquals($pdoFeedback->getFeedbackSenderId(), $this->feedbackSenderId->getAccountId());
 		$this->assertEquals($pdoFeedback->getFeedbackProductId(), $this->feedbackProductId->getProductId());
-		$this->assertEquals($pdoFeedback->getFeedbackRecipientid(), $this->feedbackRecipientId->getAccountId());
+		$this->assertEquals($pdoFeedback->getFeedbackRecipientId(), $this->feedbackRecipientId->getAccountId());
 		$this->assertEquals($pdoFeedback->getFeedbackContent(), $this->VALID_FEEDBACKCONTENT2);
 		$this->assertEquals($pdoFeedback->getFeedbackRating(), $this->VALID_FEEDBACKRATING);
 	}
@@ -168,13 +171,13 @@ class FeedbackTest extends CartridgeCodersTest {
 		$feedback->insert($this->getPDO());
 
 		//delete the Tweet from mySQL
-		$this->assertEquals($numRows = 1, $this->getConnection()->getRowCount("feedback"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("feedback"));
 		$feedback->delete($this->getPDO());
 
 		// grab the data from mySQl and enforce the Feedback does not exist
 		$pdoFeedback = Feedback::getFeedbackByFeedbackId($this->getPDO(), $feedback->getFeedbackId());
 		$this->assertNull($pdoFeedback);
-		$this->assertEquals($numRows, $this->getConnection() - getRowCount("feedback"));
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("feedback"));
 	}
 
 	/**

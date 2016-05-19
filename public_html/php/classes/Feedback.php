@@ -246,7 +246,7 @@ class Feedback implements \JsonSerializable {
 	}
 
 	/**
-	 * insert Feedback into mySQL
+	 * insert feedback into mySQL
 	 *
 	 * @param \PDO $pdo - PDO connection object
 	 * @throws \PDOException when mySQL errors occur
@@ -260,11 +260,11 @@ class Feedback implements \JsonSerializable {
 		}
 
 		// create a query template
-		$query = "INSERT INTO feedback(feedbackSenderId, feedbackProductId, feedbackRecipientId, feedbackContent, feedbackRating) VALUES(:feedbackSender, :feedbackProductId, :feedbackRecipientId, :feedbackContetn, :feedbackRating)";
+		$query = "INSERT INTO feedback(feedbackSenderId, feedbackProductId, feedbackRecipientId, feedbackContent, feedbackRating) VALUES(:feedbackSenderId, :feedbackProductId, :feedbackRecipientId, :feedbackContent, :feedbackRating)";
 		$statement = $pdo->prepare($query);
 
-		//bind the member variable to the place holder int he template
-		$parameters = ["feedbackSenderId" => $this - $this->feedbackSenderId, "feedbackProductId" => $this->feedbackProductId, "feedbackRecipientId" => $this->feedbackRecipientId, "feedbackContent" => $this->feedbackContent, "feedbackRating" => $this->feedbackRating];
+		//bind the member variable to the place holder in the template
+		$parameters = ["feedbackSenderId" => $this->feedbackSenderId, "feedbackProductId" => $this->feedbackProductId, "feedbackRecipientId" => $this->feedbackRecipientId, "feedbackContent" => $this->feedbackContent, "feedbackRating" => $this->feedbackRating];
 		$statement->execute($parameters);
 
 		// update teh null feedbackId with what mySQl jast gave us
@@ -307,7 +307,7 @@ class Feedback implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "UPDATE feedback SET feedbackSenderId = :feedbackSenderId, feedbackProductId = :feedbackProductId, feedbackRecipientId = :feedbackRecipientId, feedbackContent = :feedbackcontent, feedbackRating = :feedbackRating WHERE feedbackId = :feedbackId";
+		$query = "UPDATE feedback SET feedbackSenderId = :feedbackSenderId, feedbackProductId = :feedbackProductId, feedbackRecipientId = :feedbackRecipientId, feedbackContent = :feedbackContent, feedbackRating = :feedbackRating WHERE feedbackId = :feedbackId";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
@@ -448,10 +448,10 @@ class Feedback implements \JsonSerializable {
 		}
 
 		//create query template
-		$query = "SELECT feedbackId, feedbackSenderId, feedbackProductId, feedbackRecipientId, feedbackContent, feedbackRating FROM feedback WHERE feedbackSenderId = :feedbackSenderId";;
+		$query = "SELECT feedbackId, feedbackSenderId, feedbackProductId, feedbackRecipientId, feedbackContent, feedbackRating FROM feedback WHERE feedbackRecipientId = :feedbackRecipientId";;
 		$statement = $pdo->prepare($query);
 
-		// bind the feedbackSender id to the place holder in the template
+		// bind the feedbackRecipient id to the place holder in the template
 		$parameters = array("feedbackRecipientId" => $feedbackRecipientId);
 		$statement->execute($parameters);
 

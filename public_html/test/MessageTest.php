@@ -15,7 +15,7 @@
  **/
 
 
-namespace Edu\Cnm\CartridgeCoders\Test;
+namespace Edu\Cnm\CartridgeCoders\test;
 use Edu\Cnm\CartridgeCoders\{Message,Product,Account,Image};
 
 // grab the project test parameters
