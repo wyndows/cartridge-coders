@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\CartridgeCoders\Test
+namespace Edu\Cnm\CartridgeCoders\Test;
 
 use Edu\Cnm\Cartridgecoders\{Purchase, Account};
 
@@ -42,7 +42,7 @@ class Purchase extends CartridgeCodersTest {
 	/**
 	 * create dependent objects before running each test
 	 **/
-	public final fuction setUp() {
+	public final function setUp() {
 		//run the default setUp() method first
 		parent::setUp();
 

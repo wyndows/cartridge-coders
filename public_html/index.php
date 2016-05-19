@@ -2,7 +2,10 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>welcome </title>
+		<title>ROMuLess</title>
 	</head>
-	<body></body>
+	<body>
+		Welcome to ROMuLess.com
+		A site for selling and buying game cartridges from the consoles of days gone by.
+	</body>
 </html>

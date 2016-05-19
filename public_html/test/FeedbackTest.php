@@ -292,7 +292,7 @@ class FeedbackTest extends CartridgeCodersTest {
 	}
 	
 	/**
-	 * test getting feedback by feedbackSenderId
+	 * test getting feedback by feedbackRecipientId
 	 **/
 	public function testGetValidFeedbackByFeedbackRecipientId() {
 		// count the number of rows and save it for later
@@ -318,7 +318,7 @@ class FeedbackTest extends CartridgeCodersTest {
 	}
 
 	/**
-	 * test grabbing Feedback by feedback sender id that does not exist
+	 * test grabbing Feedback by feedback recipient id that does not exist
 	 **/
 	public function testGetInvalidFeedbackByRecipientId() {
 		// grab feedback by search for feedbackSender id that does not exist
