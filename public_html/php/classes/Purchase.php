@@ -209,8 +209,7 @@ class Purchase implements \JsonSerializable {
 		if($this->purchaseId !== null) {
 			throw(new \PDOException("not a new purchase"));
 		}
-
-//		var_dump($this->purchasePayPalTransactionId);
+		
 
 		// create query template
 		$query = "INSERT INTO purchase(purchaseAccountId, purchasePayPalTransactionId, purchaseCreateDate) VALUES(:purchaseAccountId, :purchasePayPalTransactionId, :purchaseCreateDate)";
