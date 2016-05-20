@@ -102,7 +102,7 @@ class Feedback implements \JsonSerializable {
 			throw(new \RangeException("no no no feedback id is not valid"));
 		}
 		// convert and store the feedback id
-		$this->feedbackId = intval($newFeedbackId);
+		$this->feedbackId = $newFeedbackId;
 	}
 
 	/**
@@ -125,7 +125,7 @@ class Feedback implements \JsonSerializable {
 			throw(new \RangeException("feedback recipient id is not positive"));
 		}
 		// convert and store the Account id
-		$this->feedbackSenderId = intval($newFeedbackSenderId);
+		$this->feedbackSenderId = $newFeedbackSenderId;
 	}
 
 	/**
@@ -152,7 +152,7 @@ class Feedback implements \JsonSerializable {
 			throw(new \UnexpectedValueException("product id is not positive"));
 		}
 		// covert and store the product id
-		$this->feedbackProductId = intval($newFeedbackProductId);
+		$this->feedbackProductId = $newFeedbackProductId;
 	}
 
 	/**
@@ -180,7 +180,7 @@ class Feedback implements \JsonSerializable {
 			throw(new \RangeException("feedbackRecipientIdis not positive"));
 		}
 		// covert and store the account id
-		$this->feedbackRecipientId = intval($newFeedbackRecipientId);
+		$this->feedbackRecipientId = $newFeedbackRecipientId;
 	}
 
 	/**
@@ -266,7 +266,7 @@ class Feedback implements \JsonSerializable {
 		$statement->execute($parameters);
 
 		// update teh null feedbackId with what mySQl jast gave us
-		$this->feedbackId = intval($pdo->lastInsertId());
+		$this->feedbackId = $pdo->lastInsertId();
 	}
 
 	/**
