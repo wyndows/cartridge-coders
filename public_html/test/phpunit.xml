@@ -1,7 +1,7 @@
 <phpunit>
 	<testsuites>
 		<testsuite name="Cartridge Coders">
-			 <file>CategoryTest.php</file>
+			<file>CategoryTest.php</file>
 			<file>AccountTest.php</file>
 			<file>ImageTest.php</file>
 			<file>ProductCategoryTest.php</file>
