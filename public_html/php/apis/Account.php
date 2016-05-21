@@ -102,42 +102,44 @@ try{
 		verifyXsrf();
 
 		// retrieve the Account to be deleted
+		$account = DataDesign\Account::getAccountByAccountId($pdo, $id);
+		if($account === null) {
+			throw(new RuntimeException("Account does not exist", 404));
+		}
+
+		// delete account
+		$account->delete($pdo);
+
+		// update reply
+		$reply->message = "Account deleted ok";
+	} else {
+		throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}
 
-
+	// update reply with exception information
+	} catch(Exception $exception){
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+	$reply->trace = $exception->getTraceAsString();
+} catch(TypeError $typeError) {
+	$reply->status = $typeError->getCode();
+	$reply->message = $typeError->getMessage();
 }
 
+header("Content-type: application/json");
+if($reply->data === null) {
+	unset($reply->data);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// encode and return reply to front end caller
+echo json_encode($reply);
 
 
 //GET - all Accounts
 //GET - Account by ID
 //POST - new Account (create id)
 //PUT - update Account by Id
-
+//DELETE - deletes an Account by Id
 
 ?>
 
