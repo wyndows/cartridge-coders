@@ -77,7 +77,31 @@ try{
 			}
 
 			// put the new Account content into the account and update
+			$account->setAccountContent($requestObject->accountContent);
+			$account->update($pdo);
+
+			// update reply
+			$reply->message = "Account updated OK";
+
+		} else if($method === "POST") {
+
+			// make sure accountIf is available
+			if(empty($requestObject->accountId) === true) {
+				throw(new \InvalidArgumentException ("No Account Id", 405));
+			}
+
+			// create new account and insert into database
+			$account = new DataDesign\Account(null, $requestObject->accountId, $requestObject->accountContent, null);
+			$account->insert($pdo);;
+
+			// update reply
+			$reply->message = "Account created OK";
 		}
+
+	} else if($method === "DELETE") {
+		verifyXsrf();
+
+		// retrieve the Account to be deleted
 	}
 
 
