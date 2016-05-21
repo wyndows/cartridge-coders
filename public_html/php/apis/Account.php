@@ -26,9 +26,61 @@ $reply->data = null;
 try{
 	// grab the mySQL connection
 	$pdo=connectToEncryptedMySQL("/etc/apache2/capstone-mysql/cartridge.ini");
-	
+
 	// determine which HTTP method was used
-	$method =
+	$method = array_key_exist("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+
+	//sanitize input
+	$id=filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+
+	// make sure the id is valid for methods that require it
+	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
+		throw(new InvalidArgumentException("id can not be empty or negative", 405));
+	}
+
+	// handle GET request - if id is present, that account is returned, otherwise all accounts are returned
+	if($method === "GET"){
+		// set XSRF cookie
+		setXsrfCookie();
+
+		// get a specific account or all accounts and update reply
+		if(empty($id) === false) {
+			$account = DataDesign\Account::getAccountByAccountId($pdo, $id);
+			if($account !== null) {
+				$reply->data = $account;
+			}
+		} else {
+			$accounts = DataDesign\Account::getAllAccounts($pdo);
+			if($accounts !== null) {
+				$reply->data = $accounts;
+			}
+		}
+	} else if($method === "PUT" || $method === "POST"){
+
+		verifyXsrf();
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
+
+		// make sure account content is available
+		if(empty($requestObject->accountContent) === true) {
+			throw(new \InvalidArgumentException ("No content for Account", 405));
+		}
+
+
+		// perform actual put or post
+		if($method === "PUT") {
+
+			// retrieve the account to update
+			$account = DataDesign\Account::getAccountByAccountId($pdo, $id);
+			if($account === null) {
+				throw(new RuntimeException("Account does not exist", 404));
+			}
+
+			// put the new Account content into the account and update
+		}
+	}
+
+
 }
 
 
