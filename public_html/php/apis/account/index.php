@@ -53,7 +53,7 @@ try {
 				$reply->data = $account;
 			}
 		} else {
-			$accounts = CartridgeCoders\Account::getAllValidAccounts($pdo);
+			$accounts = CartridgeCoders\Account::getAllAccounts($pdo);
 			if($accounts !== null) {
 				$reply->data = $accounts;
 			}
