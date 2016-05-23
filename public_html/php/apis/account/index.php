@@ -7,8 +7,6 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 use Edu\Cnm\CartridgeCoders;
 
 
-
-
 /**
  * api for Account Class
  *
@@ -65,8 +63,8 @@ try {
 		$requestObject = json_decode($requestContent);
 
 		// make sure account content is available
-		if(empty($requestObject->accountContent) === true) {
-			throw(new \InvalidArgumentException ("No content for Account", 405));
+		if(empty($requestObject->accountName) === true) {
+			throw(new \InvalidArgumentException ("No content for account - get it together already.", 405));
 		}
 
 
@@ -80,7 +78,7 @@ try {
 			}
 
 			// put the new Account content into the account and update
-			$account->setAccountContent($requestObject->accountContent);
+			$account->setAccountContent($requestObject->accountImageId, $requestObject->accountActive, $requestObject->accountAdmin, $requestObject->accountName, $requestObject->accountPpEmail, $requestObject->accountUserName);
 			$account->update($pdo);
 
 			// update reply
@@ -89,12 +87,12 @@ try {
 		} else if($method === "POST") {
 
 			// make sure accountIf is available
-			if(empty($requestObject->accountId) === true) {
+			if(empty($requestObject->accountImageId) === true) {
 				throw(new \InvalidArgumentException ("No Account Id", 405));
 			}
 
 			// create new account and insert into database
-			$account = new CartridgeCoders\Account(null, $requestObject->accountId, $requestObject->accountContent, null);
+			$account = new CartridgeCoders\Account(null, $requestObject->accountImageId, $requestObject->accountActive, $requestObject->accountAdmin, $requestObject->accountName, $requestObject->accountPpEmail, $requestObject->accountUserName);
 			$account->insert($pdo);
 
 			// update reply
