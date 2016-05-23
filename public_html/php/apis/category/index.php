@@ -50,7 +50,7 @@ try {
 			if($category !== null) {
 				$reply->data = $category;
 			}
-		}  else {
+		} else {
 			$categories = CartridgeCoders\Category::getAllCategories($pdo);
 			if($categories !== null) {
 				$reply->data = $categories;
@@ -84,19 +84,19 @@ try {
 			// update reply
 			$reply->message = "Category updated OK";
 
-//		} else if($method === "POST") {
+		} else if($method === "POST") {
 
 			//  make sure profileId is available
 //			if(empty($requestObject->profileId) === true) {
 //				throw(new \InvalidArgumentException ("No Profile ID.", 405));
 //			}
 //
-//			 create new category and insert into the database
-//			$category = new CartridgeCoders\Category(null, $requestObject->profileId, $requestObject->categoryName, null);
-//			$category->insert($pdo);
+			// create new category and insert into the database
+			$category = new CartridgeCoders\Category(null, $requestObject->categoryName);
+			$category->insert($pdo);
 
 			// update reply
-//			$reply->message = "Category created OK";
+			$reply->message = "Category created OK";
 		}
 
 	} else if($method === "DELETE") {
