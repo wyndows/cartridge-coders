@@ -678,7 +678,7 @@ public function testUpdateValidAccountPpEmail() {
 	/**
 	 * test grabbing all Accounts
 	 **/
-	public function testGetAllValidAccounts() {
+	public function testGetAllAccounts() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("account");
 
@@ -687,7 +687,7 @@ public function testUpdateValidAccountPpEmail() {
 		$account->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Account::getAllValidAccounts($this->getPDO());
+		$results = Account::getAllAccounts($this->getPDO());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\Account", $results);

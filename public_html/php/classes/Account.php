@@ -623,7 +623,7 @@ class Account implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getAllValidAccounts(\PDO $pdo) {
+	public static function getAllAccounts(\PDO $pdo) {
 		// create query template
 		$query = "SELECT accountId, accountImageId, accountActive, accountAdmin, accountName, accountPpEmail, accountUserName FROM account";
 		$statement = $pdo->prepare($query);

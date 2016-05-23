@@ -1,10 +1,13 @@
 <?php
 
-require_once "../classes/autoload.php";
-require_once "../lib/xsrf.php";
-require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
+require_once dirname(__DIR__, 2) . "/classes/autoload.php";
+require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
+require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\CartridgeCoders\DataDesign;
+use Edu\Cnm\CartridgeCoders;
+
+
+
 
 /**
  * api for Account Class
@@ -14,7 +17,7 @@ use Edu\Cnm\CartridgeCoders\DataDesign;
  */
 
 // verify the session, start if not active
-if(session_start() !== PHP_SESSION_ACTIVE){
+if(session_start() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
 
@@ -23,15 +26,15 @@ $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
 
-try{
+try {
 	// grab the mySQL connection
-	$pdo=connectToEncryptedMySQL("/etc/apache2/capstone-mysql/cartridge.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/cartridge.ini");
 
 	// determine which HTTP method was used
-	$method = array_key_exist("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//sanitize input
-	$id=filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 
 	// make sure the id is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
@@ -39,23 +42,23 @@ try{
 	}
 
 	// handle GET request - if id is present, that account is returned, otherwise all accounts are returned
-	if($method === "GET"){
+	if($method === "GET") {
 		// set XSRF cookie
 		setXsrfCookie();
 
 		// get a specific account or all accounts and update reply
 		if(empty($id) === false) {
-			$account = DataDesign\Account::getAccountByAccountId($pdo, $id);
+			$account = CartridgeCoders\Account::getAccountByAccountId($pdo, $id);
 			if($account !== null) {
 				$reply->data = $account;
 			}
 		} else {
-			$accounts = DataDesign\Account::getAllAccounts($pdo);
+			$accounts = CartridgeCoders\Account::getAllValidAccounts($pdo);
 			if($accounts !== null) {
 				$reply->data = $accounts;
 			}
 		}
-	} else if($method === "PUT" || $method === "POST"){
+	} else if($method === "PUT" || $method === "POST") {
 
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
@@ -71,7 +74,7 @@ try{
 		if($method === "PUT") {
 
 			// retrieve the account to update
-			$account = DataDesign\Account::getAccountByAccountId($pdo, $id);
+			$account = CartridgeCoders\Account::getAccountByAccountId($pdo, $id);
 			if($account === null) {
 				throw(new RuntimeException("Account does not exist", 404));
 			}
@@ -91,18 +94,19 @@ try{
 			}
 
 			// create new account and insert into database
-			$account = new DataDesign\Account(null, $requestObject->accountId, $requestObject->accountContent, null);
+			$account = new CartridgeCoders\Account(null, $requestObject->accountId, $requestObject->accountContent, null);
 			$account->insert($pdo);
 
 			// update reply
 			$reply->message = "Account created OK";
-		} 
+		}
+
 
 	} else if($method === "DELETE") {
 		verifyXsrf();
 
 		// retrieve the Account to be deleted
-		$account = DataDesign\Account::getAccountByAccountId($pdo, $id);
+		$account = CartridgeCoders\Account::getAccountByAccountId($pdo, $id);
 		if($account === null) {
 			throw(new RuntimeException("Account does not exist", 404));
 		}
@@ -117,7 +121,7 @@ try{
 	}
 
 	// update reply with exception information
-	} catch(Exception $exception){
+} catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 	$reply->trace = $exception->getTraceAsString();
