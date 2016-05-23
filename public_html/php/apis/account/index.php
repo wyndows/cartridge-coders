@@ -92,7 +92,7 @@ try{
 
 			// create new account and insert into database
 			$account = new DataDesign\Account(null, $requestObject->accountId, $requestObject->accountContent, null);
-			$account->insert($pdo);;
+			$account->insert($pdo);
 
 			// update reply
 			$reply->message = "Account created OK";
