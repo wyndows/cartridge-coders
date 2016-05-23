@@ -96,7 +96,7 @@ try{
 
 			// update reply
 			$reply->message = "Account created OK";
-		}
+		} 
 
 	} else if($method === "DELETE") {
 		verifyXsrf();
