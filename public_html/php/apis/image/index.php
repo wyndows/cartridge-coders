@@ -1,10 +1,10 @@
 <?php
-
-require_once "autoloader.php";
-require_once "/lib/xsrf.php";
-require_once("//apache2/cartridge-coders-mysql/encrypted-config.php");
-
 use Edu\Cnm\CartridgeCoders;
+
+require_once dirname(__DIR__, 2) . "/classes/autoload.php";
+require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
+require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
+
 
 
 /**
@@ -25,16 +25,16 @@ $reply->data = null;
 
 try {
 	// grab the mySQL connection
-	$pdo = connectionToEncrytptionMySQL("/etc/apache2/capstone-mysql/image.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/cartridge.ini");
 
-	//determin which HTTP method was used
+	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//sanitize input
-	$id = filter_input*(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 
 	//make sure the id is valid for methods that require it
-	if((method === "DELETE" || $method === "PUT") && (empty($id) === true || $idk < 0)) {
+	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
 		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
 
@@ -46,14 +46,15 @@ try {
 		
 		//get a specific image or all images and update reply 
 		if(empty($id) === false) {
-			$image = CartridgeCoders\Image::getImageByImageId($pdo, $id);
-			if($images !== null) {
-				$reply->data = $images;
+
+			$image = CartridgeCoders\Image::getImageFileNameByImageId($pdo, $id);
+			if($image !== null) {
+				$reply->data = $image;
 			}
 		} else {
-			$images = CartridgeCoders\Image::getAllImages($pdo);
+			$images = CartridgeCoders\Image::getAllImageFileNames($pdo);
 			if($images !== null) {
-				$reply->data = $image;
+				$reply->data = $images;
 			}
 		}
 	} else if($method === "PUT" || $method === "POST") {
@@ -64,20 +65,20 @@ try {
 
 		//make sure image content is available
 		if(empty($requestObject->image) === true) {
-			throw(new \InvalidArgumentExceptions ("no content for image.", 405));
+			throw(new \InvalidArgumentException ("no content for image.", 405));
 		}
 
-		//perforn the actual put or post
+		//perform the actual put or post
 		if($method === "put") {
 
-			// retrieve the iimage to update
+			// retrieve the image to update
 			$image = CartridgeCoders\Image::getImageFileNameByImageId($pdo, $id);
 			if($image === null){
 				throw(new RuntimeException("Image Dows not exist", 404));
 			}
 
-			// put the new image conent into the image and update
-			$image->setImageContent($requestObject->ImageContent);
+			// put the new image file name into the image and update
+			$image->setImageFileName($requestObject->ImageContent);
 			$image->update($pdo);
 
 			//update reply
@@ -85,12 +86,12 @@ try {
 
 		}else if($method === "POST") {
 
-			// make sure imageId is availbe
+			// make sure imageId is availabe
 			if(empty($requestObject->imageId) === true) {
 				throw(new \InvalidArgumentException ("no Image Id.", 405));
 			}
 
-			// crate new Image and insert into the datebase
+			// create new Image and insert into the datebase
 			$image = new CartridgeCoders\Image(null, $requestObject->imageFileName, $requestObject->imageType);
 			$image->insert($pdo);
 
@@ -105,17 +106,17 @@ try {
 		if($image === null) {
 			throw(new RuntimeException("Image does not exist", 404));
 		}
-
+// I should delete this delete?
 		// delete image
-		$image->delete($pdo);
+//		$image->delete($pdo);
 
 		// update reply
-		$reply->message = "Image deleted OK";
-	} else {
-		throw (new InvalidArgumentException("Invalid HTTP method request"));
+//		$reply->message = "Image deleted OK";
+//	} else {
+//		throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}
 
-	// update reply with exceptooin information
+	// update reply with exception information
 } catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 	<!-- head utils contains the entire <head> tag -->
 	<?php require_once("php/partials/head-utils.php"); ?>
