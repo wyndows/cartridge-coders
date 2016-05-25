@@ -91,7 +91,44 @@ try {
 			}
 
 			// crate new Image and insert into the datebase
-			$image = new CartridgeCoders\Image(null, )
+			$image = new CartridgeCoders\Image(null, $requestObject->imageFileName, $requestObject->imageType);
+			$image->insert($pdo);
+
+			// update reply
+			$reply->image = "Image crate ok";
 		}
+	} else if($method === "DELETE") {
+		verifyXsrf();
+
+		// retrieve the Image to be deleted
+		$image = CartridgeCoders\Image::getImageFileNameByImageId($pdo, $id);
+		if($image === null) {
+			throw(new RuntimeException("Image does not exist", 404));
+		}
+
+		// delete image
+		$image->delete($pdo);
+
+		// update reply
+		$reply->message = "Image deleted OK";
+	} else {
+		throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}
+
+	// update reply with exceptooin information
+} catch(Exception $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+	$reply->trace = $exception->getTraceAsString();
+} catch(TypeError $typeError) {
+	$reply->status = $typeError->getCode();
+	$reply->message = $typeError->getMessage();
 }
+
+header("Content-type: application/json");
+if($reply->data === null) {
+	unset($reply->data);
+}
+
+// encode and return reply to front end caller
+echo json_encode($reply);
