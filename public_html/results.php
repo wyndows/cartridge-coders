@@ -1,5 +1,4 @@
-<?php require('paypal_login.inc.php') ?>
-<!-- https://www.sitepoint.com/implement-user-log-paypal/ -----------------------------------  -->
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -12,24 +11,20 @@
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-		<title>Login with PayPal - Demo App</title>
+		<title>Login with PayPal - v2</title>
 
-		<style type="text/css">
-			body {
-				text-align: center;
-				padding:20px;
-			}
-		</style>
+
 	</head>
 	<body>
-		<h1>Login with PayPal - Demo App</h1>
+
+		<h1>Login with PayPal - v2</h1>
 		<p>Great! Now you are a member of our site.</p>
 
 		<hr/>
 
 		<h2>Your Data</h2>
-		<p><b>Name:</b> <?php echo htmlspecialchars_decode($user->given_name . ' ' . $user->family_name); ?></p>
-		<p><b>Address:</b> <?php echo htmlspecialchars_decode($user->address->street_address . ', ' . $user->address->locality); ?></p>
+<!--		<p><b>Name:</b> --><?php //echo htmlspecialchars_decode($userinfo->name); ?><!--</p>-->
+<!--		<p><b>Email:</b> --><?php //echo htmlspecialchars_decode($userinfo->email); ?><!--</p>-->
 
 		<hr/>
 

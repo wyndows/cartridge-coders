@@ -34,6 +34,11 @@
 							<br>
 							<br>
 							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
 							<!-- PayPal test code begin -----------------------------------------------------------------  -->
 <!--							<span id='lippButton'></span>-->
 <!--							<script src='https://www.paypalobjects.com/js/external/api.js'></script>-->
@@ -55,34 +60,67 @@
 <!--							</script>-->
 							<!-- PayPal test code 2.0 begin -------------------------------------------------------------  -->
 							<!-- https://www.sitepoint.com/implement-user-log-paypal/ -----------------------------------  -->
-							<br>
-							<br>
-							<br>
-							<br>
-							<br>
-									<h1>Login with PayPal - v2</h1>
-									<p>Welcome! No boring signup here. Just use the following button to login.</p>
-									<hr/>
 
-							<span id='lippButton'></span>
-							<script src='https://www.paypalobjects.com/js/external/api.js'></script>
-							<script>
-								paypal.use(['login'], function(login) {
-									login.render({
+<!--									<h1>Login with PayPal - v2</h1>-->
+<!--									<p>Welcome! No boring signup here. Just use the following button to login.</p>-->
+<!--									<hr/>-->
+<!--							<span id='lippButton'></span>-->
+<!--							<script src='https://www.paypalobjects.com/js/external/api.js'></script>-->
+<!--							<script>-->
+<!--								paypal.use(['login'], function(login) {-->
+<!--									login.render({-->
 										"appid": "AWoiHG8w-yaeYyODSBIzJ-awWkLVPo7G9zWJMomAFeMTVw5wyRG_b2pyYxl7a7wB7ByjVLJ0aQ6FdVDj",
-										"authend": "sandbox",
-										"scopes": "openid profile email",
-										"containerid": "lippButton",
-										"locale": "en-us",
-										"theme": "neutral",
-										"returnurl": "https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html/results.php"
-									});
-								});
-							</script>
+<!--										"authend": "sandbox",-->
+<!--										"scopes": "openid profile email",-->
+<!--										"containerid": "lippButton",-->
+<!--										"locale": "en-us",-->
+<!--										"theme": "neutral",-->
+<!--										"returnurl": "https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html/index.php"-->
+<!--									});-->
+<!--								});-->
+<!--							</script>-->
+<!--														<script>-->
+<!--							<script>-->
+<!--								top.window.opener.location ='https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html/index.php';-->
+<!--								// if you want to close the window-->
+<!--								// window.close();-->
+<!--							</script>-->
+<!--														</script>-->
+<!-- PayPal test code 2.0 end -----------------------------------------------------------------  -->
 
 
 
-<!-- PayPal test code end -----------------------------------------------------------------  -->
+
+
+							<!-- PayPal test code 3.0 begin -------------------------------------------------------------  -->
+							<!-- https://www.sitepoint.com/implement-user-log-paypal/ -----------------------------------  -->
+<!--							https://devtools-paypal.com/guide/openid/php?interactive=ON&env=sandbox-->
+
+							<h1>Login with PayPal - v2</h1>
+							<p>Welcome! No boring signup here. Just use the following button to login.</p>
+							<hr/>
+							$apicontext = new PPApiContext(array('mode' => 'sandbox'));
+							$clientId = "AWoiHG8w-yaeYyODSBIzJ-awWkLVPo7G9zWJMomAFeMTVw5wyRG_b2pyYxl7a7wB7ByjVLJ0aQ6FdVDj";
+							$clientSecret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+							$scope = array('openid', 'email', 'name');
+							$redirectUri = 'https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html/results.php';
+							$openidurl = PPOpenIdSession::getAuthorizationUrl($redirectUri, $scope , $clientId,  $apicontext);
+							<!--														<script>-->
+							<!--							<script>-->
+							<!--								top.window.opener.location ='https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html/index.php';-->
+							<!--								// if you want to close the window-->
+							<!--								// window.close();-->
+							<!--							</script>-->
+							<!--														</script>-->
+							<!-- PayPal test code 3.0 end -----------------------------------------------------------------  -->
+
+
+
+
+
+
+
+
 						</div>
 					</div>
 				</div><!-- ?.container-->
