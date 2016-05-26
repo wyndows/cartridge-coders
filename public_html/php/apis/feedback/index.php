@@ -40,21 +40,6 @@ try {
 		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
 
-	//make sure the party id is valid for the method that requires it
-	if(($method === "GET") && (empty($partyId) === true || $partyId < 0)) {
-		throw(new InvalidArgumentException("party id cannot be empty or negative", 405));
-	}
-
-	//make sure the sender id is valid for the method that requires it
-	if(($method === "GET") && (empty($senderId) === true || $senderId < 0)) {
-		throw(new InvalidArgumentException("sender id cannot be empty or negative", 405));
-	}
-
-	//make sure the recipient id is valid for the method that requires it
-	if(($method === "GET") && (empty($recipientId) === true || $recipientId < 0)) {
-		throw(new InvalidArgumentException("recipient id cannot be empty or negative", 405));
-	}
-
 	// handle GET request - if id is present, that feedback is returned
 	if($method === "GET") {
 		//set XSRF cookie
@@ -66,117 +51,107 @@ try {
 			if($feedback !== null) {
 				$reply->data = $feedback;
 			}
-		}
-
-		//get feedbacks by party id and update reply
-		if(empty($partyId) === false) {
+			//get feedbacks by party id and update reply
+		} elseif(empty($partyId) === false) {
 			$feedbacks = CartridgeCoders\Feedback::getFeedbackByPartyId($pdo, $partyId);
 			if($feedbacks !== null) {
 				$reply->data = $feedbacks;
 			}
-
 			//get feedbacks by sender id and update reply
-			if(empty($senderId) === false) {
-				$feedbacks = CartridgeCoders\Feedback::getFeedbackByFeedbackSenderId($pdo, $senderId);
-				if($feedbacks !== null) {
-					$reply->data = $feedbacks;
-				}
-
-				//get feedbacks by recipient id and update reply
-				if(empty($partyId) === false) {
-					$feedbacks = CartridgeCoders\Feedback::getFeedbackByFeedbackRecipientId($pdo, $recipientId);
-					if($feedbacks !== null) {
-						$reply->data = $feedbacks;
-					}
-
-
-				} else if($method === "PUT" || $method === "POST") {
-
-					verifyXsrf();
-					$requestContent = file_get_contents("php://input");
-					$requestObject = json_decode($requestContent);
-
-					//make sure feedback content is available
-					if(empty($requestObject->feedbackContent) === true) {
-						throw(new \InvalidArgumentException ("No content in feedback.", 405));
-					}
-					//make sure feedback rating is available
-					if(empty($requestObject->feedbackRating) === true) {
-						throw(new \InvalidArgumentException ("No rating in feedback.", 405));
-					}
-
-					//perform the actual put or post
-					if($method === "PUT") {
-
-						// update feedback content if it needs updated
-						if(($requestObject->feedbackContent) === true) {
-
-							// retrieve the feedback to update
-							$feedback = CartridgeCoders\Feedback::getFeedbackByFeedbackId($pdo, $id);
-							if($feedback === null) {
-								throw(new RuntimeException("Feedback does not exist", 404));
-							}
-
-							// put the new feedback content into the feedback and update
-							$feedback->setFeedbackContent($requestObject->feedbackContent);
-							$feedback->update($pdo);
-
-							// update reply
-							$reply->message = "Feedback updated OK";
-
-							// update feedback rating if it needs updated
-						}
-						if(($requestObject->feedbackRating) === true) {
-
-							// retrieve the feedback to update
-							$feedback = CartridgeCoders\Feedback::getFeedbackByFeedbackId($pdo, $id);
-							if($feedback === null) {
-								throw(new RuntimeException("Feedback does not exist", 404));
-							}
-
-							// put the new feedback rating into the feedback and update
-							$feedback->setFeedbackRating($requestObject->feedbackRating);
-							$feedback->update($pdo);
-
-							// update reply
-							$reply->message = "Feedback updated OK";
-
-						} else if($method === "POST") {
-
-							//  make sure senderId or recipientId is available
-							if(empty($requestObject->feedbackSenderId) === true || empty($requestObject->feedbackRecipientId) === true) {
-								throw(new \InvalidArgumentException ("No Sender or Recipient ID.", 405));
-							}
-
-							// create new feedback and insert into the database
-							$feedback = new CartridgeCoders\Feedback(null, $requestObject->feedbackSenderId, $requestObject->feedbackProductId, $requestObject->feedbackRecipientId, $requestObject->feedbackContent, $requestObject->feedbackRating);
-							$feedback->insert($pdo);
-
-							// update reply
-							$reply->message = "Feedback created OK";
-						}
-
-					} else if($method === "DELETE") {
-						verifyXsrf();
-
-						// retrieve the Feedback to be deleted
-						$feedback = CartridgeCoders\Feedback::getFeedbackByFeedbackId($pdo, $id);
-						if($feedback === null) {
-							throw(new RuntimeException("Feedback does not exist", 404));
-						}
-
-						// delete feedback
-						$feedback->delete($pdo);
-
-						// update reply
-						$reply->message = "Feedback deleted OK";
-					} else {
-						throw (new InvalidArgumentException("Invalid HTTP method request"));
-					}
-				}
+		} elseif(empty($senderId) === false) {
+			$feedbacks = CartridgeCoders\Feedback::getFeedbackByFeedbackSenderId($pdo, $senderId);
+			if($feedbacks !== null) {
+				$reply->data = $feedbacks;
+			}
+			//get feedbacks by recipient id and update reply
+		} else {
+			$feedbacks = CartridgeCoders\Feedback::getFeedbackByFeedbackRecipientId($pdo, $recipientId);
+			if($feedbacks !== null) {
+				$reply->data = $feedbacks;
 			}
 		}
+
+	} else if($method === "PUT" || $method === "POST") {
+
+		verifyXsrf();
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
+
+		//make sure feedback content or feedback rating is available
+		if(empty($requestObject->feedbackContent) === true && empty($requestObject->feedbackRating) === true) {
+			throw(new \InvalidArgumentException ("No content or rating in feedback.", 405));
+		}
+
+		//perform the actual put or post
+		if($method === "PUT") {
+
+			// update feedback content if it needs updated
+			if(empty($requestObject->feedbackContent) !== true) {
+
+				// retrieve the feedback to update
+				$feedback = CartridgeCoders\Feedback::getFeedbackByFeedbackId($pdo, $id);
+				if($feedback === null) {
+					throw(new RuntimeException("Feedback does not exist", 404));
+				}
+
+				// put the new feedback content into the feedback and update
+				$feedback->setFeedbackContent($requestObject->feedbackContent);
+				$feedback->update($pdo);
+
+				// update reply
+				$reply->message = "Feedback updated OK";
+
+				// update feedback rating if it needs updated
+			} else if(empty($requestObject->feedbackRating) !== true) {
+
+				// retrieve the feedback to update
+				$feedback = CartridgeCoders\Feedback::getFeedbackByFeedbackId($pdo, $id);
+				if($feedback === null) {
+					throw(new RuntimeException("Feedback does not exist", 404));
+				}
+
+				// put the new feedback rating into the feedback and update
+				$feedback->setFeedbackRating($requestObject->feedbackRating);
+				$feedback->update($pdo);
+
+				// update reply
+				$reply->message = "Feedback updated OK";
+			}
+			} else if($method === "POST") {
+
+				//  make sure senderId, recipientId and productId is available
+				if(empty($requestObject->feedbackSenderId) === true && empty($requestObject->feedbackRecipientId) === true && empty($requestObject->feedbackProductId) === true) {
+					throw(new \InvalidArgumentException ("No Sender, Recipient or Product Id.", 405));
+				}
+
+				// create new feedback and insert into the database
+				$feedback = new CartridgeCoders\Feedback(null, $requestObject->feedbackSenderId, $requestObject->feedbackProductId, $requestObject->feedbackRecipientId, $requestObject->feedbackContent, $requestObject->feedbackRating);
+				$feedback->insert($pdo);
+
+				// update reply
+				$reply->message = "Feedback created OK";
+			}
+
+		 else if($method === "DELETE") {
+			verifyXsrf();
+
+			// retrieve the Feedback to be deleted
+			$feedback = CartridgeCoders\Feedback::getFeedbackByFeedbackId($pdo, $id);
+			if($feedback === null) {
+				throw(new RuntimeException("Feedback does not exist", 404));
+			}
+
+			// delete feedback
+			$feedback->delete($pdo);
+
+			// update reply
+			$reply->message = "Feedback deleted OK";
+		} else {
+			throw (new InvalidArgumentException("Invalid HTTP method request"));
+		}
 	}
+
+
 	// update reply with exception information
 } catch
 (Exception $exception) {
