@@ -23,8 +23,8 @@
 		<hr/>
 
 		<h2>Your Data</h2>
-<!--		<p><b>Name:</b> --><?php //echo htmlspecialchars_decode($userinfo->name); ?><!--</p>-->
-<!--		<p><b>Email:</b> --><?php //echo htmlspecialchars_decode($userinfo->email); ?><!--</p>-->
+		<p><b>Name:</b> <?php echo htmlspecialchars_decode($userinfo->name); ?></p>
+		<p><b>Email:</b> <?php echo htmlspecialchars_decode($userinfo->email); ?></p>
 
 		<hr/>
 
