@@ -69,7 +69,7 @@
 <!--							<script>-->
 <!--								paypal.use(['login'], function(login) {-->
 <!--									login.render({-->
-										"appid": "AWoiHG8w-yaeYyODSBIzJ-awWkLVPo7G9zWJMomAFeMTVw5wyRG_b2pyYxl7a7wB7ByjVLJ0aQ6FdVDj",
+<!--										"appid": "AWoiHG8w-yaeYyODSBIzJ-awWkLVPo7G9zWJMomAFeMTVw5wyRG_b2pyYxl7a7wB7ByjVLJ0aQ6FdVDj",-->
 <!--										"authend": "sandbox",-->
 <!--										"scopes": "openid profile email",-->
 <!--										"containerid": "lippButton",-->
@@ -96,15 +96,18 @@
 							<!-- https://www.sitepoint.com/implement-user-log-paypal/ -----------------------------------  -->
 <!--							https://devtools-paypal.com/guide/openid/php?interactive=ON&env=sandbox-->
 
-							<h1>Login with PayPal - v2</h1>
-							<p>Welcome! No boring signup here. Just use the following button to login.</p>
+							<h1>Login with PayPal - v3</h1>
+							<p>Welcome! ROMuLess employs PayPal secuirty for your benefit.</p>
 							<hr/>
-							$apicontext = new PPApiContext(array('mode' => 'sandbox'));
-							$clientId = "AWoiHG8w-yaeYyODSBIzJ-awWkLVPo7G9zWJMomAFeMTVw5wyRG_b2pyYxl7a7wB7ByjVLJ0aQ6FdVDj";
-							$clientSecret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-							$scope = array('openid', 'email', 'name');
-							$redirectUri = 'https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html/results.php';
-							$openidurl = PPOpenIdSession::getAuthorizationUrl($redirectUri, $scope , $clientId,  $apicontext);
+							<a href="https://www.sandbox.paypal.com/webapps/auth/protocol/openidconnect/v1/authorize?client_id=AWoiHG8w-yaeYyODSBIzJ-awWkLVPo7G9zWJMomAFeMTVw5wyRG_b2pyYxl7a7wB7ByjVLJ0aQ6FdVDj&response_type=code&scope=openid email&redirect_uri=https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html/results.php">Pretend this is a button</a>
+
+
+<!--							$apicontext = new PPApiContext(array('mode' => 'sandbox'));-->
+<!--							$clientId = "AWoiHG8w-yaeYyODSBIzJ-awWkLVPo7G9zWJMomAFeMTVw5wyRG_b2pyYxl7a7wB7ByjVLJ0aQ6FdVDj";-->
+<!--							$clientSecret = "EDRJgYO1yO0_Y_ligCIUIomHjaGRiXyuWt5lYr7W4pupqxyyC_iK_1N36MYB3jdiKxCp6JAyzxg5a2FE";-->
+<!--							$scope = array('openid', 'email', 'name');-->
+<!--							$redirectUri = 'https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html/results.php';-->
+<!--							$openidurl = PPOpenIdSession::getAuthorizationUrl($redirectUri, $scope , $clientId,  $apicontext);-->
 							<!--														<script>-->
 							<!--							<script>-->
 							<!--								top.window.opener.location ='https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html/index.php';-->
