@@ -55,8 +55,50 @@ try {
 				$reply->data = $message;
 			}
 			//get messages by party id and update reply
-		} elseif(empty($partyId) === false) {
+		} else if (empty($partyId) === false) {
 			$messages = CartridgeCoders\Message::getMessageByPartyId($pdo, $partyId);
 			if($messages !== null) {
 				$reply->data = $messages;
 			}
+			}
+	} else if($method === "POST") {
+
+		verifyXsrf();
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
+
+		//  make sure senderId, recipientId and productId is available
+		if(empty($requestObject->messageSenderId) === true && empty($requestObject->messageRecipientId) === true && empty($requestObject->messageProductId) === true) {
+			throw(new \InvalidArgumentException ("No Sender, Recipient or Product Id.", 405));
+		}
+
+		// create new message and insert into the database
+		$message = new CartridgeCoders\Message(null, $requestObject->messageSenderId, $requestObject->messageProductId, $requestObject->messageRecipientId, $requestObject->messageContent, $requestObject->messageMailGunId, $requestObject->messageSubject);
+		$feedback->insert($pdo);
+
+		// update reply
+		$reply->message = "Feedback created OK";
+
+	} else {
+			throw (new InvalidArgumentException("Invalid HTTP method request"));
+		}
+
+
+	// update reply with exception information
+} catch
+(Exception $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+	$reply->trace = $exception->getTraceAsString();
+} catch(TypeError $typeError) {
+	$reply->status = $typeError->getCode();
+	$reply->message = $typeError->getMessage();
+}
+
+header("Content-type: application/json");
+if($reply->data === null) {
+	unset($reply->data);
+}
+
+// encode and return reply to front end caller
+echo json_encode($reply);
