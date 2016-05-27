@@ -38,4 +38,25 @@ try {
 	$mailgunId = filter_input(INPUT_GET, "mailgunId", FILTER_SANITIZE_STRING);
 	$subject = filter_input(INPUT_GET, "subject", FILTER_SANITIZE_STRING);
 
-	
+	//make sure the id is valid for methods that require it
+	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
+		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
+	}
+
+	// handle GET request - if id is present, that feedback is returned
+	if($method === "GET") {
+		//set XSRF cookie
+		setXsrfCookie();
+
+		//get a specific message and update reply
+		if(empty($id) === false) {
+			$message = CartridgeCoders\Message::getMessageByMessageId($pdo, $id);
+			if($message !== null) {
+				$reply->data = $message;
+			}
+			//get messages by party id and update reply
+		} elseif(empty($partyId) === false) {
+			$messages = CartridgeCoders\Message::getMessageByPartyId($pdo, $partyId);
+			if($messages !== null) {
+				$reply->data = $messages;
+			}
