@@ -22,28 +22,44 @@
 
 		<hr/>
 
-		
-		$token = PPOpenIdTokeninfo::createFromAuthorizationCode(
-		array(
-		'code' => $authCode
-		)
-		);
+<?php
+
+//$prefix = "Edu\\Cnm\\CartridgeCoders";
+//$baseDir = __DIR__;
+//require_once("vendor/autoload.php");
+//require_once(dirname(__DIR__) . "/vendor/autoload.php");
+
+//$code = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRING);
+//echo $code;
+//
+//
+//$apicontext = new PPApiContext(array('mode' => 'sandbox'));
+//$params = array(
+//	'client_id' => 'AWoiHG8w-yaeYyODSBIzJ-awWkLVPo7G9zWJMomAFeMTVw5wyRG_b2pyYxl7a7wB7ByjVLJ0aQ6FdVDj',
+//	'client_secret' => 'EDRJgYO1yO0_Y_ligCIUIomHjaGRiXyuWt5lYr7W4pupqxyyC_iK_1N36MYB3jdiKxCp6JAyzxg5a2FE',
+//	'code' => 'code'
+//);
+//$token = PPOpenIdTokeninfo::createFromAuthorizationCode($params,$apicontext);
+//
+//echo $token;
 
 
-		$user = PPOpenIdUserinfo::getUserinfo(
-		array(
-		'access_token' => $token->getAccessToken()
-		)
-		);
+// ---------------------------------------------- cURL ----------------------------------------------
 
-
-
+// curl - initialize session
+$ch = curl_init();
+curl -v -X GET https://api.sandbox.paypal.com/v1/payments/payment?sort_order=asc&sort_by=update_time \
+-H "Content-Type:application/json" \
+-H "Authorization: Bearer <Access-Token>"
+?>
 
 
 
 		<h2>Your Data</h2>
-		<p><b>Name:</b> <?php echo htmlspecialchars_decode($userinfo->name); ?></p>
-		<p><b>Email:</b> <?php echo htmlspecialchars_decode($userinfo->email); ?></p>
+		<p><b>Name:</b> echo </p>
+		<p><b>Email:</b> </b> echo </p>
+		<p><b>Code:</b> </b> echo </p>
+		<p><b>Token:</b> </b> echo </p>
 
 
 
