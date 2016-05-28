@@ -42,7 +42,7 @@
 		// ----- cURL - set options
 		curl_setopt($ch, CURLOPT_URL, "https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, "client_id=AWoiHG8w-yaeYyODSBIzJ-awWkLVPo7G9zWJMomAFeMTVw5wyRG_b2pyYxl7a7wB7ByjVLJ0aQ6FdVDj&client_secret=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&grant_type=authorization_code&code=".$authCode);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "client_id=AWoiHG8w-yaeYyODSBIzJ-awWkLVPo7G9zWJMomAFeMTVw5wyRG_b2pyYxl7a7wB7ByjVLJ0aQ6FdVDj&client_secret=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&grant_type=authorization_code&code=".$authCode);
 		curl_setopt($ch, CURLOPT_POST, 1);
 
 		// ----- cURL - get results
@@ -64,30 +64,13 @@
 
 // ------ break apart return JSON data in $accessToken
 
-// ------ http://stackoverflow.com/questions/4343596/parsing-json-file-with-php
-//		$jsonIterator = new RecursiveIteratorIterator(
-//			new RecursiveArrayIterator(json_decode($accessToken, TRUE)),
-//			RecursiveIteratorIterator::SELF_FIRST);
-//
-//
-//		echo nl2br ("accessToken JSON broken down: \n");
-//		foreach ($jsonIterator as $key => $val) {
-//			if(is_array($val)) {
-//				echo nl2br ("$key:\n");
-//			} else {
-//				echo nl2br("$key => $val\n");
-//			}
-//		}
 
-		var_dump($accessToken);
-
-
-
+// http://stackoverflow.com/questions/29308898/how-do-i-extract-data-from-json-with-php
 
 		$accessTokenExtract = json_decode($accessToken, true);
 
-		$accessTokenExtractType =
-		$accessTokenExtractToken =
+
+		$accessTokenExtractToken = $accessTokenExtract['access_token'][0];
 
 
 			// ----- cURL - get user attributes
@@ -100,7 +83,7 @@
 
 
 		$headers = array();
-		$headers[] = "Authorization:Bearer ".$accessTokenExtract;
+		$headers[] = "Authorization:Bearer ".$accessTokenExtractToken;
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 
@@ -117,9 +100,9 @@
 		echo nl2br("\n");
 		echo nl2br("\n");
 
-var_dump($accessTokenExtractToken);
-		var_dump($accessTokenExtractType);
+
 		var_dump($accessTokenExtract);
+		var_dump($accessTokenExtractToken);
 		var_dump($userAttributes);
 
 ?>
