@@ -43,12 +43,10 @@
 							<!-- PayPal test code 3.0 begin -------------------------------------------------------------  -->
 							<!-- https://www.sitepoint.com/implement-user-log-paypal/ -----------------------------------  -->
 <!--							https://devtools-paypal.com/guide/openid/php?interactive=ON&env=sandbox-->
-
 							<h1>Login with PayPal - v3</h1>
 							<p>Welcome! ROMuLess employs PayPal secuirty for your benefit.</p>
 							<hr/>
 							<a href="https://www.sandbox.paypal.com/webapps/auth/protocol/openidconnect/v1/authorize?client_id=AWoiHG8w-yaeYyODSBIzJ-awWkLVPo7G9zWJMomAFeMTVw5wyRG_b2pyYxl7a7wB7ByjVLJ0aQ6FdVDj&response_type=code&scope=openid email&redirect_uri=https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html/curl.php"><img src="https://www.paypalobjects.com/webstatic/en_US/developer/docs/lipp/loginwithpaypalbutton.png"></a>
-
 							<!-- PayPal test code 3.0 end -----------------------------------------------------------------  -->
 
 

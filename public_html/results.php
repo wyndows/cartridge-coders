@@ -13,6 +13,8 @@
 		<h1>Login with PayPal - v3</h1>
 		<p>Great! Now you are a member of our site.</p>
 		<hr/>
+
+		
 <?php
 
 
