@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 	<head>
 		<!-- Latest compiled and minified CSS -->
@@ -17,6 +18,11 @@
 		<hr/>
 
 		<?php
+
+		// ---------------------------------------- encrypted config files -------------------------------------
+		require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
+		$config = readConfig("/etc/apache2/capstone-mysql/cartridge.ini");
+
 
 		// --------------------------------------------- get auth code -----------------------------------------
 
@@ -42,8 +48,8 @@
 		// ----- cURL - set options
 		curl_setopt($ch, CURLOPT_URL, "https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&grant_type=authorization_code&code=" . $authCode);
-		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "client_id=".$config["privkeys"]["paypal"]->clientId."&client_secret=".$config["privkeys"]["paypal"]->clientSecret."&grant_type=authorization_code&code=".$authCode);
+
 
 		// ----- cURL - get results
 		$accessToken = curl_exec($ch);
@@ -69,14 +75,14 @@
 
 		// ----- TEMP VERIFY DATA - TO BE REMOVED
 		echo nl2br("accessToken JSON extraction: \n");
-		print_r($json->access_token);
+		echo $accessTokenExtractToken;
 		echo nl2br("\n");
 		echo nl2br("\n");
 
 
 		// ----- cURL - get user attributes
-// @see https://developer.paypal.com/docs/api/#get-user-information
-// @see http://incarnate.github.io/curl-to-php/
+		// @see https://developer.paypal.com/docs/api/#get-user-information
+		// @see http://incarnate.github.io/curl-to-php/
 
 
 		$ch = curl_init();
@@ -87,15 +93,15 @@
 
 
 		$headers = array();
-		$headers[] = "Authorization: Bearer ".$accessTokenExtractToken;
+		$headers[] = "Authorization: Bearer " . $accessTokenExtractToken;
 		$headers[] = "Content-Type: application/json";
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 		$userAttributes = curl_exec($ch);
-		if (curl_errno($ch)) {
+		if(curl_errno($ch)) {
 			echo 'Error:' . curl_error($ch);
 		}
-		curl_close ($ch);
+		curl_close($ch);
 
 		//var_dump($headers);
 
@@ -106,8 +112,27 @@
 		echo nl2br("\n");
 
 
-		var_dump($userAttributes);
+		// ------ break apart return JSON data in $userAttributes
 
+		$json = json_decode($userAttributes);
+		//		$userAttributesUserId = ($json->user_id);
+		$userAttributesName = ($json->name);
+		$userAttributesEmail = ($json->email);
+
+
+		// ----- TEMP VERIFY DATA - TO BE REMOVED
+		echo nl2br("accessToken JSON extraction: \n");
+		//		echo "UserId: ".$userAttributesUserId;
+		//		echo nl2br("\n");
+		echo "Full Name: " . $userAttributesName;
+		echo nl2br("\n");
+		echo "Email: " . $userAttributesEmail;
+		echo nl2br("\n");
+		echo nl2br("\n");
+
+
+		//
+		//		var_dump($userAttributes);
 
 
 		?>
