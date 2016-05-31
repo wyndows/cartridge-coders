@@ -97,7 +97,7 @@ try {
 		$requestObject = json_decode($requestContent);
 
 		// make sure the product content is available
-		if(empty($requestObject->product) === true) {
+		if(empty($requestObject->productPrice) === true) {
 			throw(new \InvalidArgumentException ("no content for product.", 405));
 		}
 
@@ -109,16 +109,17 @@ try {
 			if($product === null) {
 				throw(new RuntimeException("product does not exist", 404));
 			}
-			
+
 			// put the new product image into the product and update
 			$product->setProductImageId($requestObject->productImageId);
 			$product->update($pdo);
 
 			// update reply
-			$reply->message = "product update ok";
+			$reply->message = "produc update ok";
 
 			// update product price
-		} elseif(empty($requestObject->productPrice) !== true) {
+
+		if(empty($requestObject->productPrice) !== true) {
 
 			// retrieve the product to update
 			$product = CartridgeCoders\Product::getProductByProductId($pdo, $id);
@@ -131,10 +132,11 @@ try {
 			$product->update($pdo);
 
 			// update reply
-			$reply->message = "product updated ok";
+			$reply->message = "product updated k";
 
 			// update product description
-		} elseif(empty($requestObject->productDescription) !== true) {
+		}
+		if(empty($requestObject->productDescription) !== true) {
 
 			// retrieve the product ot update
 			$product = CartridgeCoders\Product::getProductByProductId($pdo, $id);
@@ -147,15 +149,16 @@ try {
 			$product->update($pdo);
 
 			// update reply
-			$reply->message = "product was updated ok";
+			$reply->message = "product  updated ok";
 
 			// update product Title
-		} elseif(empty($requestObject->productTitle) !== true) {
+		}
+		if(empty($requestObject->productTitle) !== true) {
 
 			// retrieve the product to update
 			$product = CartridgeCoders\Product::getProductByProductId($pdo, $id);
 			if($product === null) {
-				throw(new RuntimeException("product does not exist", 404));
+				throw(new RuntimeException("prodct does not exist", 404));
 			}
 
 			// put the product title into the product and update it
@@ -163,7 +166,21 @@ try {
 			$product->update($pdo);
 
 			// update reply
-			$reply->message = "product was updated ok";
+			$reply->message = "prouct was updated ok";
+
+		}} elseif($method === "POST") {
+
+			// make sure the productId is available
+			if(empty($requestObject->productAccountId) === true && empty($requestObject->productImageId) === true) {
+				throw(new \InvalidArgumentException ("no productAccountId or productImageId.", 404));
+			}
+
+			// create a new product and insert into the database
+			$product = new CartridgeCoders\Product(null, $requestObject->productAccountId, $requestObject->productImageId, $requestObject->productAdminFee, $requestObject->productDescription, $requestObject->productPrice, $requestObject->productShipping, $requestObject->productSold, $requestObject->productTitle);
+			$product->insert($pdo);
+
+			// update reply
+			$reply->product = "product created ok";
 		}
 	} elseif($method === "DELETE") {
 		verifyXsrf();

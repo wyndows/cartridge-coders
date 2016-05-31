@@ -6,7 +6,6 @@ require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 
-
 /**
  * api for the image class
  *
@@ -43,7 +42,7 @@ try {
 	if($method === "GET") {
 		//set XSRF cookie
 		setXsrfCookie();
-		
+
 		//get a specific image or all images and update reply 
 		if(empty($id) === false) {
 			$image = CartridgeCoders\Image::getImageFileNameByImageId($pdo, $id);
@@ -72,7 +71,7 @@ try {
 
 			// retrieve the image to update
 			$image = CartridgeCoders\Image::getImageFileNameByImageId($pdo, $id);
-			if($image === null){
+			if($image === null) {
 				throw(new RuntimeException("Image Does not exist", 404));
 			}
 
@@ -83,7 +82,7 @@ try {
 			//update reply
 			$reply->message = "Image updated ok";
 
-		}else if($method === "POST") {
+		} else if($method === "POST") {
 
 			// make sure imageId is availabe
 			if(empty($requestObject->imageId) === true) {
@@ -98,18 +97,18 @@ try {
 			$reply->image = "Image created ok";
 		}
 	} //else if($method === "DELETE") {
-		//verifyXsrf();
+	//verifyXsrf();
 
-		// retrieve the Image to be deleted
-		//$image = CartridgeCoders\Image::getImageFileNameByImageId($pdo, $id);
-		//if($image === null) {
-		//	throw(new RuntimeException("Image does not exist", 404));
-		//}//
+	// retrieve the Image to be deleted
+	//$image = CartridgeCoders\Image::getImageFileNameByImageId($pdo, $id);
+	//if($image === null) {
+	//	throw(new RuntimeException("Image does not exist", 404));
+	//}//
 // I should delete this delete?
-		// delete image
+	// delete image
 //		$image->delete($pdo);
 
-		// update reply
+	// update reply
 //		$reply->message = "Image deleted OK";
 //	} else {
 //		throw (new InvalidArgumentException("Invalid HTTP method request"));
