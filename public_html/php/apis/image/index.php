@@ -74,7 +74,7 @@ try {
 			// retrieve the image to update
 			$image = CartridgeCoders\Image::getImageFileNameByImageId($pdo, $id);
 			if($image === null){
-				throw(new RuntimeException("Image Dows not exist", 404));
+				throw(new RuntimeException("Image Does not exist", 404));
 			}
 
 			// put the new image file name into the image and update
