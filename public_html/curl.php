@@ -48,8 +48,9 @@
 		// ----- cURL - set options
 		curl_setopt($ch, CURLOPT_URL, "https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, "client_id=".$config["privkeys"]["paypal"]->clientId."&client_secret=".$config["privkeys"]["paypal"]->clientSecret."&grant_type=authorization_code&code=".$authCode);
+//		curl_setopt($ch, CURLOPT_POSTFIELDS, "client_id=".$config["privkeys"]["paypal"]->clientId."&client_secret=".$config["privkeys"]["paypal"]->clientSecret."&grant_type=authorization_code&code=".$authCode);
 
+		curl_setopt($ch, CURLOPT_POST, 1);
 
 		// ----- cURL - get results
 		$accessToken = curl_exec($ch);
