@@ -214,5 +214,6 @@ if($reply->data === null) {
 	unset($reply->data);
 }
 
-// endoce and returne reply to from end caller
+// encode and return reply to from end caller
+header("Content-type: application/json");
 echo json_encode($reply);

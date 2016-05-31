@@ -42,7 +42,6 @@ try {
 	if($method === "GET") {
 		//set XSRF cookie
 		setXsrfCookie();
-		$reply->get = $_GET;
 
 		//get a specific image or all images and update reply 
 		if(empty($id) === false) {
@@ -69,11 +68,6 @@ try {
 
 		//perform the actual put or post
 		if($method === "PUT") {
-
-			// make sure imageId is available
-			if(empty($requestObject->imageId) === true) {
-				throw(new \InvalidArgumentException ("no Image Id.", 405));
-			}
 
 			// retrieve the image to update
 			$image = CartridgeCoders\Image::getImageFileNameByImageId($pdo, $id);
