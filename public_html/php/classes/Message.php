@@ -247,8 +247,8 @@ class Message implements \JsonSerializable {
 		if($newMessageMailGunId === false) {
 			throw(new \UnexpectedValueException("message mailgunid is not a valid string"));
 		}
-		// verify the messge mail gun id is less then 32
-		if($newMessageMailGunId > 32) {
+		// verify the message mail gun id is less then 40
+		if(strlen($newMessageMailGunId) > 40) {
 			throw(new \RangeException("invalid mailgunId"));
 		}
 		//store the message mailgun id

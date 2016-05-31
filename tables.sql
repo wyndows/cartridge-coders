@@ -87,7 +87,7 @@ CREATE TABLE message (
 	messageProductId INT UNSIGNED                NOT NULL,
 	messageRecipientId  INT UNSIGNED                NOT NULL,
 	messageContent   VARCHAR(255)                NOT NULL,
-	messageMailGunId CHAR(32)                    NOT NULL,
+	messageMailGunId VARCHAR(40)                    NOT NULL,
 	messageSubject   VARCHAR(128)                NOT NULL,
 	INDEX (messageSenderId),
 	INDEX (messageProductId),

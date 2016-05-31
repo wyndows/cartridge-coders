@@ -85,75 +85,60 @@ try {
 		//perform the actual put or post
 		if($method === "PUT") {
 
-			// update feedback content if it needs updated
-			if(empty($requestObject->feedbackContent) !== true) {
-
-				// retrieve the feedback to update
-				$feedback = CartridgeCoders\Feedback::getFeedbackByFeedbackId($pdo, $id);
-				if($feedback === null) {
-					throw(new RuntimeException("Feedback does not exist", 404));
-				}
-
-				// put the new feedback content into the feedback and update
-				$feedback->setFeedbackContent($requestObject->feedbackContent);
-				$feedback->update($pdo);
-
-				// update reply
-				$reply->message = "Feedback updated OK";
-
-				// update feedback rating if it needs updated
-			} else if(empty($requestObject->feedbackRating) !== true) {
-
-				// retrieve the feedback to update
-				$feedback = CartridgeCoders\Feedback::getFeedbackByFeedbackId($pdo, $id);
-				if($feedback === null) {
-					throw(new RuntimeException("Feedback does not exist", 404));
-				}
-
-				// put the new feedback rating into the feedback and update
-				$feedback->setFeedbackRating($requestObject->feedbackRating);
-				$feedback->update($pdo);
-
-				// update reply
-				$reply->message = "Feedback updated OK";
-			}
-			} else if($method === "POST") {
-
-				//  make sure senderId, recipientId and productId is available
-				if(empty($requestObject->feedbackSenderId) === true && empty($requestObject->feedbackRecipientId) === true && empty($requestObject->feedbackProductId) === true) {
-					throw(new \InvalidArgumentException ("No Sender, Recipient or Product Id.", 405));
-				}
-
-				// create new feedback and insert into the database
-				$feedback = new CartridgeCoders\Feedback(null, $requestObject->feedbackSenderId, $requestObject->feedbackProductId, $requestObject->feedbackRecipientId, $requestObject->feedbackContent, $requestObject->feedbackRating);
-				$feedback->insert($pdo);
-
-				// update reply
-				$reply->message = "Feedback created OK";
-			}
-
-		 else if($method === "DELETE") {
-			verifyXsrf();
-
-			// retrieve the Feedback to be deleted
+			// retrieve the feedback to update
 			$feedback = CartridgeCoders\Feedback::getFeedbackByFeedbackId($pdo, $id);
 			if($feedback === null) {
 				throw(new RuntimeException("Feedback does not exist", 404));
 			}
 
-			// delete feedback
-			$feedback->delete($pdo);
+				// put the new feedback content into the feedback
+				$feedback->setFeedbackContent($requestObject->feedbackContent);
+
+				// put the new feedback rating into the feedback and update
+				$feedback->setFeedbackRating($requestObject->feedbackRating);
+
+
+			// update the feedback
+			$feedback->update($pdo);
 
 			// update reply
-			$reply->message = "Feedback deleted OK";
-		} else {
-			throw (new InvalidArgumentException("Invalid HTTP method request"));
+			$reply->message = "Feedback updated OK";
 		}
+	} else if($method === "POST") {
+
+		//  make sure senderId, recipientId and productId is available
+		if(empty($requestObject->feedbackSenderId) === true && empty($requestObject->feedbackRecipientId) === true && empty($requestObject->feedbackProductId) === true) {
+			throw(new \InvalidArgumentException ("No Sender, Recipient or Product Id.", 405));
+		}
+
+		// create new feedback and insert into the database
+		$feedback = new CartridgeCoders\Feedback(null, $requestObject->feedbackSenderId, $requestObject->feedbackProductId, $requestObject->feedbackRecipientId, $requestObject->feedbackContent, $requestObject->feedbackRating);
+		$feedback->insert($pdo);
+
+		// update reply
+		$reply->message = "Feedback created OK";
+	} else if($method === "DELETE") {
+		verifyXsrf();
+
+		// retrieve the Feedback to be deleted
+		$feedback = CartridgeCoders\Feedback::getFeedbackByFeedbackId($pdo, $id);
+		if($feedback === null) {
+			throw(new RuntimeException("Feedback does not exist", 404));
+		}
+
+		// delete feedback
+		$feedback->delete($pdo);
+
+		// update reply
+		$reply->message = "Feedback deleted OK";
+	} else {
+		throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}
+}
 
 
 	// update reply with exception information
-} catch
+ catch
 (Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
