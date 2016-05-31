@@ -42,6 +42,7 @@ try {
 	if($method === "GET") {
 		//set XSRF cookie
 		setXsrfCookie();
+		$reply->get = $_GET;
 
 		//get a specific image or all images and update reply 
 		if(empty($id) === false) {
@@ -69,6 +70,11 @@ try {
 		//perform the actual put or post
 		if($method === "PUT") {
 
+			// make sure imageId is available
+			if(empty($requestObject->imageId) === true) {
+				throw(new \InvalidArgumentException ("no Image Id.", 405));
+			}
+
 			// retrieve the image to update
 			$image = CartridgeCoders\Image::getImageFileNameByImageId($pdo, $id);
 			if($image === null) {
@@ -84,17 +90,12 @@ try {
 
 		} else if($method === "POST") {
 
-			// make sure imageId is availabe
-			if(empty($requestObject->imageId) === true) {
-				throw(new \InvalidArgumentException ("no Image Id.", 405));
-			}
-
-			// create new Image and insert into the datebase
+			// create new Image and insert into the database
 			$image = new CartridgeCoders\Image(null, $requestObject->imageFileName, $requestObject->imageType);
 			$image->insert($pdo);
 
 			// update reply
-			$reply->image = "Image created ok";
+			$reply->message = "Image created ok";
 		}
 	} //else if($method === "DELETE") {
 	//verifyXsrf();
