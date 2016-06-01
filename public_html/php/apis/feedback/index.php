@@ -67,7 +67,7 @@ try {
 				$reply->data = $feedbacks;
 			}
 			//get feedbacks by recipient id and update reply
-		} else {
+		} elseif(empty($feedbackRecipientId) === false) {
 			$feedbacks = CartridgeCoders\Feedback::getFeedbackByFeedbackRecipientId($pdo, $feedbackRecipientId);
 			if($feedbacks !== null) {
 				$reply->data = $feedbacks;
