@@ -36,6 +36,9 @@ try {
 	$productPrice = filter_input(INPUT_GET, "productPrice", FILTER_VALIDATE_FLOAT);
 	$productDescription = filter_input(INPUT_GET, "productDescription", FILTER_SANITIZE_STRING);
 	$productTitle = filter_input(INPUT_GET, "productTitle", FILTER_SANITIZE_STRING);
+	$productAdminFee = filter_input(INPUT_GET, "productAdminFee", FILTER_VALIDATE_FLOAT);
+	$productShipping = filter_input(INPUT_GET, "productShipping", FILTER_VALIDATE_FLOAT);
+	$productSold = filter_input(INPUT_GET, "productSold", FILTER_VALIDATE_INT);
 
 
 	// make sure the id is valid for methods that require it
@@ -84,6 +87,7 @@ try {
 			if($product !== null) {
 				$reply->data = $product;
 			}
+			
 		} else {
 			$products = CartridgeCoders\Product::getAllProducts($pdo);
 			if($products !== null) {
@@ -112,7 +116,6 @@ try {
 
 			// put the new product image into the product and update
 			$product->setProductImageId($requestObject->productImageId);
-			$product->update($pdo);
 
 			// update reply
 			$reply->message = "produc update ok";
@@ -129,16 +132,30 @@ try {
 
 			// put the new product price into the product and update it
 			$product->setProductPrice($requestObject->productPrice);
-			$product->update($pdo);
 
 			// update reply
 			$reply->message = "product updated k";
 
-			// update product description
 		}
+			// update product admin fee
+		if(empty($requestObject->productAdminFee) !== true) {
+
+			// retrieve the product to update
+			$product = CartridgeCoders\Product::getProductByProductId($pdo, $id);
+			if($product === null) {
+				throw(new RuntimeException("product does not exist", 404));
+			}
+
+			// put the product admin fee into the product and update it
+			$product->setProductAdminFee($requestObject->productAdminFee);
+
+			// update reply
+			$reply->message = "product admin fee updated";
+		}
+			// update product description
 		if(empty($requestObject->productDescription) !== true) {
 
-			// retrieve the product ot update
+			// retrieve the product to update
 			$product = CartridgeCoders\Product::getProductByProductId($pdo, $id);
 			if($product === null) {
 				throw(new RuntimeException("product does not exist", 404));
@@ -146,13 +163,42 @@ try {
 
 			// put the product description into the product and update it
 			$product->setProductDescription($requestObject->productDescription);
-			$product->update($pdo);
 
 			// update reply
 			$reply->message = "product  updated ok";
 
-			// update product Title
 		}
+			// updated product sold
+		if(empty($requestObject->productSold) !== true) {
+
+			// retrieve the product to update
+			$product = CartridgeCoders\Product::getProductByProductId($pdo, $id);
+			if($product === null) {
+				throw(new RuntimeException("product does not exist", 404));
+			}
+
+			// put the product sold into the product and update it
+			$product->setProductSold($requestObject->productDescription);
+
+			//update reply
+			$reply->message= "SOOOOOOOOOLD";
+		}
+			// update product shipping
+		if(empty($requestObject->productShipping) !== true) {
+
+			// retrieve the product to update
+			$product = CartridgeCoders\Product::getProductByProductId($pdo, $id);
+			if($product === null) {
+				throw(new RuntimeException("product does not exist", 404));
+			}
+
+			// put the product shipping into the product and update it
+			$product->setProductShipping($requestObject->prooductShipping);
+
+			// update reply
+			$reply->message= "Product shipping is now updated";
+		}
+			// update product Title
 		if(empty($requestObject->productTitle) !== true) {
 
 			// retrieve the product to update
@@ -167,8 +213,8 @@ try {
 
 			// update reply
 			$reply->message = "prouct was updated ok";
-
-		}} elseif($method === "POST") {
+		}
+		} elseif($method === "POST") {
 
 			// make sure the productId is available
 			if(empty($requestObject->productAccountId) === true && empty($requestObject->productImageId) === true) {
