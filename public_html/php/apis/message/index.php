@@ -77,14 +77,8 @@ try {
 		//get a specific account
 
 		$senderAccountInfo = CartridgeCoders\Account::getAccountByAccountId($pdo, $requestObject->messageSenderId);
-//			if($senderAccountInfo !== null) {
-//				$reply->data = $senderAccountInfo;
-//			}
-		$recipientAccountInfo = CartridgeCoders\Account::getAccountByAccountId($pdo, $requestObject->messageRecipientId);
-//		if($recipientAccountInfo !== null) {
-//			$reply->data = $recipientAccountInfo;
-//		}
 
+		$recipientAccountInfo = CartridgeCoders\Account::getAccountByAccountId($pdo, $requestObject->messageRecipientId);
 
 		// send message using mailgun
 		$mailgunOptions = [
@@ -95,7 +89,6 @@ try {
 					"Content-type: application/x-www-form-urlencoded"
 				],
 				"content" => http_build_query([
-//					"from" => "Senator Arlo <cartridgecoders@gmail.com>",
 					"from" => $senderAccountInfo->getAccountUserName() . " " . "<" . $senderAccountInfo->getAccountPpEmail() . ">",
 					"to" => $recipientAccountInfo->getAccountUserName() . " " . "<" . $recipientAccountInfo->getAccountPpEmail() . ">",
 					"subject" => $requestObject->messageSubject,

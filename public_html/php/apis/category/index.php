@@ -87,11 +87,6 @@ try {
 
 		} else if($method === "POST") {
 
-			//  make sure profileId is available
-//			if(empty($requestObject->profileId) === true) {
-//				throw(new \InvalidArgumentException ("No Profile ID.", 405));
-//			}
-//
 			// create new category and insert into the database
 			$category = new CartridgeCoders\Category(null, $requestObject->categoryName);
 			$category->insert($pdo);

@@ -32,8 +32,11 @@ try {
 	//sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$partyId = filter_input(INPUT_GET, "partyId", FILTER_VALIDATE_INT);
-	$senderId = filter_input(INPUT_GET, "senderId", FILTER_VALIDATE_INT);
-	$recipientId = filter_input(INPUT_GET, "recipientId", FILTER_VALIDATE_INT);
+	$feedbackSenderId = filter_input(INPUT_GET, "feedbackSenderId", FILTER_VALIDATE_INT);
+	$feedbackRecipientId = filter_input(INPUT_GET, "feedbackRecipientId", FILTER_VALIDATE_INT);
+	$feedbackProductId = filter_input(INPUT_GET, "feedbackProductId", FILTER_VALIDATE_INT);
+	$feedbackContent = filter_input(INPUT_GET, "feedbackContent", FILTER_SANITIZE_STRING);
+	$feedbackContent = filter_input(INPUT_GET, "feedbackContent", FILTER_VALIDATE_INT);
 
 	//make sure the id is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
@@ -58,14 +61,14 @@ try {
 				$reply->data = $feedbacks;
 			}
 			//get feedbacks by sender id and update reply
-		} elseif(empty($senderId) === false) {
-			$feedbacks = CartridgeCoders\Feedback::getFeedbackByFeedbackSenderId($pdo, $senderId);
+		} elseif(empty($feedbackSenderId) === false) {
+			$feedbacks = CartridgeCoders\Feedback::getFeedbackByFeedbackSenderId($pdo, $feedbackSenderId);
 			if($feedbacks !== null) {
 				$reply->data = $feedbacks;
 			}
 			//get feedbacks by recipient id and update reply
 		} else {
-			$feedbacks = CartridgeCoders\Feedback::getFeedbackByFeedbackRecipientId($pdo, $recipientId);
+			$feedbacks = CartridgeCoders\Feedback::getFeedbackByFeedbackRecipientId($pdo, $feedbackRecipientId);
 			if($feedbacks !== null) {
 				$reply->data = $feedbacks;
 			}
@@ -90,13 +93,14 @@ try {
 			if($feedback === null) {
 				throw(new RuntimeException("Feedback does not exist", 404));
 			}
-
-				// put the new feedback content into the feedback
-				$feedback->setFeedbackContent($requestObject->feedbackContent);
-
-				// put the new feedback rating into the feedback and update
-				$feedback->setFeedbackRating($requestObject->feedbackRating);
-
+				if(empty($requestObject->feedbackContent) !== true) {
+					// put the new feedback content into the feedback
+					$feedback->setFeedbackContent($requestObject->feedbackContent);
+				}
+				if(empty($requestObject->feedbackRating) !== true) {
+					// put the new feedback rating into the feedback and update
+					$feedback->setFeedbackRating($requestObject->feedbackRating);
+				}
 
 			// update the feedback
 			$feedback->update($pdo);
@@ -104,7 +108,7 @@ try {
 			// update reply
 			$reply->message = "Feedback updated OK";
 		}
-	} else if($method === "POST") {
+	 else if($method === "POST") {
 
 		//  make sure senderId, recipientId and productId is available
 		if(empty($requestObject->feedbackSenderId) === true && empty($requestObject->feedbackRecipientId) === true && empty($requestObject->feedbackProductId) === true) {
@@ -116,7 +120,7 @@ try {
 		$feedback->insert($pdo);
 
 		// update reply
-		$reply->message = "Feedback created OK";
+		$reply->message = "Feedback created OK";}
 	} else if($method === "DELETE") {
 		verifyXsrf();
 
