@@ -25,45 +25,38 @@
 		require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 		$config = readConfig("/etc/apache2/capstone-mysql/cartridge.ini");
 		$paypal = json_decode($config["privkeys"])->paypal;
+
 		// --------------------------------------------- get auth code -----------------------------------------
 		require_once(dirname(__DIR__) . "/vendor/autoload.php");
 		$authCode = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRING);
-		// ----- TEMP VERIFY DATA - TO BE REMOVED
-		//		echo nl2br("authCode: \n");
-		//		print_r($authCode);
-		//		echo nl2br("\n");
-		//		echo nl2br("\n");
+
 		//------------------------------------------------ cURL ------------------------------------------------
 		// ----- @see https://developer.paypal.com/docs/api/#identity
 		// ----- @see http://incarnate.github.io/curl-to-php/
 		// ----- cURL - initialize session - get access token from authorization code
 		$ch = curl_init();
+
 		// ----- cURL - set options
 		curl_setopt($ch, CURLOPT_URL, "https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, "client_id=" . $paypal->clientId . "&client_secret=" . $paypal->clientSecret . "&grant_type=authorization_code&code=" . $authCode);
 		curl_setopt($ch, CURLOPT_POST, 1);
+
 		// ----- cURL - get results
 		$accessToken = curl_exec($ch);
+
 		// ----- cURL - error checking
 		if(curl_errno($ch)) {
 			echo 'Error:' . curl_error($ch);
 		}
+
 		// ----- cURL - close session
 		curl_close($ch);
-		// ----- TEMP VERIFY DATA - TO BE REMOVED
-		//		echo nl2br("accessToken JSON: \n");
-		//		print_r($accessToken);
-		//		echo nl2br("\n");
-		//		echo nl2br("\n");
+
 		// ------ break apart return JSON data in $accessToken
 		$json = json_decode($accessToken);
 		$accessTokenExtractToken = ($json->access_token);
-		// ----- TEMP VERIFY DATA - TO BE REMOVED
-		//		echo nl2br("accessToken JSON extraction: \n");
-		//		echo $accessTokenExtractToken;
-		//		echo nl2br("\n");
-		//		echo nl2br("\n");
+
 		// ----- cURL - get user attributes
 		// @see https://developer.paypal.com/docs/api/#get-user-information
 		// @see http://incarnate.github.io/curl-to-php/
@@ -80,37 +73,21 @@
 			echo 'Error:' . curl_error($ch);
 		}
 		curl_close($ch);
-		// ----- cURL - verify data (REMOVE LATER)
-		//		echo nl2br("userAttributes JSON: \n");
-		//		print_r($userAttributes);
-		//		echo nl2br("\n");
-		//		echo nl2br("\n");
+
 		// ------ break apart return JSON data in $userAttributes
 		$json = json_decode($userAttributes);
+
 		//		$userAttributesUserId = ($json->user_id);
 		$userAttributesName = ($json->name);
 		$userAttributesEmail = ($json->email);
 		$userAttributesFirstName = ($json->given_name);
-		// ----- TEMP VERIFY DATA - TO BE REMOVED
-		//		echo nl2br("accessToken JSON extraction: \n");
-		//		echo "Full Name: " . $userAttributesName;
-		//		echo nl2br("\n");
-		//		echo "Email: " . $userAttributesEmail;
-		//		echo nl2br("\n");
-		//		echo nl2br("\n");
-
-//		var_dump($userAttributesName);
-//		var_dump($userAttributesEmail);
-//		var_dump($userAttributesFirstName);
-
-
 		$accountPpEmail = $userAttributesEmail;
 		$accountName = $userAttributesName;
 		$accountTempUserName = "TempUserName".rand(1, 9999999);
 
-		var_dump($accountName);
-		var_dump($accountPpEmail);
-		var_dump($accountTempUserName);
+		var_dump($accountName);// ------------------------------------------------------ DELETE ME
+		var_dump($accountPpEmail);// --------------------------------------------------- DELETE ME
+		var_dump($accountTempUserName);// ---------------------------------------------- DELETE ME
 
 
 		//--------------------------------------------- mySQL -------------------------------------------------------
@@ -163,7 +140,7 @@
 
 			// update accountUserName with FirstName + accountId
 			$accountUserName = $userAttributesFirstName . $accountId;
-//			var_dump($accountUserName);
+			var_dump($accountUserName); // ------------------------------------------------ DELETE ME
 
 			// replace temp username with personalized username
 			$account->setAccountUserName($accountUserName);
@@ -175,16 +152,18 @@
 			// ---------- customer data already exist
 			// -- GET customer data
 			echo" xxxxxxxxxxxxxxxx  get csutomer data section xxxxxxxxxxxxxxxxxxx";
+			$account = Account::getAccountByAccountPpEmail($pdo, $accountPpEmail)[0];
 		}
 
-		
-//var_dump($account);
+
+
+var_dump($account);
+
 
 		// 1 - look in DB for EM
 		// 2 - return if there - inster info w/ defaults if not
 		// 3 - get primary key
 		// 4 - change user name to first+primary
-
 
 
 
@@ -213,9 +192,9 @@
 				</div>
 				<div class="col-md-6">
 					<div class="well">
-						<p>DB lookup pending</p>
-						<p>DB lookup pending</p>
-						<p>DB lookup pending</p>
+						<p><?php echo $account->getAccountName(); ?></p>
+						<p><?php echo $account->getAccountPpEmail(); ?></p>
+						<p><?php echo $account->getAccountUserName(); ?></p>
 						<p>DB lookup pending</p>
 						<p>DB lookup pending</p>
 					</div>
