@@ -163,10 +163,12 @@
 
 			// update accountUserName with FirstName + accountId
 			$accountUserName = $userAttributesFirstName . $accountId;
-			var_dump($accountUserName);
+//			var_dump($accountUserName);
 
-//			$accounts = CartridgeCoders\Account::setAccountUserName($pdo, $accountUserName);
-//			$account = update Account()
+			// replace temp username with personalized username
+			$account->setAccountUserName($accountUserName);
+			$account->update($pdo);
+
 
 
 		} else {

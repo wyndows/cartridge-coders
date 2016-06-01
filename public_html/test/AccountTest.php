@@ -344,7 +344,7 @@ public function testUpdateValidAccountPpEmail() {
 		$account = new Account(null, $this->image->getImageId(), $this->VALID_ACCOUNTACTIVE, $this->VALID_ACCOUNTADMIN, $this->VALID_ACCOUNTNAME, $this->VALID_ACCOUNTPPEMAIL, $this->VALID_ACCOUNTUSERNAME);
 		$account->insert($this->getPDO());
 
-		// edit the Account Active and update it in mySQL
+		// edit the Account username and update it in mySQL
 		$account->setAccountUserName($this->VALID_ACCOUNTUSERNAME2);
 		$account->update($this->getPDO());
 
