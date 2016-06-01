@@ -118,7 +118,7 @@ try {
 			$product->setProductImageId($requestObject->productImageId);
 
 			// update reply
-			$reply->message = "produc update ok";
+			$reply->message = "product update ok";
 
 			// update product price
 
