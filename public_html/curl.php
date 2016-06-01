@@ -99,13 +99,19 @@
 		//		echo nl2br("\n");
 		//		echo nl2br("\n");
 
-		var_dump($userAttributesName);
-		var_dump($userAttributesEmail);
-		var_dump($userAttributesFirstName);
+//		var_dump($userAttributesName);
+//		var_dump($userAttributesEmail);
+//		var_dump($userAttributesFirstName);
+
 
 		$accountPpEmail = $userAttributesEmail;
+		$accountName = $userAttributesName;
+		$accountTempUserName = "TempUserName".rand(1, 9999999);
 
-			var_dump($accountPpEmail);
+		var_dump($accountName);
+		var_dump($accountPpEmail);
+		var_dump($accountTempUserName);
+
 
 		//--------------------------------------------- mySQL -------------------------------------------------------
 
@@ -113,7 +119,9 @@
 		require_once dirname(__DIR__) . "/public_html/php/lib/xsrf.php";
 		require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
+
 		use Edu\Cnm\CartridgeCoders;
+		use Edu\Cnm\CartridgeCoders\Account;
 
 
 		// verify the session, start if not active
@@ -142,58 +150,37 @@
 		// set XSRF cookie
 		setXsrfCookie();
 
-		// Check if returning customer and pp email already exist in database
+		// Check if returning customer or new customer
+		$accounts = CartridgeCoders\Account::getAccountByAccountPpEmail($pdo, $accountPpEmail);
 
-		$account = CartridgeCoders\Account::getAccountByAccountPpEmail($pdo, $accountPpEmail);
-		if($account == null){
-			// --------
-			// code to create an account
-			// -------
+		// -------- customer data does NOT exist, added new acount
+		if (is_object($accounts) && (count(get_object_vars($accounts)) < 1)){
+			$account = new Account(null, 1, 1, 0, $accountName, $accountPpEmail, $accountTempUserName);
+			$account->insert($pdo);
+
+			//update the null accountId with what mySQL just gave us
+			$accountId = intval($pdo->lastInsertId());
+
+			// update accountUserName with FirstName + accountId
+			$accountUserName = $userAttributesFirstName . $accountId;
+			var_dump($accountUserName);
+
+			$accounts = CartridgeCoders\Account::setAccountUserName($pdo, $accountUserName);
+			$account = update Account()
+
+
 		} else {
 			// ---------- customer data already exist
-			exit;
+			// -- GET customer data
+			echo" xxxxxxxxxxxxxxxx  get csutomer data section xxxxxxxxxxxxxxxxxxx";
 		}
 
+//var_dump($account);
 
-
-
-		// handle GET request - if id is present, that account is returned, otherwise all accounts are returned
-		if($method === "GET") {
-
-
-			// get a specific account or all accounts and update reply
-			if(empty($id) === false) {
-				$account = CartridgeCoders\Account::getAccountByAccountId($pdo, $id);
-				if($account !== null) {
-					$reply->data = $account;
-				}
-			} else {
-				$accounts = CartridgeCoders\Account::getAllAccounts($pdo);
-				if($accounts !== null) {
-					$reply->data = $accounts;
-				}
-			}
-		} else if($method === "PUT" || $method === "POST") {
-
-		verifyXsrf();
-		$requestContent = file_get_contents("php://input");
-		$requestObject = json_decode($requestContent);
-
-		// make sure account content is available
-		if(empty($requestObject->accountName) === true) {
-			throw(new \InvalidArgumentException ("No content for account - get it together already.", 405));
-		}
-
-
-
-
-
-
-		//1 - look in DB for EM
-		//2 - return if there - inster info w/ defaults if not
-		//		public static function getAccountByAccountPpEmail(\PDO $pdo, string $accountPpEmail) {
-
-
+		// 1 - look in DB for EM
+		// 2 - return if there - inster info w/ defaults if not
+		// 3 - get primary key
+		// 4 - change user name to first+primary
 
 
 
