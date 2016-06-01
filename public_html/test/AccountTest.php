@@ -466,7 +466,7 @@ public function testUpdateValidAccountPpEmail() {
 	 **/
 	public function testGetAccountByInvalidAccountPpEmail() {
 		// grab a account by searching for pp email that does not exist
-		$account = Account::getAccountByValidAccountPpEmail($this->getPDO(), "");
+		$account = Account::getAccountByAccountPpEmail($this->getPDO(), "");
 		$this->assertCount(0, $account);
 	}
 
@@ -632,7 +632,7 @@ public function testUpdateValidAccountPpEmail() {
 		$account->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Account::getAccountByValidAccountPpEmail($this->getPDO(), $account->getAccountPpEmail());
+		$results = Account::getAccountByAccountPpEmail($this->getPDO(), $account->getAccountPpEmail());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("account"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CartridgeCoders\\Account", $results);

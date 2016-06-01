@@ -123,27 +123,20 @@
 		$reply->data = null;
 
 
-
-// ----------------------------------- mySQL lookup/new ----------------------------------
-
+		// ----------------------------------- mySQL lookup/new ----------------------------------
 
 
+		//1 - look in DB for EM
+		//2 - return if there - inster info w/ defaults if not
 
 
-
-
-
-
+		$method = "GET";
+		
 
 
 
 
-
-
-
-
-
-
+		
 		?>
 
 
