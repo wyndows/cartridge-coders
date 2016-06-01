@@ -103,6 +103,10 @@
 		var_dump($userAttributesEmail);
 		var_dump($userAttributesFirstName);
 
+		$accountPpEmail = $userAttributesEmail;
+
+			var_dump($accountPpEmail);
+
 		//--------------------------------------------- mySQL -------------------------------------------------------
 
 		require_once dirname(__DIR__) . "/public_html/php/classes/autoload.php";
@@ -117,6 +121,12 @@
 			session_start();
 		}
 
+		// grab the mySQL connection
+		$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/cartridge.ini");
+
+		// determine which HTTP method was used
+		$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+
 		//prepare an empty reply
 		$reply = new stdClass();
 		$reply->status = 200;
@@ -126,17 +136,69 @@
 		// ----------------------------------- mySQL lookup/new ----------------------------------
 
 
+		// telling class this is a lookup
+		$method = "GET";
+
+		// set XSRF cookie
+		setXsrfCookie();
+
+		// Check if returning customer and pp email already exist in database
+
+		$account = CartridgeCoders\Account::getAccountByAccountPpEmail($pdo, $accountPpEmail);
+		if($account == null){
+			// --------
+			// code to create an account
+			// -------
+		} else {
+			// ---------- customer data already exist
+			exit;
+		}
+
+
+
+
+		// handle GET request - if id is present, that account is returned, otherwise all accounts are returned
+		if($method === "GET") {
+
+
+			// get a specific account or all accounts and update reply
+			if(empty($id) === false) {
+				$account = CartridgeCoders\Account::getAccountByAccountId($pdo, $id);
+				if($account !== null) {
+					$reply->data = $account;
+				}
+			} else {
+				$accounts = CartridgeCoders\Account::getAllAccounts($pdo);
+				if($accounts !== null) {
+					$reply->data = $accounts;
+				}
+			}
+		} else if($method === "PUT" || $method === "POST") {
+
+		verifyXsrf();
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
+
+		// make sure account content is available
+		if(empty($requestObject->accountName) === true) {
+			throw(new \InvalidArgumentException ("No content for account - get it together already.", 405));
+		}
+
+
+
+
+
+
 		//1 - look in DB for EM
 		//2 - return if there - inster info w/ defaults if not
-
-
-		$method = "GET";
-		
+		//		public static function getAccountByAccountPpEmail(\PDO $pdo, string $accountPpEmail) {
 
 
 
 
-		
+
+
+
 		?>
 
 

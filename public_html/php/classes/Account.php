@@ -545,6 +545,13 @@ class Account implements \JsonSerializable {
 	}
 
 
+	
+	
+	
+	
+	
+	
+	
 	public static function getAccountByAccountPpEmail(\PDO $pdo, string $accountPpEmail) {
 		// sanitize the description before searching
 		$accountPpEmail = trim($accountPpEmail);
@@ -579,6 +586,14 @@ class Account implements \JsonSerializable {
 	}
 
 
+	
+	
+	
+	
+	
+	
+	
+	
 	public static function getAccountByValidAccountUserName(\PDO $pdo, string $accountUserName) {
 		// sanitize the description before searching
 		$accountUserName = trim($accountUserName);
