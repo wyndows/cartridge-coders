@@ -93,34 +93,34 @@ try {
 			if($feedback === null) {
 				throw(new RuntimeException("Feedback does not exist", 404));
 			}
-				if(empty($requestObject->feedbackContent) !== true) {
-					// put the new feedback content into the feedback
-					$feedback->setFeedbackContent($requestObject->feedbackContent);
-				}
-				if(empty($requestObject->feedbackRating) !== true) {
-					// put the new feedback rating into the feedback and update
-					$feedback->setFeedbackRating($requestObject->feedbackRating);
-				}
+			if(empty($requestObject->feedbackContent) !== true) {
+				// put the new feedback content into the feedback
+				$feedback->setFeedbackContent($requestObject->feedbackContent);
+			}
+			if(empty($requestObject->feedbackRating) !== true) {
+				// put the new feedback rating into the feedback and update
+				$feedback->setFeedbackRating($requestObject->feedbackRating);
+			}
 
 			// update the feedback
 			$feedback->update($pdo);
 
 			// update reply
 			$reply->message = "Feedback updated OK";
+		} else if($method === "POST") {
+
+			//  make sure senderId, recipientId and productId is available
+			if(empty($requestObject->feedbackSenderId) === true && empty($requestObject->feedbackRecipientId) === true && empty($requestObject->feedbackProductId) === true) {
+				throw(new \InvalidArgumentException ("No Sender, Recipient or Product Id.", 405));
+			}
+
+			// create new feedback and insert into the database
+			$feedback = new CartridgeCoders\Feedback(null, $requestObject->feedbackSenderId, $requestObject->feedbackProductId, $requestObject->feedbackRecipientId, $requestObject->feedbackContent, $requestObject->feedbackRating);
+			$feedback->insert($pdo);
+
+			// update reply
+			$reply->message = "Feedback created OK";
 		}
-	 else if($method === "POST") {
-
-		//  make sure senderId, recipientId and productId is available
-		if(empty($requestObject->feedbackSenderId) === true && empty($requestObject->feedbackRecipientId) === true && empty($requestObject->feedbackProductId) === true) {
-			throw(new \InvalidArgumentException ("No Sender, Recipient or Product Id.", 405));
-		}
-
-		// create new feedback and insert into the database
-		$feedback = new CartridgeCoders\Feedback(null, $requestObject->feedbackSenderId, $requestObject->feedbackProductId, $requestObject->feedbackRecipientId, $requestObject->feedbackContent, $requestObject->feedbackRating);
-		$feedback->insert($pdo);
-
-		// update reply
-		$reply->message = "Feedback created OK";}
 	} else if($method === "DELETE") {
 		verifyXsrf();
 
@@ -138,11 +138,8 @@ try {
 	} else {
 		throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}
-}
-
-
-	// update reply with exception information
- catch
+} // update reply with exception information
+catch
 (Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
