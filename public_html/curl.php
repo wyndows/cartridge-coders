@@ -151,7 +151,6 @@
 		} else {
 			// ---------- customer data already exist
 			// -- GET customer data
-			echo" xxxxxxxxxxxxxxxx  get csutomer data section xxxxxxxxxxxxxxxxxxx";
 			$account = Account::getAccountByAccountPpEmail($pdo, $accountPpEmail)[0];
 		}
 
@@ -177,7 +176,7 @@ var_dump($account);
 		<div class="container">
 			<div class="col-md-12">
 				<div class="well">
-					<p><strong>Welcome!! You are now a member of ROMuLess</strong></p>
+					<p><strong>Welcome to ROMuLess! You are now logged in.</strong></p>
 				</div>
 			</div>
 			<div class="row">
@@ -195,8 +194,8 @@ var_dump($account);
 						<p><?php echo $account->getAccountName(); ?></p>
 						<p><?php echo $account->getAccountPpEmail(); ?></p>
 						<p><?php echo $account->getAccountUserName(); ?></p>
-						<p>DB lookup pending</p>
-						<p>DB lookup pending</p>
+						<p><?php echo $account->getAccountActive(); ?></p>
+						<p><?php echo $account->getAccountUserName(); ?></p>
 					</div>
 				</div>
 			</div>
