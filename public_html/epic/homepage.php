@@ -62,8 +62,19 @@
 							</div><!-- /.navbar-collapse -->
 						</div><!-- /.container-fluid -->
 					</nav>
-				</div>
+		</div>
 			</header>
+
+			<!-- drop down buttons -->
+			<section id="feature" class="p-y-4">
+				<div class="container">
+					<div class="btn-group-vertical" role="group" aria-label="...">
+						<button type="button" class="btn btn-default">Left</button>
+						<button type="button" class="btn btn-default">Middle</button>
+						<button type="button" class="btn btn-default">Right</button>
+					</div>
+				</div>
+			</section>
 		</div>
 	</body>
 </html>
