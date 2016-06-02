@@ -26,10 +26,10 @@
 		$config = readConfig("/etc/apache2/capstone-mysql/cartridge.ini");
 		$paypal = json_decode($config["privkeys"])->paypal;
 
+
 		// --------------------------------------------- get auth code -----------------------------------------
 		require_once(dirname(__DIR__) . "/vendor/autoload.php");
 		$authCode = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRING);
-
 		//------------------------------------------------ cURL ------------------------------------------------
 		// ----- @see https://developer.paypal.com/docs/api/#identity
 		// ----- @see http://incarnate.github.io/curl-to-php/
@@ -84,11 +84,6 @@
 		$accountPpEmail = $userAttributesEmail;
 		$accountName = $userAttributesName;
 		$accountTempUserName = "TempUserName".rand(1, 9999999);
-
-		var_dump($accountName);// ------------------------------------------------------ DELETE ME
-		var_dump($accountPpEmail);// --------------------------------------------------- DELETE ME
-		var_dump($accountTempUserName);// ---------------------------------------------- DELETE ME
-
 
 		//--------------------------------------------- mySQL -------------------------------------------------------
 
@@ -147,24 +142,11 @@
 			$account->update($pdo);
 
 
-
 		} else {
 			// ---------- customer data already exist
 			// -- GET customer data
 			$account = Account::getAccountByAccountPpEmail($pdo, $accountPpEmail)[0];
 		}
-
-
-
-var_dump($account);
-
-
-		// 1 - look in DB for EM
-		// 2 - return if there - inster info w/ defaults if not
-		// 3 - get primary key
-		// 4 - change user name to first+primary
-
-
 
 
 		?>
@@ -185,16 +167,12 @@ var_dump($account);
 						<p>Name:</p>
 						<p>Email:</p>
 						<p>UserName:</p>
-						<p>Active:</p>
-						<p>Image:</p>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="well">
 						<p><?php echo $account->getAccountName(); ?></p>
 						<p><?php echo $account->getAccountPpEmail(); ?></p>
-						<p><?php echo $account->getAccountUserName(); ?></p>
-						<p><?php echo $account->getAccountActive(); ?></p>
 						<p><?php echo $account->getAccountUserName(); ?></p>
 					</div>
 				</div>
