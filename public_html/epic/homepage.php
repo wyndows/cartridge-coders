@@ -86,7 +86,14 @@
 								<!-- <h4>consoles</h4> -->
 								<!-- nave links -->
 								<ul class="nav nav-stacked">
-									<li class="side-nav-item" role="presentation"
+									<li class="side-nav-item" role="presentation">
+										<a href="...">All</a>
+									</li>
+									<li class="side-nav-item" role="presentaion">
+										<a href="...">Atari</a>
+									</li>
+									
+								</ul>
 							</nav>
 						</section>
 					</div>
