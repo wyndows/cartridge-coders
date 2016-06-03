@@ -80,6 +80,7 @@
 						<button type="button" class="btn btn-default">Right</button>
 						<button type="button" class="btn btn-default">Right</button>
 						<button type="button" class="btn btn-default">Right</button>
+						<button type="button" class="btn btn-default">Right</button>
 					</div>
 				</div>
 			</section>
