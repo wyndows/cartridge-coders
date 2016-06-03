@@ -75,84 +75,23 @@
 			</header>
 
 			<!-- contents -->
-			<section id="feature" class="p-y-4">
-				<div class="container content-wrap">
-					<div class="row">
-						<!-- side panel -->
-						<div class="side-panel col-xs-12 col-md-3">
-							<!-- optional nav-->
-							<section class="side-nav visible-md-block visible-lg-block">
-								<nav class="visible-md-block visible-lg-block">
-									<!-- heading for sid nave -->
-									<!-- <h4>consoles</h4> -->
-									<!-- nave links -->
-						</div>
-						<div class="col-sm-3 col-md-3">
-							<div class="thumbnail">
-								<img src="..." alt="...">
-								<div class="caption">
-									<h3>Thumbnail label</h3>
-									<p>...</p>
-									<p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#"
-																															 class="btn btn-default"
-																															 role="button">Button</a>
-									</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-3.5 col-md-3">
-							<div class="thumbnail">
-								<img src="..." alt="...">
-								<div class="caption">
-									<h3>Thumbnail label</h3>
-									<p>...</p>
-									<p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#"
-																															 class="btn btn-default"
-																															 role="button">Button</a>
-									</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-6 col-md-3">
-							<div class="thumbnail">
-								<img src="..." alt="...">
-								<div class="caption">
-									<h3>Thumbnail label</h3>
-									<p>...</p>
-									<p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#"
-																															 class="btn btn-default"
-																															 role="button">Button</a>
-									</p>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-6 col-md-3">
-								<div class="thumbnail">
-									<img src="..." alt="...">
-									<div class="caption">
-										<h3>Thumbnail label</h3>
-										<p>...</p>
-										<p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
-									</div>
-								</div>
-							</div>
-								<div class="col-sm-6 col-md-3">
-									<div class="thumbnail">
-										<img src="..." alt="...">
-										<div class="caption">
-											<h3>Thumbnail label</h3>
-											<p>...</p>
-											<p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+			<div class="container content-wrap">
+				<div class="row">
+					<!-- side panel -->
+					<div class="side-panel col-xs-12 col-md-3">
+						<!-- optional nav-->
+						<section class="side-nav visible-md-block visible-lg-block">
+							<nav class="visible-md-block visible-lg-block">
+								<!-- heading for sid nave -->
+								<!-- <h4>consoles</h4> -->
+								<!-- nave links -->
+								<ul class="nav nav-stacked">
+									<li class="side-nav-item" role="presentation"
+							</nav>
+						</section>
 					</div>
 				</div>
-		</nav>
-		</section>
+			</div>
 		</div>
 	</body>
 </html>
