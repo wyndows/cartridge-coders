@@ -75,31 +75,25 @@
 			</header>
 
 			<!-- contents -->
-			<div class="container content-wrap">
-				<div class="row">
-					<!-- side panel -->
-					<div class="side-panel col-xs-12 col-md-3">
-						<!-- optional nav-->
-						<section >
-							<nav >
-								<!-- heading for sid nave -->
-								<!-- <h4>consoles</h4> -->
-								<!-- nave links -->
-								<ul class="nav nav-stacked">
-									<li class="side-nav-item" role="presentation">
-										<a href="...">
-											<button type="button" class="btn btn-default">ALL</button>
-										</a>
-									</li>
-									<li class="side-nav-item" role="presentaion">
-										<a href="...">
-											<button type="button" class="btn btn-default">Atari</button>
-										</a>
-									</li>
-									
-								</ul>
-							</nav>
-						</section>
+			<div>
+				<div class="container">
+
+					<div class="row">
+						<!-- side panel -->
+						<div class="btn-group-vertical" role="group" aria-label="...">
+							<button type="button" class="btn btn-default">ALL</button>
+							<button type="button" class="btn btn-default">Middle</button>
+							<button type="button" class="btn btn-default">Right</button>
+							<button type="button" class="btn btn-default">Right</button>
+							<button type="button" class="btn btn-default">Right</button>
+							<button type="button" class="btn btn-default">Right</button>
+							<button type="button" class="btn btn-default">Right</button>
+							<button type="button" class="btn btn-default">Right</button>
+							<button type="button" class="btn btn-default">Right</button>
+							<button type="button" class="btn btn-default">Right</button>
+							<button type="button" class="btn btn-default">Right</button>
+							<button type="button" class="btn btn-default">Right</button>
+						</div>
 					</div>
 				</div>
 			</div>
