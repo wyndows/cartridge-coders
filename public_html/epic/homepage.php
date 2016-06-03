@@ -80,17 +80,21 @@
 					<!-- side panel -->
 					<div class="side-panel col-xs-12 col-md-3">
 						<!-- optional nav-->
-						<section class="side-nav visible-md-block visible-lg-block">
-							<nav class="visible-md-block visible-lg-block">
+						<section >
+							<nav >
 								<!-- heading for sid nave -->
 								<!-- <h4>consoles</h4> -->
 								<!-- nave links -->
 								<ul class="nav nav-stacked">
 									<li class="side-nav-item" role="presentation">
-										<a href="...">All</a>
+										<a href="...">
+											<button type="button" class="btn btn-default">ALL</button>
+										</a>
 									</li>
 									<li class="side-nav-item" role="presentaion">
-										<a href="...">Atari</a>
+										<a href="...">
+											<button type="button" class="btn btn-default">Atari</button>
+										</a>
 									</li>
 									
 								</ul>
