@@ -77,15 +77,15 @@
 			<!-- contents -->
 			<section id="feature" class="p-y-4">
 				<div class="container content-wrap">
-					::before
 					<div class="row">
 						<!-- side panel -->
 						<div class="side-panel col-xs-12 col-md-3">
 							<!-- optional nav-->
 							<section class="side-nav visible-md-block visible-lg-block">
 								<nav class="visible-md-block visible-lg-block">
-									
-
+									<!-- heading for sid nave -->
+									<!-- <h4>consoles</h4> -->
+									<!-- nave links -->
 						</div>
 						<div class="col-sm-3 col-md-3">
 							<div class="thumbnail">
@@ -151,10 +151,7 @@
 						</div>
 					</div>
 				</div>
-		</div>
-		</div>
-		</div>
-		</div>
+		</nav>
 		</section>
 		</div>
 	</body>
