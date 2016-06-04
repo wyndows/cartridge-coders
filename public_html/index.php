@@ -1,5 +1,6 @@
 <?php require_once ("includes.php"); ?>
 <?php require_once ("top.php"); ?>
+<?php require_once ("category.php"); ?>
 
 				<div class="container">
 
