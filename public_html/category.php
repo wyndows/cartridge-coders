@@ -1,32 +1,40 @@
-<div class="container">
-
-
-	<div class="btn-group" role="group" aria-label="...">
-		<button type="button" class="btn btn-default">Left</button>
-		<button type="button" class="btn btn-default">Middle</button>
-		<button type="button" class="btn btn-default">Right</button>
+<body>
+	<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="btn-group btn-group-justified " role="group" aria-label="...">
+				<div class="btn-group " role="group">
+					<button type="button" class="btn btn-default categorybar">All</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-default categorybar">ATARI</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-default categorybar">NES</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-default categorybar">Super NES</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-default categorybar">N64</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-default categorybar">Sega</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-default categorybar">Gameboy</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-default categorybar">GBA</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-default categorybar">GBA DS</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-default categorybar">Other</button>
+				</div>
+			</div>
+		</div>
 	</div>
-
-
 </div>
-	
-<!---->
-<!--	<div class="row flex-row">-->
-<!--		<div class="col-md-1">-->
-<!--			<!-- side panel -->-->
-<!--			<div class="btn-group-vertical sidebuttons" role="group">-->
-<!--				<button type="button" class="btn btn-default sidebuttons">ALL</button>-->
-<!--				<button type="button" class="btn btn-default sidebuttons">ATARI</button>-->
-<!--				<button type="button" class="btn btn-default sidebuttons">NES</button>-->
-<!--				<button type="button" class="btn btn-default sidebuttons">Super NES</button>-->
-<!--				<button type="button" class="btn btn-default sidebuttons">N64</button>-->
-<!--				<button type="button" class="btn btn-default sidebuttons">Sega</button>-->
-<!--				<button type="button" class="btn btn-default sidebuttons">GameBoy</button>-->
-<!--				<button type="button" class="btn btn-default sidebuttons">GBA</button>-->
-<!--				<button type="button" class="btn btn-default sidebuttons">GBA DS</button>-->
-<!--				<button type="button" class="btn btn-default sidebuttons">Right</button>-->
-<!--				<button type="button" class="btn btn-default sidebuttons">Right</button>-->
-<!--				<button type="button" class="btn btn-default sidebuttons">Right</button>-->
-<!--			</div>-->
-<!--		</div>-->
-<!--		<div class="col-md-11">-->
+<p><br></p>

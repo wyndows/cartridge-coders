@@ -1,25 +1,12 @@
-<!DOCTYPE html>
-
-<html>
-
-
+<?php require_once("includes.php"); ?>
+<?php require_once("top.php"); ?>
+<?php require_once("category.php"); ?>
+<head>
+	
+</head>
 <!------------------------------------------------------->
 <!-- @author Donald Deleeuw <donald.deleeuw@gmail.com> -->
 <!------------------------------------------------------->
-
-
-	<head>
-		<!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-		<!-- Optional theme -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-		<!-- Latest compiled and minified JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-		<title>Login with PayPal - v3</title>
-	</head>
-	<body>
-
-
 		<?php
 		// ---------------------------------------- encrypted config files -------------------------------------
 		require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
