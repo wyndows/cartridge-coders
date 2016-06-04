@@ -1,4 +1,12 @@
 <?php
+
+// ---------------------------------------- encrypted config files -------------------------------------
+require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
+$config = readConfig("/etc/apache2/capstone-mysql/cartridge.ini");
+$paypal = json_decode($config["privkeys"])->paypal;
+
+
+
 /********************************************
 PayPal API Module
 
@@ -15,9 +23,7 @@ $SandboxFlag = true;
 //' Replace <API_PASSWORD> with your API Password
 //' Replace <API_SIGNATURE> with your Signature
 //'------------------------------------
-$API_UserName="<API_USERNAME>";
-$API_Password="<API_PASSWORD>";
-$API_Signature="<API_SIGNATURE>";
+
 
 // BN Code 	is only applicable for partners
 $sBNCode = "PP-ECWizard";
