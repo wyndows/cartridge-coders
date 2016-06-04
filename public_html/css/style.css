@@ -28,3 +28,30 @@ body {
 .title {
 	font-size: 30px;
 }
+
+.sidebuttons{
+	color: grey;
+	background: black
+;
+}
+
+.navbarstyles{
+	color: grey;
+	background: black
+;
+}
+
+
+/*------------------------------------- Links --------------------- */
+a:link {
+	color: grey;/* unvisited link */
+}
+a:visited {
+	color: grey;/* visited link */
+}
+a:hover {
+	color: grey;/* mouse over link */
+}
+a:active {
+	color: grey;/* selected link */
+}

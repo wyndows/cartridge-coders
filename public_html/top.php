@@ -3,7 +3,7 @@
 	<header class="p-y-4">
 		<div class="container">
 			<!-- brand and toggle stuff-->
-			<nav class="navbar navbar-inverse">
+			<nav class="navbar navbarstyles">
 				<div class="container-fluid">
 					<!-- Brand and toggle get grouped for better mobile display -->
 					<div class="navbar-header">

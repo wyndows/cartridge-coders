@@ -12,7 +12,7 @@ require_once ("paypalfunctions.php");
 //' by the shopping cart page
 //'------------------------------------
 //$paymentAmount = $_SESSION["Payment_Amount"];
-$paymentAmount = 25.99;
+$paymentAmount = 25.99; // ------------------------------------------------------------ TEMP HARD CODE NUMBER
 //'------------------------------------
 //' The currencyCodeType and paymentType
 //' are set to the selections made on the Integration Assistant
