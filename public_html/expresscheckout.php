@@ -11,8 +11,8 @@ require_once ("paypalfunctions.php");
 //' earlier in a session variable
 //' by the shopping cart page
 //'------------------------------------
-$paymentAmount = $_SESSION["Payment_Amount"];
-
+//$paymentAmount = $_SESSION["Payment_Amount"];
+$paymentAmount = 25.99;
 //'------------------------------------
 //' The currencyCodeType and paymentType
 //' are set to the selections made on the Integration Assistant

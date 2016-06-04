@@ -1,65 +1,101 @@
-<!DOCTYPE html>
-<html>
-	<!-- head utils contains the entire <head> tag -->
-	<?php require_once("php/partials/head-utils.php"); ?>
+<!DOCTYPE html> <!--this is the doctype declaration-->
+<html lang="en"><!--this is to set this page to english-->
+	<head>  <!--this is the head tag to start the doc out-->
 
-	<head>
-		<!-- PayPal test header 2.0 begin -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> <!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"> <!-- Optional theme -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> <!-- Latest compiled and minified JavaScript -->
-		<!-- PayPal test header 2.0 end -->
+		<meta charset="utf-8">
+		<!--this helps out IE-->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<!--going to be used for view port -->
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+				integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+				integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+		<!-- Font Awesome -->
+		<link type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"
+				rel="stylesheet"/>
+
+		<!--customer CSS-->
+		<link rel="stylesheet" href="style.css"/>
+
+		<!-- jQuery (needed for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+				  integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+				  crossorigin="anonymous"></script>
 		<title>ROMuLess</title>
 	</head>
+	<body>
+		<div class="sfooter">
 
-	<body class="sfooter">
-		<div class="sfooter-content">
-
-			<!-- header partial gets inserted -->
-			<?php require_once("php/partials/header.php"); ?>
-
-			<main>
+			<!-- header -->
+			<header class="p-y-4">
 				<div class="container">
+					<!-- brand and toggle stuff-->
+					<nav class="navbar navbar-inverse">
+						<div class="container-fluid">
+							<!-- Brand and toggle get grouped for better mobile display -->
+							<div class="navbar-header">
+								<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+										  data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+									<span class="sr-only">Toggle navigation</span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+								</button>
+								<a class="navbar-brand" href="#">ROMuLess</a>
+							</div>
+
+							<!-- Collect the nav links, forms, and other content for toggling -->
+							<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+								<form class="navbar-form navbar-left" role="search">
+									<div class="form-group">
+										<input type="text" size=50 class="form-control" placeholder="">
+									</div>
+									<button type="submit" class="btn btn-default">Search</button>
+								</form>
+								<ul class="nav navbar-nav navbar-right">
+									<li><a
+											href="https://www.sandbox.paypal.com/webapps/auth/protocol/openidconnect/v1/authorize?client_id=AWoiHG8w-yaeYyODSBIzJ-awWkLVPo7G9zWJMomAFeMTVw5wyRG_b2pyYxl7a7wB7ByjVLJ0aQ6FdVDj&response_type=code&scope=openid email profile&redirect_uri=https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html/return.php"><i class="fa fa-sign-in fa-2x" aria-hidden="true"></i></a>
+									</li>
+									<li><a href="expresscheckout.php"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i></a></li>
+								</ul>
+							</div><!-- /.navbar-collapse -->
+						</div><!-- /.container-fluid -->
+					</nav>
+				</div>
+			</header>
+
+			<!-- contents -->
+			<div>
+				<div class="container">
+
 					<div class="row">
-						<div class="col-md-3">
-
-							<!-- side panel get inserted -->
-							<?php require_once("php/partials/side-panel.php"); ?>
-
-						</div>
-						<div class="col-md-9">
-							<p>main content section - we will use Angular here. </p>
-							<br>
-							<br>
-							<br>
-							<br>
-							<br>
-							<br>
-							<br>
-							<br>
-							<br>
-
-
-							<!-- PayPal LogIn With Button begin -------------------------------------------------------------  -->
-							<!-- https://www.sitepoint.com/implement-user-log-paypal/ ----------------  -->
-							<!-- https://devtools-paypal.com/guide/openid/php?interactive=ON&env=sandbox-->
-							<a href="https://www.sandbox.paypal.com/webapps/auth/protocol/openidconnect/v1/authorize?client_id=AWoiHG8w-yaeYyODSBIzJ-awWkLVPo7G9zWJMomAFeMTVw5wyRG_b2pyYxl7a7wB7ByjVLJ0aQ6FdVDj&response_type=code&scope=openid email profile&redirect_uri=https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html/return.php"><img src="https://www.paypalobjects.com/webstatic/en_US/developer/docs/lipp/loginwithpaypalbutton.png"></a>
-							<!-- PayPal LogIn With Button end -----------------------------------------------------------------  -->
-<br><br><br>
-
-
-
-
+						<!-- side panel -->
+						<div class="btn-group-vertical" role="group" aria-label="...">
+							<button type="button" class="btn btn-default">ALL</button>
+							<button type="button" class="btn btn-default">Middle</button>
+							<button type="button" class="btn btn-default">Right</button>
+							<button type="button" class="btn btn-default">Right</button>
+							<button type="button" class="btn btn-default">Right</button>
+							<button type="button" class="btn btn-default">Right</button>
+							<button type="button" class="btn btn-default">Right</button>
+							<button type="button" class="btn btn-default">Right</button>
+							<button type="button" class="btn btn-default">Right</button>
+							<button type="button" class="btn btn-default">Right</button>
+							<button type="button" class="btn btn-default">Right</button>
+							<button type="button" class="btn btn-default">Right</button>
 						</div>
 					</div>
-				</div><!-- ?.container-->
-			</main>
-		</div> <!--/.sfooter-content-->
-		<!--footer get inserted -->
-		<?php require_once("php/partials/footer.php"); ?>
-
+				</div>
+			</div>
+		</div>
 	</body>
 </html>
-
-
