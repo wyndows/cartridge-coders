@@ -37,3 +37,41 @@
 		</nav>
 	</div>
 </header>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="btn-group btn-group-justified " role="group" aria-label="...">
+				<div class="btn-group " role="group">
+					<button type="button" class="btn categorybar" ng-click="categoryAll()">All</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn categorybar" ng-click="categoryAtari()">ATARI</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn categorybar">NES</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn categorybar">Super NES</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn categorybar">N64</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn categorybar">Sega</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn categorybar">Gameboy</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn categorybar">GBA</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn categorybar">GBA DS</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn categorybar">Other</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
