@@ -1,9 +1,16 @@
-<?php require_once("includes.php"); ?>
-<?php require_once("top.php"); ?>
-<?php require_once("category.php"); ?>
-<head>
+<?php
+// set XSRF cookie
+require_once dirname(__DIR__) . "/php/lib/xsrf.php";
+if(session_status() !== PHP_SESSION_ACTIVE) {
+	session_start();
+}
+setXsrfCookie();
+?>
+<?php require_once("../php/partials/head-utils.php"); ?>
+<?php require_once("../php/partials/header.php"); ?>
+<link rel="stylesheet" href="../css/style.css" type="text/css">
 
-</head>
+
 <!------------------------------------------------------->
 <!-- @author Donald Deleeuw <donald.deleeuw@gmail.com> -->
 <!------------------------------------------------------->
@@ -75,7 +82,6 @@ $accountTempUserName = "TempUserName".rand(1, 9999999);
 //--------------------------------------------- mySQL -------------------------------------------------------
 
 require_once dirname(__DIR__) . "/php/classes/autoload.php";
-require_once dirname(__DIR__) . "/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 
@@ -84,9 +90,9 @@ use Edu\Cnm\CartridgeCoders\Account;
 
 
 // verify the session, start if not active
-if(session_status() !== PHP_SESSION_ACTIVE) {
-	session_start();
-}
+//if(session_status() !== PHP_SESSION_ACTIVE) {
+//	session_start();
+//}
 
 // grab the mySQL connection
 $pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/cartridge.ini");
@@ -105,9 +111,6 @@ $reply->data = null;
 
 // telling class this is a lookup
 $method = "GET";
-
-// set XSRF cookie
-setXsrfCookie();
 
 // Check if returning customer or new customer
 $accounts = CartridgeCoders\Account::getAccountByAccountPpEmail($pdo, $accountPpEmail);

@@ -1,3 +1,9 @@
+<?php
+// verify the session, start if not active
+if(session_status() !== PHP_SESSION_ACTIVE) {
+	session_start();
+}
+?>
 <!DOCTYPE html> <!--this is the doctype declaration-->
 <html lang="en" ng-app="RomULess">
 	<head><!--this is the head tag to start the doc out-->
@@ -44,5 +50,6 @@
 		<script type="text/javascript" src="angular/controllers/signin-controller.js"></script>
 		<script type="text/javascript" src="angular/controllers/category-controller.js"></script>
 		<script type="text/javascript" src="angular/controllers/cart-controller.js"></script>
+
 
 	</head>
