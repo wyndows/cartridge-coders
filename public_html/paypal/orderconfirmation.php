@@ -3,7 +3,7 @@
  PayPal Express Checkout Call
  ===================================================================
 */
-require_once ("paypalfunctions.php");
+require_once("paypalfunctions.php");
 
 if ( $PaymentOption == "PayPal" )
 {

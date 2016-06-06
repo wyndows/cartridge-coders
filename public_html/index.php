@@ -1,42 +1,18 @@
-<?php require_once("includes.php"); ?>
-<?php require_once("top.php"); ?>
-<?php require_once("category.php"); ?>
+<!-- insert <head> tag -->
+<?php require_once("php/partials/head-utils.php"); ?>
 
+<body class=""sfooter" ng-controller="homeController">
+	<div class=""sfooter-content">
+
+<!-- insert <header> tag -->
+<?php require_once("php/partials/header.php"); ?>
 
 <div class="container">
+	
+	<!-- angular view directive -->
+	<div ng-view></div>
 
-	<div class="row flex-row">
-		<div class="col-md-4">
-			<div class="well">Game Picture<br><br><br><br></div>
-		</div>
-		<div class="col-md-4">
-			<div class="well">Game Picture<br><br><br><br></div>
-		</div>
-		<div class="col-md-4">
-			<div class="well">Game Picture<br><br><br><br></div>
-		</div>
-	</div>
-	<div class="row flex-row">
-		<div class="col-md-4">Game Description<br><br></div>
-		<div class="col-md-4">Game Description<br><br></div>
-		<div class="col-md-4">Game Description<br><br></div>
-	</div>
-	<div class="row flex-row">
-		<div class="col-md-4">
-			<div class="well">Game Picture<br><br><br><br></div>
-		</div>
-		<div class="col-md-4">
-			<div class="well">Game Picture<br><br><br><br></div>
-		</div>
-		<div class="col-md-4">
-			<div class="well">Game Picture<br><br><br><br></div>
-		</div>
-	</div>
-	<div class="row flex-row">
-		<div class="col-md-4">Game Description<br><br></div>
-		<div class="col-md-4">Game Description<br><br></div>
-		<div class="col-md-4">Game Description<br><br></div>
-	</div>
+	
 
 </div>
 

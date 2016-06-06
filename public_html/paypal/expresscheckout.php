@@ -1,6 +1,6 @@
 <?php
 
-require_once ("paypalfunctions.php");
+require_once("paypalfunctions.php");
 // ==================================
 // PayPal Express Checkout Module
 // ==================================
@@ -26,7 +26,7 @@ $paymentType = "Sale";
 //'
 //' This is set to the value entered on the Integration Assistant
 //'------------------------------------
-$returnURL = "https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html/return.php";
+$returnURL = "https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html/paypal/return.php";
 
 //'------------------------------------
 //' The cancelURL is the location buyers are sent to when they hit the
@@ -34,7 +34,7 @@ $returnURL = "https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_
 //'
 //' This is set to the value entered on the Integration Assistant
 //'------------------------------------
-$cancelURL = "https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html/index.php";
+$cancelURL = "https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html//paypal/index.php";
 
 //'------------------------------------
 //' Calls the SetExpressCheckout API call

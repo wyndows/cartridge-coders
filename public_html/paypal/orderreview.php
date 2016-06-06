@@ -15,7 +15,7 @@ if (isset($_REQUEST['token']))
 if ( $token != "" )
 {
 
-	require_once ("paypalfunctions.php");
+	require_once("paypalfunctions.php");
 
 	/*
 	'------------------------------------
