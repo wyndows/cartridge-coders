@@ -29,7 +29,7 @@
 								href="https://www.sandbox.paypal.com/webapps/auth/protocol/openidconnect/v1/authorize?client_id=AWoiHG8w-yaeYyODSBIzJ-awWkLVPo7G9zWJMomAFeMTVw5wyRG_b2pyYxl7a7wB7ByjVLJ0aQ6FdVDj&response_type=code&scope=openid email profile&redirect_uri=https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html/paypal/account.php"><i
 									class="fa fa-paypal fa-2x" aria-hidden="true"></i></a>
 						</li>
-						<li><a href="expresscheckout.php"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i></a>
+						<li><a href="../../paypal/expresscheckout.php"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i></a>
 						</li>
 					</ul>
 				</div><!-- /.navbar-collapse -->
