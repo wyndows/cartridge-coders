@@ -41,8 +41,8 @@
 		curl_close($ch);
 
 		// ------ break apart return JSON data in $accessToken
-		$json = json_decode($accessToken);
-		$accessTokenExtractToken = ($json->access_token);
+//		$json = json_decode($accessToken);
+//		$accessTokenExtractToken = ($json->access_token);
 
 		// ----- cURL - get user attributes
 		// @see https://developer.paypal.com/docs/api/#get-user-information

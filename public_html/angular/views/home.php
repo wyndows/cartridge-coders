@@ -3,34 +3,34 @@
 		<div class="col-md-12">
 			<div class="btn-group btn-group-justified " role="group" aria-label="...">
 				<div class="btn-group " role="group">
-					<button type="button" class="btn btn-default categorybar" ng-click="categoryAll()">All</button>
+					<button type="button" class="btn categorybar" ng-click="categoryAll()">All</button>
 				</div>
 				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-default categorybar" ng-click="categoryAtari()">ATARI</button>
+					<button type="button" class="btn categorybar" ng-click="categoryAtari()">ATARI</button>
 				</div>
 				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-default categorybar">NES</button>
+					<button type="button" class="btn categorybar">NES</button>
 				</div>
 				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-default categorybar">Super NES</button>
+					<button type="button" class="btn categorybar">Super NES</button>
 				</div>
 				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-default categorybar">N64</button>
+					<button type="button" class="btn categorybar">N64</button>
 				</div>
 				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-default categorybar">Sega</button>
+					<button type="button" class="btn categorybar">Sega</button>
 				</div>
 				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-default categorybar">Gameboy</button>
+					<button type="button" class="btn categorybar">Gameboy</button>
 				</div>
 				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-default categorybar">GBA</button>
+					<button type="button" class="btn categorybar">GBA</button>
 				</div>
 				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-default categorybar">GBA DS</button>
+					<button type="button" class="btn categorybar">GBA DS</button>
 				</div>
 				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-default categorybar">Other</button>
+					<button type="button" class="btn categorybar">Other</button>
 				</div>
 			</div>
 		</div>
