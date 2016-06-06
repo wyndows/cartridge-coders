@@ -149,11 +149,14 @@ if (is_object($accounts) && (count(get_object_vars($accounts)) < 1)){
 	<div class="col-md-12" style="background-color: white"><p><br></p></div>
 	<div class="col-md-12 accountcss">
 		<div class="panel">
+			<p></p>
 			<p><strong>Welcome! You are now logged in with "Log In with PayPal".</strong></p>
 			<p>Your account information: </p>
 			<p>Name: <?php echo $account->getAccountName(); ?></p>
 			<p>Email: <?php echo $account->getAccountPpEmail(); ?></p>
 			<p>UserName: <?php echo $account->getAccountUserName(); ?></p>
+			<p></p>
+
 		</div>
 	</div>
 </div>
@@ -162,12 +165,12 @@ if (is_object($accounts) && (count(get_object_vars($accounts)) < 1)){
 <!--<div class="container">-->
 <!--	<div class="col-md12">-->
 <!--		<div class="well">-->
-<!--			<!-- PayPal Checkout Button begin -------------------------------------------------------------  -->-->
+<!--			<!-- PayPal Checkout Button begin -------------------------------------------------------------  -->
 <!--			<form action='expresscheckout.php' METHOD='POST'>-->
 <!--				<input type='image' name='submit' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'-->
 <!--						 border='0' align='top' alt='Check out with PayPal'/>-->
 <!--			</form>-->
-<!--			<!-- PayPal Checkout Button begin -------------------------------------------------------------  -->-->
+<!--			<!-- PayPal Checkout Button begin -------------------------------------------------------------  -->
 <!--		</div>-->
 <!--	</div>-->
 <!--</div>-->
