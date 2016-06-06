@@ -14,9 +14,21 @@
 	color: grey;
 	padding: 100px;
 }
+
+
+.homecss {
+	background: black;
+	font-size: 14px;
+	font-family: Consolas, Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+	text-align: left;
+	color: grey;
+	/*padding: 100px;*/
+}
+
 .erd {
 	width: 100%;
 }
+
 
 .title {
 	background-color: black;

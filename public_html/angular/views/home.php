@@ -1,35 +1,36 @@
 
+<link rel="stylesheet" href="css/style.css" type="text/css">
 
 <p><br></p>
-<div class="row flex-row">
-	<div class="col-md-4">
-		<div class="well"><p><img src="../public_html/image/cartridge/avatar01.jpg" alt="2600"><br><br><br><br></p></div>
-	</div>
-	<div class="col-md-4">
-		<div class="well"><p><img src="../public_html/image/cartridge/avatar02.jpg" alt="2600"><br><br><br><br></p></div>
-	</div>
-	<div class="col-md-4">
-		<div class="well"><p><img src="../public_html/image/cartridge/avatar03.jpg" alt="2600"><br><br><br><br></p></div>
-	</div>
+
+<div class="well homecss">
+<div class="row">
+	<div class="col-md-2"><img src="../public_html/image/cartridge/avatar01.jpg" alt="2600"  class="img-responsive img-rounded"></div>
+	<div class="col-md-1"></div>
+	<div class="col-md-9">Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description </div>
 </div>
-<div class="row flex-row">
-	<div class="col-md-4">Game Description<br><br></div>
-	<div class="col-md-4">Game Description<br><br></div>
-	<div class="col-md-4">Game Description<br><br></div>
-</div>
-<div class="row flex-row">
-	<div class="col-md-4">
-		<div class="well">Game Picture<br><br><br><br></div>
 	</div>
-	<div class="col-md-4">
-		<div class="well">Game Picture<br><br><br><br></div>
-	</div>
-	<div class="col-md-4">
-		<div class="well">Game Picture<br><br><br><br></div>
-	</div>
+
+
+<div class="well homecss">
+<div class="row">
+	<div class="col-md-2"><img src="../public_html/image/cartridge/avatar02.jpg" alt="2600"  class="img-responsive img-rounded"></div>
+	<div class="col-md-1"></div>
+	<div class="col-md-9">Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description </div>
 </div>
-<div class="row flex-row">
-	<div class="col-md-4">Game Description<br><br></div>
-	<div class="col-md-4">Game Description<br><br></div>
-	<div class="col-md-4">Game Description<br><br></div>
 </div>
+
+
+
+	<div class="well homecss">
+<div class="row">
+	<div class="col-md-2"><img src="../public_html/image/cartridge/avatar03.jpg" alt="2600"  class="img-responsive img-rounded"></div>
+	<div class="col-md-1"></div>
+	<div class="col-md-9">Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description Game Description </div>
+</div>
+	</div>
+
+
+
+
+<!--</div>-->
