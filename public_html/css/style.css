@@ -5,6 +5,15 @@
 	text-align: center;
 	color: greenyellow;
 }
+
+.accountcss {
+	background-color: black;
+	font-size: 18px;
+	font-family: Consolas, Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+	text-align: center;
+	color: grey;
+	padding: 100px;
+}
 .erd {
 	width: 100%;
 }

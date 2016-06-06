@@ -13,7 +13,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="https://bootcamp-coders.cnm.edu/~mball15/cartridge-coders/public_html/romuless/index.php">ROMuLess</a>
+					<a class="navbar-brand" href="https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html/index.php">ROMuLess</a>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -24,6 +24,7 @@
 						</div>
 						<button type="submit" class="btn btn-default">Search</button>
 					</form>
+
 					<ul class="nav navbar-nav navbar-right">
 						<li><a
 								href="https://www.sandbox.paypal.com/webapps/auth/protocol/openidconnect/v1/authorize?client_id=AWoiHG8w-yaeYyODSBIzJ-awWkLVPo7G9zWJMomAFeMTVw5wyRG_b2pyYxl7a7wB7ByjVLJ0aQ6FdVDj&response_type=code&scope=openid email profile&redirect_uri=https://bootcamp-coders.cnm.edu/~ddeleeuw/cartridge-coders/public_html/paypal/account.php"><i

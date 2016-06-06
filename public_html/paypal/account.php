@@ -146,42 +146,37 @@ if (is_object($accounts) && (count(get_object_vars($accounts)) < 1)){
 
 
 <div class="container">
-	<div class="col-md-12">
-		<div class="well">
-			<p><strong>Welcome to ROMuLess! You are now logged in.</strong></p>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-6">
-			<div class="well">
-				<p>Name:</p>
-				<p>Email:</p>
-				<p>UserName:</p>
-			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="well">
-				<p><?php echo $account->getAccountName(); ?></p>
-				<p><?php echo $account->getAccountPpEmail(); ?></p>
-				<p><?php echo $account->getAccountUserName(); ?></p>
-			</div>
+	<div class="col-md-12" style="background-color: white"><p><br></p></div>
+	<div class="col-md-12 accountcss">
+		<div class="panel">
+			<p><strong>Welcome! You are now logged in with "Log In with PayPal".</strong></p>
+			<p>Your account information: </p>
+
+
+			<p>Name:</p> <p><?php echo $account->getAccountName(); ?></p>
+			<p>Email:</p><p><?php echo $account->getAccountPpEmail(); ?></p>
+			<p>UserName:</p><p><?php echo $account->getAccountUserName(); ?></p>
+
+
+
+
 		</div>
 	</div>
 </div>
 
 
-<div class="container">
-	<div class="col-md12">
-		<div class="well">
-			<!-- PayPal Checkout Button begin -------------------------------------------------------------  -->
-			<form action='expresscheckout.php' METHOD='POST'>
-				<input type='image' name='submit' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'
-						 border='0' align='top' alt='Check out with PayPal'/>
-			</form>
-			<!-- PayPal Checkout Button begin -------------------------------------------------------------  -->
-		</div>
-	</div>
-</div>
+<!--<div class="container">-->
+<!--	<div class="col-md12">-->
+<!--		<div class="well">-->
+<!--			<!-- PayPal Checkout Button begin -------------------------------------------------------------  -->-->
+<!--			<form action='expresscheckout.php' METHOD='POST'>-->
+<!--				<input type='image' name='submit' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'-->
+<!--						 border='0' align='top' alt='Check out with PayPal'/>-->
+<!--			</form>-->
+<!--			<!-- PayPal Checkout Button begin -------------------------------------------------------------  -->-->
+<!--		</div>-->
+<!--	</div>-->
+<!--</div>-->
 
 
 </body>
