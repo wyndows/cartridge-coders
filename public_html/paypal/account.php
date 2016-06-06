@@ -15,7 +15,7 @@ $paypal = json_decode($config["privkeys"])->paypal;
 
 
 // --------------------------------------------- get auth code -----------------------------------------
-require_once(dirname(__DIR__) . "/vendor/autoload.php");
+require_once(dirname(__DIR__) . "../vendor/autoload.php");
 $authCode = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRING);
 //------------------------------------------------ cURL ------------------------------------------------
 // ----- @see https://developer.paypal.com/docs/api/#identity

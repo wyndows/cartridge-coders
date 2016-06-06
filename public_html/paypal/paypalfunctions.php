@@ -23,6 +23,9 @@ $SandboxFlag = true;
 //' Replace <API_PASSWORD> with your API Password
 //' Replace <API_SIGNATURE> with your Signature
 //'------------------------------------
+$API_UserName=$paypal->apiUsername; // ------------------------------------------------- <API_USERNAME>
+$API_Password=$paypal->apiPassword; // --------------------------------------------------------------------------- <API_PASSWORD>
+$API_Signature=$paypal->apiSignature; // ---------------------------------- <API_SIGNATURE>
 
 
 // BN Code 	is only applicable for partners
