@@ -151,15 +151,9 @@ if (is_object($accounts) && (count(get_object_vars($accounts)) < 1)){
 		<div class="panel">
 			<p><strong>Welcome! You are now logged in with "Log In with PayPal".</strong></p>
 			<p>Your account information: </p>
-
-
-			<p>Name:</p> <p><?php echo $account->getAccountName(); ?></p>
-			<p>Email:</p><p><?php echo $account->getAccountPpEmail(); ?></p>
-			<p>UserName:</p><p><?php echo $account->getAccountUserName(); ?></p>
-
-
-
-
+			<p>Name: <?php echo $account->getAccountName(); ?></p>
+			<p>Email: <?php echo $account->getAccountPpEmail(); ?></p>
+			<p>UserName: <?php echo $account->getAccountUserName(); ?></p>
 		</div>
 	</div>
 </div>
