@@ -1,5 +1,5 @@
 <!DOCTYPE html> <!--this is the doctype declaration-->
-<html lang="en"><!--this is to set this page to english-->
+<html lang="en" xmlns="http://www.w3.org/1999/html"><!--this is to set this page to english-->
 	<head>  <!--this is the head tag to start the doc out-->
 
 		<meta charset="utf-8">
@@ -75,28 +75,34 @@
 			</header>
 
 			<!-- contents -->
-			<div>
+			<section id="feature" class="p-y-4">
 				<div class="container">
-
-					<div class="row">
-						<!-- side panel -->
-						<div class="btn-group-vertical" role="group" aria-label="...">
-							<button type="button" class="btn btn-default">ALL</button>
-							<button type="button" class="btn btn-default">Middle</button>
-							<button type="button" class="btn btn-default">Right</button>
-							<button type="button" class="btn btn-default">Right</button>
-							<button type="button" class="btn btn-default">Right</button>
-							<button type="button" class="btn btn-default">Right</button>
-							<button type="button" class="btn btn-default">Right</button>
-							<button type="button" class="btn btn-default">Right</button>
-							<button type="button" class="btn btn-default">Right</button>
-							<button type="button" class="btn btn-default">Right</button>
-							<button type="button" class="btn btn-default">Right</button>
-							<button type="button" class="btn btn-default">Right</button>
+					<div class="btn-group-vertical" role="group" aria-label="...">
+						<a href=""<button type="button" class="btn btn-default">All</button></a>
+						<a href=""<button type="button" class="btn btn-default">ATARI</button></a>
+						<a href=""<button type="button" class="btn btn-default">NES</button></a>
+						<a href=""<button type="button" class="btn btn-default">SUPER NEW</button></a>
+						<a href=""<button type="button" class="btn btn-default">NINTINDO 64</button></a>
+						<a href=""<button type="button" class="btn btn-default">ALL</button></a>
+						<a href=""<button type="button" class="btn btn-default">ALL</button></a>
+						<a href=""<button type="button" class="btn btn-default">ALL</button></a>
+						<a href=""<button type="button" class="btn btn-default">ALL</button></a>
+						<a href=""<button type="button" class="btn btn-default">ALL</button></a>
+						<a href=""<button type="button" class="btn btn-default">ALL</button></a>
+						<a href=""<button type="button" class="btn btn-default">ALL</button></a>
+					</div>
+					<div class="container content-wrap">
+					<div class="col-sm-6 col-md-4">
+						<div class="thumbnail">
+							<img src="..." alt="...">
+							<div class="caption">
+								<h3>Thumbnail label</h3>
+								<p>...</p>
+								<p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
+		</section>
 	</body>
 </html>
