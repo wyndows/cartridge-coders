@@ -33,7 +33,12 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 				rel="stylesheet"/>
 
 		<!--custom CSS-->
-		<link rel="stylesheet" href="css/style.css" type="text/css">
+		<link rel="stylesheet" href=".css/style.css" type="text/css">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+				  integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+				  crossorigin="anonymous"></script>
 
 		<!--Angular JS Libraries-->
 		<?php $ANGULAR_VERSION = "1.5.5";?>

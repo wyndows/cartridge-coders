@@ -7,3 +7,11 @@
 .navbar-brand {
 	color: forestgreen;
 }
+
+body {
+	background-image: url("../image/hd-wallpaper-29.jpg");
+	min-height: 100%;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center;
+	background-size: cover;}
