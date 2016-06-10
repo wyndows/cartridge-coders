@@ -31,6 +31,7 @@ try {
 
 	//sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$productImageId = filter_input(INPUT_GET, "productImageId", FILTER_VALIDATE_INT);
 
 	//make sure the id is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
@@ -43,9 +44,15 @@ try {
 		//set XSRF cookie
 		setXsrfCookie();
 
-		//get a specific image or all images and update reply 
+		//get a specific image or all images and update reply
 		if(empty($id) === false) {
 			$image = CartridgeCoders\Image::getImageFileNameByImageId($pdo, $id);
+			if($image !== null) {
+				$reply->data = $image;
+			}
+		}
+		if(empty($productImageId) === false) {
+			$image = CartridgeCoders\Image::getImageFileNameByProductImageId($pdo, $productImageId);
 			if($image !== null) {
 				$reply->data = $image;
 			}

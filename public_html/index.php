@@ -1,11 +1,10 @@
 <!-- insert <head> tag -->
 <?php require_once("php/partials/head-utils.php"); ?>
 
-<body class=""sfooter" ng-controller="homeController">
-	<div class=""sfooter-content">
+<body ng-controller="HomeController">
 
 <!-- insert <header> tag -->
-<?php require_once("php/partials/header.php"); ?>
+<?php //require_once("php/partials/header.php"); ?>
 
 <div class="container">
 	

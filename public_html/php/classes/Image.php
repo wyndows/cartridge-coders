@@ -190,14 +190,14 @@ class Image implements \JsonSerializable {
 	}
 
 	/**
-	 * gets the image file name by image id
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param int $imageId - image id to search for
-	 * @return Image|null - image found or null if not
-	 * @throws \PDOException when mySQL related error occurs
-	 * @throws \TypeError when variables are not the correct data type
-	 */
+ * gets the image file name by image id
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param int $imageId - image id to search for
+ * @return Image|null - image found or null if not
+ * @throws \PDOException when mySQL related error occurs
+ * @throws \TypeError when variables are not the correct data type
+ */
 
 	public static function getImageFileNameByImageId(\PDO $pdo, int $imageId) {
 		// sanitize the imageId before searching
@@ -210,6 +210,44 @@ class Image implements \JsonSerializable {
 
 		// bind the image id to the place holder in the template
 		$parameters = array("imageId" => $imageId);
+		$statement->execute($parameters);
+
+		// grab the image from mySQL
+		try {
+			$image = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$image = new Image($row["imageId"], $row["imageFileName"], $row["imageType"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($image);
+	}
+
+	/**
+	 * gets the image file name by product image id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $imageId - image id to search for
+	 * @return Image|null - image found or null if not
+	 * @throws \PDOException when mySQL related error occurs
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+
+	public static function getImageFileNameByProductImageId(\PDO $pdo, int $productImageId) {
+		// sanitize the imageId before searching
+		if($productImageId <= 0) {
+			throw(new \PDOException("image id is not positive"));
+		}
+		// create query template
+		$query = "SELECT imageId, imageFileName, imageType FROM image WHERE imageId = :productImageId";
+		$statement = $pdo->prepare($query);
+
+		// bind the image id to the place holder in the template
+		$parameters = array("productImageId" => $productImageId);
 		$statement->execute($parameters);
 
 		// grab the image from mySQL
